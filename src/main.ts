@@ -35,8 +35,8 @@ async function bootstrap() {
   // );
 
   const config = new DocumentBuilder()
-    .setTitle('Bvir uz')
-    .setDescription('B vir API description')
+    .setTitle('Oasis')
+    .setDescription('Oasis api API description')
     .setVersion('0.2')
     .addBearerAuth()
     .addCookieAuth()

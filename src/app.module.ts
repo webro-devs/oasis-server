@@ -6,6 +6,8 @@ import configuration from '../config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { PageModule } from './modules/page/page.module';
+import { PageContentModule } from './modules/page-content/page-content.module';
+import { TagModule } from './modules/tag/tag.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { PageModule } from './modules/page/page.module';
     }),
     AuthModule,
     PageModule,
+    PageContentModule,
+    TagModule,
     UserModule,
   ],
 })
