@@ -8,6 +8,12 @@ import { UserModule } from './modules/user/user.module';
 import { PageModule } from './modules/page/page.module';
 import { PageContentModule } from './modules/page-content/page-content.module';
 import { TagModule } from './modules/tag/tag.module';
+import { AttractionModule } from './modules/attraction/attraction.module';
+import { FeedbackModule } from './modules/feedback/feedback.module';
+import { NewsModule } from './modules/news/news.module';
+import { SouvenirModule } from './modules/souvenir/souvenir.module';
+import { TourModule } from './modules/tour/tour.module';
+import { EventModule } from './modules/event/event.module';
 
 @Module({
   imports: [
@@ -22,10 +28,16 @@ import { TagModule } from './modules/tag/tag.module';
         configService.get('database'),
       inject: [ConfigService],
     }),
+    AttractionModule,
     AuthModule,
+    EventModule,
+    FeedbackModule,
+    NewsModule,
     PageModule,
     PageContentModule,
+    SouvenirModule,
     TagModule,
+    TourModule,
     UserModule,
   ],
 })
