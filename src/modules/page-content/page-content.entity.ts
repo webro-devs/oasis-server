@@ -1,4 +1,12 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Page } from '../page/page.entity';
 import { Tag } from '../tag/tag.entity';
 
@@ -7,23 +15,26 @@ export class PageContent {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type:"text", nullable:true})
+  @Column({ type: 'text', nullable: true })
   title: string;
 
-  @Column({type:"text", nullable:true})
+  @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({type:"varchar"})
+  @Column({ type: 'varchar' })
   langCode: string;
 
-  @ManyToOne(()=> Page, page=>page)
+  @ManyToOne(() => Page, (page) => page.contents, {
+    onDelete: 'CASCADE',
+    cascade: true,
+  })
   @JoinColumn()
-  page: Page
+  page: Page;
 
-  @ManyToMany(()=> Tag, tag=>tag, {
-    cascade:true,
-    onDelete:"CASCADE"
+  @ManyToMany(() => Tag, (tag) => tag.pageContents, {
+    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
-  tags: Tag[]
+  tags: Tag[];
 }

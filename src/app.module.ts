@@ -14,6 +14,8 @@ import { NewsModule } from './modules/news/news.module';
 import { SouvenirModule } from './modules/souvenir/souvenir.module';
 import { TourModule } from './modules/tour/tour.module';
 import { EventModule } from './modules/event/event.module';
+import { DestinationModule } from './modules/destination/destination.module';
+import { DestinationContentModule } from './modules/destination-content/destination-content.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { EventModule } from './modules/event/event.module';
     }),
     AttractionModule,
     AuthModule,
+    DestinationContentModule,
+    DestinationModule,
     EventModule,
     FeedbackModule,
     NewsModule,
