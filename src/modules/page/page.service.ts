@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { UpdatePageDto, CreatePageDto, PageDto } from './dto';
 import { Page } from './page.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PageContentService } from '../page-content/page-content.service';
 
 @Injectable()
 export class PageService {
   constructor(
     @InjectRepository(Page)
     private readonly pageRepository: Repository<Page>,
+    private readonly pageContService: PageContentService
   ) {}
 
   async getAll() {
@@ -72,12 +74,17 @@ export class PageService {
   }
 
   async change(value: UpdatePageDto, id: string) {
-    const data = await this.pageRepository.update(id, value);
-    return data;
+    const page = await this.pageRepository.findOne({
+      where: { id },
+    });
+    
+    await this.pageContService.change(value.contents, page);
   }
 
   async create(value: CreatePageDto) {
-    const data = this.pageRepository.create(value);
-    return await this.pageRepository.save(data);
+    const page = new Page();
+    await this.pageRepository.save(page);
+    await this.pageContService.create(value.contents, page);
+    return page;
   }
 }

@@ -1,5 +1,4 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Page } from '../page/page.entity';
 import { Tag } from '../tag/tag.entity';
 import { Destination } from '../destination/destination.entity';
 

@@ -52,7 +52,7 @@ export class DestinationController {
     description: 'The destination was created successfully',
   })
   @HttpCode(HttpStatus.CREATED)
-  async saveData(@Body() data: CreateDestinationDto): Promise<Destination> {
+  async saveData(@Body() data: CreateDestinationDto) {
     return await this.destinationService.create(data);
   }
 
@@ -65,7 +65,7 @@ export class DestinationController {
   async changeData(
     @Body() data: UpdateDestinationDto,
     @Param('id') id: string,
-  ): Promise<UpdateResult> {
+  ){
     return await this.destinationService.change(data, id);
   }
 

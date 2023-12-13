@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { UpdateDestinationDto, CreateDestinationDto } from './dto';
 import { Destination } from './destination.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DestinationContentService } from '../destination-content/destination-content.service';
 
 @Injectable()
 export class DestinationService {
   constructor(
     @InjectRepository(Destination)
     private readonly destinationRepository: Repository<Destination>,
+    private readonly destContService: DestinationContentService,
   ) {}
 
   async getAll() {
@@ -36,12 +38,17 @@ export class DestinationService {
   }
 
   async change(value: UpdateDestinationDto, id: string) {
-    const response = await this.destinationRepository.update({ id }, value);
-    return response;
+    const destination = await this.destinationRepository.findOne({
+      where: { id },
+    });
+    
+    await this.destContService.change(value.contents, destination);
   }
 
   async create(value: CreateDestinationDto) {
-    const data = this.destinationRepository.create(value);
-    return await this.destinationRepository.save(data);
+    const destination = new Destination();
+    await this.destinationRepository.save(destination);
+    await this.destContService.create(value.contents, destination);
+    return destination;
   }
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 class CreatePageContentDto {
   @ApiProperty({
@@ -17,7 +17,6 @@ class CreatePageContentDto {
   @IsString()
   readonly description: string;
 
-
   @ApiProperty({
     description: `langCode`,
     example: '...',
@@ -25,6 +24,14 @@ class CreatePageContentDto {
   @IsNotEmpty()
   @IsString()
   readonly langCode: string;
+
+  @ApiProperty({
+    description: `tags`,
+    example: ['uuid','uuid'],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly tags: string[];
 }
 
 export default CreatePageContentDto;
