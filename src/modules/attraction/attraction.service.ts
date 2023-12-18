@@ -14,19 +14,14 @@ export class AttractionService {
     private readonly attrContService: AttractionContentService,
   ) {}
 
-  async getAll() {
-    return await this.attractionRepository.find({});
+  async getAll(langCode:string) {
+    const data = await this.attractionRepository.find();
+    const ids = data.map(d=>d.id)
+    return await this.attrContService.getAll(ids,langCode)
   }
 
-  async getOne(id: string) {
-    const data = await this.attractionRepository
-      .findOne({
-        where: { id },
-      })
-      .catch(() => {
-        throw new NotFoundException('data not found');
-      });
-
+  async getOne(id: string,langCode:string) {
+    const data = await this.attrContService.getOne(id,langCode)
     return data;
   }
 
@@ -48,14 +43,17 @@ export class AttractionService {
     }
 
     if(value.contents.length){
-      await this.attrContService.change(value.contents, attraction);
+      await this.attrContService.change(value.contents, attraction.id);
     }
   }
 
   async create(value: CreateAttractionDto) {
     const attraction = new Attraction();
+    attraction.type = value.type
+    attraction.photo = value?.photo || null
     await this.attractionRepository.save(attraction);
-    await this.attrContService.create(value.contents, attraction);
+
+    await this.attrContService.create(value.contents, attraction.id);
     return attraction;
   }
 }

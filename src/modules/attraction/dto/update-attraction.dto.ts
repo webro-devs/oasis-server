@@ -16,12 +16,14 @@ class UpdateAttractionDto {
       {
         langCode: '',
         title: '',
+        region: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },
       {
         id:'uuid',
         langCode: '',
+        region: '',
         title: '',
         description: '',
         tags: ['uuid', 'uuid'],

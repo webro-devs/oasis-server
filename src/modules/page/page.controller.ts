@@ -54,7 +54,7 @@ export class PageController {
     description: 'The page was created successfully',
   })
   @HttpCode(HttpStatus.CREATED)
-  async saveData(@Body() data: CreatePageDto): Promise<Page> {
+  async saveData(@Body() data: CreatePageDto){
     return await this.pageService.create(data,{isTopic:true});
   }
 

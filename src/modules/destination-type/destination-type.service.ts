@@ -4,16 +4,24 @@ import { Repository } from 'typeorm';
 import { UpdateDestinationTypeDto, CreateDestinationTypeDto } from './dto';
 import { DestinationType } from './destination-type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PageService } from '../page/page.service';
 
 @Injectable()
 export class DestinationTypeService {
   constructor(
     @InjectRepository(DestinationType)
     private readonly destTypeRepository: Repository<DestinationType>,
+    private readonly pageService: PageService,
   ) {}
 
   async getAll() {
-    return await this.destTypeRepository.find({});
+    return await this.destTypeRepository.find({
+      relations:{
+        page:{
+          contents:true
+        }
+      }
+    });
   }
 
   async getOne(id: string) {
@@ -36,14 +44,29 @@ export class DestinationTypeService {
   }
 
   async change(value: UpdateDestinationTypeDto, id: string) {
-    const destination = await this.destTypeRepository.findOne({
+    const destinationType = await this.destTypeRepository.findOne({
       where: { id },
+      relations:{
+        page:true
+      }
     });
+
+    if(value.contents.length){
+      await this.pageService.change(value, destinationType.page.id);
+    }
   }
 
   async create(value: CreateDestinationTypeDto) {
-    const destination = new DestinationType();
-    await this.destTypeRepository.save(destination);
-    return destination;
+    const destinationType = new DestinationType();
+    await this.destTypeRepository.save(destinationType);
+
+    if (value.contents.length) {
+      await this.pageService.create(
+        { contents: value.contents },
+        { destinationType, isTopic: false },
+      );
+    }
+
+    return destinationType;
   }
 }

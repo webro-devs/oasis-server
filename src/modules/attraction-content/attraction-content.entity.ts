@@ -16,6 +16,9 @@ export class AttractionContent {
   @Column({type:"text"})
   description: string;
 
+  @Column({type:"varchar", nullable:true})
+  langCode: string;
+
   @ManyToMany(()=> Tag, tag=>tag.attractionContents, {
     cascade:true,
     onDelete:"CASCADE"

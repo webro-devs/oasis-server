@@ -2,6 +2,7 @@ import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateAttractionContentDto } from 'src/modules/attraction-content/dto';
 import { AttractionEnum } from 'src/infra/shared/enum';
+import { AttractionType } from 'src/infra/shared/type';
 class CreateAttractionDto {
   @ApiProperty({
     description: `type`,
@@ -9,7 +10,7 @@ class CreateAttractionDto {
   })
   @IsNotEmpty()
   @IsString()
-  readonly type: string;
+  readonly type: AttractionType;
 
   @ApiProperty({
     description: `photo`,
@@ -25,12 +26,14 @@ class CreateAttractionDto {
       {
         langCode: '',
         title: '',
+        region: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },
       {
         langCode: '',
         title: '',
+        region: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },

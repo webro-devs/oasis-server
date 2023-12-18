@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Destination } from '../destination/destination.entity';
 import { PageContent } from '../page-content/page-content.entity';
 import { DestinationType } from '../destination-type/destination-type.entity';
@@ -26,12 +26,16 @@ export class Page {
   contents: PageContent[]
 
   @OneToOne(()=> Destination, destination=>destination.page, {
-    onDelete:"SET NULL"
+    onDelete:"CASCADE",
+    cascade:true
   })
+  @JoinColumn()
   destination: Destination
 
   @OneToOne(()=> DestinationType, destType=>destType.page, {
-    onDelete:"SET NULL"
+    onDelete:"CASCADE",
+    cascade:true
   })
+  @JoinColumn()
   destinationType: DestinationType
 }

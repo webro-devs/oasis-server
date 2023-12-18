@@ -15,7 +15,11 @@ export class PageService {
   ) {}
 
   async getAll() {
-    return await this.pageRepository.find();
+    return await this.pageRepository.find({
+      where:{
+        isTopic:true
+      }
+    });
   }
 
   async getOne(id: string) {
@@ -79,14 +83,20 @@ export class PageService {
     });
 
     if (value.contents.length) {
-      await this.pageContService.change(value.contents, page);
+      await this.pageContService.change(value.contents, page.id);
     }
   }
 
   async create(value: CreatePageDto, data: any) {
-    const page = new Page();
-    await this.pageRepository.save({ ...page, ...data });
-    await this.pageContService.create(value.contents, page);
+    const page = await this.pageRepository
+    .createQueryBuilder()
+    .insert()
+    .into(Page)
+    .values({...data} as unknown as Page)
+    .returning('id')
+    .execute()   
+
+    await this.pageContService.create(value.contents, page.raw[0].id);
     return page;
   }
 }

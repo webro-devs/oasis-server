@@ -1,5 +1,6 @@
 import {  IsOptional, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { UpdatePageContentDto } from 'src/modules/page-content/dto';
 class UpdateDestinationTypeDto {
   @ApiProperty({
     description: `contents`,
@@ -23,6 +24,6 @@ class UpdateDestinationTypeDto {
   })
   @IsOptional()
   @IsArray()
-  readonly contents: any[];
+  readonly contents: UpdatePageContentDto[];
 }
 export default UpdateDestinationTypeDto;

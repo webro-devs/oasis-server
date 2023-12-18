@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -32,8 +33,8 @@ export class AttractionController {
     description: 'The attractions were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData() {
-    return await this.attractionService.getAll();
+  async getData(@Query('langCode') langCode:string) {
+    return await this.attractionService.getAll(langCode);
   }
 
   @Get('/:id')
@@ -42,8 +43,8 @@ export class AttractionController {
     description: 'The attraction was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<Attraction> {
-    return this.attractionService.getOne(id);
+  async getMe(@Param('id') id: string,@Query('langCode') langCode:string){
+    return this.attractionService.getOne(id,langCode);
   }
 
   @Post('/')

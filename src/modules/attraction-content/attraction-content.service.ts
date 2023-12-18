@@ -1,24 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { UpdateAttractionContentDto, CreateAttractionContentDto } from './dto';
 import { AttractionContent } from './attraction-content.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TagService } from '../tag/tag.service';
-import { Attraction } from '../attraction/attraction.entity';
 
 @Injectable()
 export class AttractionContentService {
   constructor(
     @InjectRepository(AttractionContent)
     private readonly attrRepo: Repository<AttractionContent>,
-    private readonly tagService: TagService
+    private readonly tagService: TagService,
   ) {}
 
-  async getOne(id: string) {
+  async getAll(ids:string[], langCode:string){
+    const data = await this.attrRepo.find({
+      where:{
+        langCode,
+        attraction:{
+          id: In(ids)
+        },
+      },
+      relations:{
+        attraction:true
+      }
+    })
+    return data
+  }
+
+  async getOne(id: string,langCode:string) {
     const data = await this.attrRepo
       .findOne({
-        where: { id },
+        where: { 
+          attraction:{
+            id
+          },
+          langCode
+         },
+         relations:{
+          attraction:true
+         }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
@@ -34,10 +56,7 @@ export class AttractionContentService {
     return response;
   }
 
-  async change(
-    values: UpdateAttractionContentDto[],
-    attraction: Attraction,
-  ) {
+  async change(values: UpdateAttractionContentDto[], attraction: string) {
     const newContents = values.filter((dc) => !dc.id);
     const olderContents = values.filter((dc) => dc.id);
 
@@ -47,21 +66,24 @@ export class AttractionContentService {
         await this.attrRepo.update({ id: value.id }, { ...value, tags });
       }),
     );
-    
+
     newContents.length ? await this.create(newContents, attraction) : null;
   }
 
-  async create(
-    values: CreateAttractionContentDto[],
-    attraction: Attraction,
-  ) {
+  async create(values: CreateAttractionContentDto[], attraction: string) {
     await Promise.all(
       values.map(async (value) => {
-        const tags = await this.tagService.getMoreByIds(value.tags);
+        let tags = []
+        if(value.tags.length){
+          tags = await this.tagService.getMoreByIds(value.tags);
+        }
 
-        const data = this.attrRepo.create({ ...value, tags, attraction });
-
-        return await this.attrRepo.save(data);
+        await this.attrRepo
+          .createQueryBuilder()
+          .insert()
+          .into(AttractionContent)
+          .values({...value,tags,attraction} as unknown as AttractionContent)
+          .execute();
       }),
     );
   }

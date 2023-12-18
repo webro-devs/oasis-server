@@ -7,11 +7,7 @@ export class DestinationType {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(()=> Page, page=> page.destinationType,{
-    onDelete:"SET NULL",
-    cascade:true
-  })
-  @JoinColumn()
+  @OneToOne(()=> Page, page=> page.destinationType)
   page: Page
 
   @ManyToOne(()=>Destination, destination=>destination.destinationTypes,{

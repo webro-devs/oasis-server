@@ -22,7 +22,7 @@ export class PageContentService {
     return response;
   }
 
-  async change(values: UpdatePageContentDto[], page: Page) {
+  async change(values: UpdatePageContentDto[], page: string) {
     const newContents = values.filter((pc) => !pc.id);
     const olderContents = values.filter((pc) => pc.id);
 
@@ -36,15 +36,24 @@ export class PageContentService {
     newContents.length ? await this.create(newContents, page) : null;
   }
 
-  async create(values: CreatePageContentDto[], page: Page) {
+  async create(values: CreatePageContentDto[], page: string) {
     await Promise.all(
       values.map(async (value) => {
-        const tags = await this.tagService.getMoreByIds(value.tags);
+        let tags = []
+        
+        if(value?.tags?.length){
+          tags = await this.tagService.getMoreByIds(value.tags);
+        }
 
-        const data = this.pageContRepo.create({ ...value, tags, page });
-
-        return await this.pageContRepo.save(data);
+        await this.pageContRepo
+        .createQueryBuilder()
+        .insert()
+        .into(PageContent)
+        .values({...value,page,tags} as unknown as PageContent)
+        .execute()
       }),
     );
   }
+
+  makeUrl(){}
 }
