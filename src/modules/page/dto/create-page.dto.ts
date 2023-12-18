@@ -8,13 +8,17 @@ class CreatePageDto {
       {
         langCode: '',
         title: '',
+        shortTitle: '',
         description: '',
+        descriptionPage: '',
         tags: ['uuid', 'uuid'],
       },
       {
         langCode: '',
         title: '',
+        shortTitle: '',
         description: '',
+        descriptionPage: '',
         tags: ['uuid', 'uuid'],
       },
     ],

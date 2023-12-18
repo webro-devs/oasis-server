@@ -4,20 +4,18 @@ import { Repository } from 'typeorm';
 import { UpdateAttractionDto, CreateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AttractionContentService } from '../attraction-content/attraction-content.service';
 
 @Injectable()
 export class AttractionService {
   constructor(
     @InjectRepository(Attraction)
     private readonly attractionRepository: Repository<Attraction>,
+    private readonly attrContService: AttractionContentService,
   ) {}
 
   async getAll() {
-    return await this.attractionRepository.find({
-      order: {
-        title: 'ASC',
-      },
-    });
+    return await this.attractionRepository.find({});
   }
 
   async getOne(id: string) {
@@ -40,12 +38,24 @@ export class AttractionService {
   }
 
   async change(value: UpdateAttractionDto, id: string) {
-    const response = await this.attractionRepository.update({ id }, value);
-    return response;
+    const attraction = await this.attractionRepository.findOne({
+      where: { id },
+    });
+
+    if(value.photo){
+      attraction.photo = value.photo
+      await this.attractionRepository.save(attraction)
+    }
+
+    if(value.contents.length){
+      await this.attrContService.change(value.contents, attraction);
+    }
   }
 
   async create(value: CreateAttractionDto) {
-    const data = this.attractionRepository.create(value);
-    return await this.attractionRepository.save(data);
+    const attraction = new Attraction();
+    await this.attractionRepository.save(attraction);
+    await this.attrContService.create(value.contents, attraction);
+    return attraction;
   }
 }

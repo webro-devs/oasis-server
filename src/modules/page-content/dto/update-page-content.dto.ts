@@ -18,12 +18,28 @@ class UpdatePageContentDto {
   readonly title: string;
 
   @ApiProperty({
+    description: `short title`,
+    example: '...',
+  })
+  @IsOptional()
+  @IsString()
+  readonly shortTitle: string;
+
+  @ApiProperty({
     description: `description`,
     example: '...',
   })
   @IsOptional()
   @IsString()
   readonly description: string;
+
+  @ApiProperty({
+    description: `description page`,
+    example: '...',
+  })
+  @IsOptional()
+  @IsString()
+  readonly descriptionPage: string;
 
   @ApiProperty({
     description: `langCode`,

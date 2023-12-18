@@ -6,7 +6,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { PageContent } from '../page-content/page-content.entity';
-import { DestinationContent } from '../destination-content/destination-content.entity';
+import { AttractionContent } from '../attraction-content/attraction-content.entity';
 
 @Entity({ name: 'tag' })
 export class Tag extends BaseEntity {
@@ -21,8 +21,8 @@ export class Tag extends BaseEntity {
   })
   pageContents: PageContent[]
 
-  @ManyToMany(()=>DestinationContent, destinationContent=> destinationContent.tags, {
+  @ManyToMany(()=>AttractionContent, attraction=> attraction.tags, {
     onDelete:"CASCADE"
   })
-  destinationContents: DestinationContent[]
+  attractionContents: AttractionContent[]
 }

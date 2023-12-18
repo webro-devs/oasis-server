@@ -55,7 +55,7 @@ export class PageController {
   })
   @HttpCode(HttpStatus.CREATED)
   async saveData(@Body() data: CreatePageDto): Promise<Page> {
-    return await this.pageService.create(data);
+    return await this.pageService.create(data,{isTopic:true});
   }
 
   @Post('/add-page-to-left')

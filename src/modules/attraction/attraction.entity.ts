@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { AttractionType } from 'src/infra/shared/type';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { AttractionContent } from '../attraction-content/attraction-content.entity';
 
 @Entity('attraction')
 export class Attraction {
@@ -6,5 +8,11 @@ export class Attraction {
   id: string;
 
   @Column('varchar')
-  title: string;
+  type: AttractionType;
+
+  @Column({type:"varchar",nullable:true})
+  photo: string;
+
+  @OneToMany(()=>AttractionContent, attr=>attr.attraction)
+  contents: AttractionContent[]
 }

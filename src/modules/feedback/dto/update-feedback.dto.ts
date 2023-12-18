@@ -1,12 +1,28 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 class UpdateFeedbackDto {
   @ApiProperty({
-    description: `title`,
+    description: `description`,
     example: '...',
   })
   @IsOptional()
   @IsString()
-  readonly title: string;
+  readonly description: string;
+
+  @ApiProperty({
+    description: `link`,
+    example: '...',
+  })
+  @IsOptional()
+  @IsString()
+  readonly link: string;
+
+  @ApiProperty({
+    description: `isActive`,
+    example: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  readonly isActive: boolean;
 }
 export default UpdateFeedbackDto;

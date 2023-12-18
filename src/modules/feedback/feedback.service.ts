@@ -15,7 +15,7 @@ export class FeedbackService {
   async getAll() {
     return await this.feedbackRepository.find({
       order: {
-        title: 'ASC',
+        date: 'DESC',
       },
     });
   }

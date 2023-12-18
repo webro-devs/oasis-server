@@ -18,8 +18,14 @@ export class PageContent {
   @Column({ type: 'text', nullable: true })
   title: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  shortTitle: string;
+
   @Column({ type: 'text', nullable: true })
   description: string;
+
+  @Column({ type: 'text', nullable: true })
+  descriptionPage: string;
 
   @Column({ type: 'varchar' })
   langCode: string;

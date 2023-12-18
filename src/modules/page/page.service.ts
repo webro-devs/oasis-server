@@ -11,7 +11,7 @@ export class PageService {
   constructor(
     @InjectRepository(Page)
     private readonly pageRepository: Repository<Page>,
-    private readonly pageContService: PageContentService
+    private readonly pageContService: PageContentService,
   ) {}
 
   async getAll() {
@@ -22,10 +22,10 @@ export class PageService {
     const data = await this.pageRepository
       .findOne({
         where: { id },
-        relations:{
-          pagesOnLeft:true,
-          pagesOnRight:true
-        }
+        relations: {
+          pagesOnLeft: true,
+          pagesOnRight: true,
+        },
       })
       .catch(() => {
         throw new NotFoundException('data not found');
@@ -41,7 +41,7 @@ export class PageService {
     return response;
   }
 
-  async addPageToLeftSide(data:PageDto) {
+  async addPageToLeftSide(data: PageDto) {
     const curPage = await this.pageRepository.findOne({
       where: { id: data.currentPage },
       relations: { pagesOnLeft: true },
@@ -51,13 +51,13 @@ export class PageService {
       where: { id: data.addedPage },
     });
 
-    curPage.pagesOnLeft.push(addPage)
-    await this.pageRepository.save(curPage)
+    curPage.pagesOnLeft.push(addPage);
+    await this.pageRepository.save(curPage);
 
-    return curPage
+    return curPage;
   }
 
-  async addPageToRightSide(data:PageDto) {
+  async addPageToRightSide(data: PageDto) {
     const curPage = await this.pageRepository.findOne({
       where: { id: data.currentPage },
       relations: { pagesOnRight: true },
@@ -67,23 +67,25 @@ export class PageService {
       where: { id: data.addedPage },
     });
 
-    curPage.pagesOnRight.push(addPage)
-    await this.pageRepository.save(curPage)
-    
-    return curPage
+    curPage.pagesOnRight.push(addPage);
+    await this.pageRepository.save(curPage);
+
+    return curPage;
   }
 
   async change(value: UpdatePageDto, id: string) {
     const page = await this.pageRepository.findOne({
       where: { id },
     });
-    
-    await this.pageContService.change(value.contents, page);
+
+    if (value.contents.length) {
+      await this.pageContService.change(value.contents, page);
+    }
   }
 
-  async create(value: CreatePageDto) {
+  async create(value: CreatePageDto, data: any) {
     const page = new Page();
-    await this.pageRepository.save(page);
+    await this.pageRepository.save({ ...page, ...data });
     await this.pageContService.create(value.contents, page);
     return page;
   }

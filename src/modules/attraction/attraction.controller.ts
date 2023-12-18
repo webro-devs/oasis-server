@@ -65,7 +65,7 @@ export class AttractionController {
   async changeData(
     @Body() data: UpdateAttractionDto,
     @Param('id') id: string,
-  ): Promise<UpdateResult> {
+  ) {
     return await this.attractionService.change(data, id);
   }
 
