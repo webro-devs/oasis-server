@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { PageContent } from '../page-content/page-content.entity';
 import { AttractionContent } from '../attraction-content/attraction-content.entity';
+import { EventContent } from '../event-content/event-content.entity';
 
 @Entity({ name: 'tag' })
 export class Tag extends BaseEntity {
@@ -16,7 +17,7 @@ export class Tag extends BaseEntity {
   @Column({type: 'varchar'})
   title: string;
 
-  @ManyToMany(()=>PageContent, pageContent=> pageContent.tags, {
+  @ManyToMany(()=>PageContent, page=> page.tags, {
     onDelete:"CASCADE"
   })
   pageContents: PageContent[]
@@ -25,4 +26,9 @@ export class Tag extends BaseEntity {
     onDelete:"CASCADE"
   })
   attractionContents: AttractionContent[]
+
+  @ManyToMany(()=>EventContent, event=> event.tags, {
+    onDelete:"CASCADE"
+  })
+  eventContents: EventContent[]
 }

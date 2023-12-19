@@ -57,9 +57,8 @@ export class DestinationService {
 
   async create(value: CreateDestinationDto) {
     const destination = new Destination();
-    console.log(value);
-    
     await this.destinationRepository.save(destination);
+    
     await this.pageService.create(value, {destination,isTopic:false});
     return destination;
   }

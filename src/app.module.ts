@@ -10,12 +10,12 @@ import { PageContentModule } from './modules/page-content/page-content.module';
 import { TagModule } from './modules/tag/tag.module';
 import { AttractionModule } from './modules/attraction/attraction.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
-import { NewsModule } from './modules/news/news.module';
 import { TourModule } from './modules/tour/tour.module';
 import { EventModule } from './modules/event/event.module';
 import { DestinationModule } from './modules/destination/destination.module';
 import { AttractionContentModule } from './modules/attraction-content/attraction-content.module';
 import { DestinationTypeModule } from './modules/destination-type/destination-type.module';
+import { EventContentModule } from './modules/event-content/event-content.module';
 
 @Module({
   imports: [
@@ -35,9 +35,9 @@ import { DestinationTypeModule } from './modules/destination-type/destination-ty
     AuthModule,
     DestinationModule,
     DestinationTypeModule,
+    EventContentModule,
     EventModule,
     FeedbackModule,
-    NewsModule,
     PageModule,
     PageContentModule,
     TagModule,

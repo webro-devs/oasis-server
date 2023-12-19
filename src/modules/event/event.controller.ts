@@ -8,8 +8,8 @@ import {
   Patch,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
-import { UpdateResult } from 'typeorm';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -32,8 +32,8 @@ export class EventController {
     description: 'The events were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData() {
-    return await this.eventService.getAll();
+  async getData(@Query('langCode') langCode:string) {
+    return await this.eventService.getAll(langCode);
   }
 
   @Get('/:id')
@@ -42,8 +42,8 @@ export class EventController {
     description: 'The event was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<Event> {
-    return this.eventService.getOne(id);
+  async getMe(@Param('id') id: string,@Query('langCode') langCode:string) {
+    return this.eventService.getOne(id,langCode);
   }
 
   @Post('/')
@@ -65,7 +65,7 @@ export class EventController {
   async changeData(
     @Body() data: UpdateEventDto,
     @Param('id') id: string,
-  ): Promise<UpdateResult> {
+  ){
     return await this.eventService.change(data, id);
   }
 
