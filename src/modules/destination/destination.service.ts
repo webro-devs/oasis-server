@@ -15,7 +15,8 @@ export class DestinationService {
   ) {}
 
   async getAll() {
-    return await this.destinationRepository.find({});
+    const [data] = await this.destinationRepository.find({});
+    return data
   }
 
   async getOne(id: string) {
@@ -58,7 +59,7 @@ export class DestinationService {
   async create(value: CreateDestinationDto) {
     const destination = new Destination();
     await this.destinationRepository.save(destination);
-    
+
     await this.pageService.create(value, {destination,isTopic:false});
     return destination;
   }
