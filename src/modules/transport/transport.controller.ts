@@ -36,7 +36,7 @@ export class TransportController {
   async getMe(
     @Param('type') type: TransportType,
     @Query('langCode') langCode: string,
-  ): Promise<Transport> {
+  ) {
     return this.transportService.getOne(type, langCode);
   }
 

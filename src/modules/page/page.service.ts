@@ -16,13 +16,13 @@ export class PageService {
 
   async getAll() {
     return await this.pageRepository.find({
-      where:{
-        isTopic:true
-      }
+      where: {
+        isTopic: true,
+      },
     });
   }
 
-  async getOne(id: string) {
+  async getOne(id: string, langCode: string) {
     const data = await this.pageRepository
       .findOne({
         where: { id },
@@ -34,8 +34,19 @@ export class PageService {
       .catch(() => {
         throw new NotFoundException('data not found');
       });
+    const pagesOnLeft = await this.pageContService.getMoreByLeftPageIds(
+      data.pagesOnLeft.map((p) => p.id),
+      langCode,
+    );
 
-    return data;
+    const pagesOnRight = await this.pageContService.getMoreByRightPageIds(
+      data.pagesOnLeft.map((p) => p.id),
+      langCode,
+    );
+
+    const page = await this.pageContService.getOneByPageId(data.id, langCode);
+
+    return { page, pagesOnLeft, pagesOnRight };
   }
 
   async deleteOne(id: string) {
@@ -89,12 +100,12 @@ export class PageService {
 
   async create(value: CreatePageDto, data: any) {
     const page = await this.pageRepository
-    .createQueryBuilder()
-    .insert()
-    .into(Page)
-    .values({...data} as unknown as Page)
-    .returning('id')
-    .execute()   
+      .createQueryBuilder()
+      .insert()
+      .into(Page)
+      .values({ ...data } as unknown as Page)
+      .returning('id')
+      .execute();
 
     await this.pageContService.create(value.contents, page.raw[0].id);
     return page;

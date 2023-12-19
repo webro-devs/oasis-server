@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -44,8 +45,8 @@ export class PageController {
     description: 'The page was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<Page> {
-    return this.pageService.getOne(id);
+  async getMe(@Param('id') id: string, @Query('langCode') langCode:string) {
+    return this.pageService.getOne(id, langCode);
   }
 
   @Post('/')

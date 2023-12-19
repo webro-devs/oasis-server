@@ -1,5 +1,5 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { UpdatePageContentDto, CreatePageContentDto } from './dto';
 import { PageContent } from './page-content.entity';
@@ -20,6 +20,50 @@ export class PageContentService {
       throw new NotFoundException('data not found');
     });
     return response;
+  }
+
+  async getMoreByLeftPageIds(ids:string[], langCode:string){
+    return await this.pageContRepo.find({
+      where:{
+        langCode,
+        page:{
+          id: In(ids)
+        },
+      },
+      relations:{
+        page:true
+      },
+      select:['description','shortTitle','title']
+    })
+  }
+
+  async getMoreByRightPageIds(ids:string[], langCode:string){
+    return await this.pageContRepo.find({
+      where:{
+        langCode,
+        page:{
+          id: In(ids)
+        },
+      },
+      relations:{
+        page:true
+      },
+      select:['shortTitle']
+    })
+  }
+
+  async getOneByPageId(id:string, langCode:string){
+    return await this.pageContRepo.find({
+      where:{
+        langCode,
+        page:{
+          id
+        },
+      },
+      relations:{
+        page:true
+      }
+    })
   }
 
   async change(values: UpdatePageContentDto[], page: string) {

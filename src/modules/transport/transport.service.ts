@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { UpdateTransportDto, CreateTransportDto } from './dto';
@@ -14,25 +14,33 @@ export class TransportService {
     @InjectRepository(Transport)
     private readonly transportRepository: Repository<Transport>,
     private readonly pageService: PageService,
-    private readonly roadTransService: RoadTransportService
+    private readonly roadTransService: RoadTransportService,
   ) {}
 
-  async getOne(type: TransportType, langCode:string) {
+  async getOne(type: TransportType, langCode: string) {
     const data = await this.transportRepository
       .findOne({
         where: { type },
-        relations:{
-          page:{
-            contents:true,
-            pagesOnLeft:true,
-            pagesOnRight:true
-          }
-        }
+        relations: {
+          page: true,
+          roadTransports: true,
+        },
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
+    const page = await this.pageService.getOne(data.page.id, langCode);
+
+    return { ...data, page };
+  }
+
+  async getOneByType(type: TransportType) {
+    const data = await this.transportRepository.findOne({
+      where: {
+        type,
+      },
+    });
     return data;
   }
 
@@ -46,28 +54,35 @@ export class TransportService {
   async change(value: UpdateTransportDto, id: string) {
     const transport = await this.transportRepository.findOne({
       where: { id },
-      relations:{
-        page:true
-      }
+      relations: {
+        page: true,
+      },
     });
-    
-    if(value?.contents?.length){
+
+    if (value?.contents?.length) {
       await this.pageService.change(value, transport.page.id);
     }
 
-    if(value?.roadTransports?.length){
-      await this.roadTransService.change(value.roadTransports,transport.id)
+    if (value?.roadTransports?.length) {
+      await this.roadTransService.change(value.roadTransports, transport.id);
     }
   }
 
   async create(value: CreateTransportDto) {
+    const isExist = await this.getOneByType(value.type);
+
+    if (isExist) {
+      return new HttpException(`${value.type} already exist`, 400);
+    }
+
     const transport = new Transport();
-    transport.type = value.type
+    transport.type = value.type;
     await this.transportRepository.save(transport);
 
-    await this.pageService.create(value, {transport,isTopic:false});
-    if(value?.roadTransports?.length){
-      await this.roadTransService.create(value.roadTransports, transport.id)
+    await this.pageService.create(value, { transport, isTopic: false });
+
+    if (value?.roadTransports?.length) {
+      await this.roadTransService.create(value.roadTransports, transport.id);
     }
     return transport;
   }
