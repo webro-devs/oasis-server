@@ -30,9 +30,11 @@ export class TransportService {
         throw new NotFoundException('data not found');
       });
 
-    const page = await this.pageService.getOne(data.page.id, langCode);
+    if (data) {
+      const page = await this.pageService.getOne(data.page.id, langCode);
 
-    return { ...data, page };
+      return { ...data, page };
+    }
   }
 
   async getOneByType(type: TransportType) {

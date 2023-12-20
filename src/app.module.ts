@@ -16,6 +16,8 @@ import { DestinationModule } from './modules/destination/destination.module';
 import { AttractionContentModule } from './modules/attraction-content/attraction-content.module';
 import { DestinationTypeModule } from './modules/destination-type/destination-type.module';
 import { EventContentModule } from './modules/event-content/event-content.module';
+import { TransportModule } from './modules/transport/transport.module';
+import { RoadTransport } from './modules/road-transport/road-transport.entity';
 
 @Module({
   imports: [
@@ -40,7 +42,9 @@ import { EventContentModule } from './modules/event-content/event-content.module
     FeedbackModule,
     PageModule,
     PageContentModule,
+    RoadTransport,
     TagModule,
+    TransportModule,
     TourModule,
     UserModule,
   ],

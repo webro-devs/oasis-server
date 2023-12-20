@@ -19,23 +19,20 @@ export class DestinationService {
     return data
   }
 
-  async getOne(id: string) {
+  async getOne(langCode:string) {
     const data = await this.destinationRepository
       .findOne({
-        where: { id },
         relations:{
-          page:{
-            contents:true,
-            pagesOnLeft:true,
-            pagesOnRight:true
-          }
+          page:true
         }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
-    return data;
+    const res = await this.pageService.getOne(data.page.id, langCode)
+
+    return res;
   }
 
   async deleteOne(id: string) {

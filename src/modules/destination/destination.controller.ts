@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -27,23 +28,13 @@ export class DestinationController {
   constructor(private readonly destinationService: DestinationService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all destinations' })
-  @ApiOkResponse({
-    description: 'The destinations were returned successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async getData() {
-    return await this.destinationService.getAll();
-  }
-
-  @Get('/:id')
   @ApiOperation({ summary: 'Method: returns single destination by id' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<Destination> {
-    return this.destinationService.getOne(id);
+  async getMe(@Query('langCode') langCode:string){
+    return this.destinationService.getOne(langCode);
   }
 
   @Post('/')

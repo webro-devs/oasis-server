@@ -40,7 +40,7 @@ export class PageService {
     );
 
     const pagesOnRight = await this.pageContService.getMoreByRightPageIds(
-      data.pagesOnLeft.map((p) => p.id),
+      data.pagesOnRight.map((p) => p.id),
       langCode,
     );
 

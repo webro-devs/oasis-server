@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -42,8 +43,8 @@ export class DestinationTypeController {
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<DestinationType> {
-    return this.destTypeService.getOne(id);
+  async getMe(@Param('id') id: string, @Query('langCode') langCode:string) {
+    return this.destTypeService.getOne(id, langCode);
   }
 
   @Post('/')

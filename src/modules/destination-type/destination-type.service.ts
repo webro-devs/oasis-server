@@ -16,24 +16,29 @@ export class DestinationTypeService {
 
   async getAll() {
     return await this.destTypeRepository.find({
-      relations:{
-        page:{
-          contents:true
-        }
-      }
+      relations: {
+        page: {
+          contents: true,
+        },
+      },
     });
   }
 
-  async getOne(id: string) {
+  async getOne(id: string, langCode: string) {
     const data = await this.destTypeRepository
       .findOne({
         where: { id },
+        relations: {
+          page: true,
+        },
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
-    return data;
+    const res = await this.pageService.getOne(data.page.id, langCode);
+
+    return res;
   }
 
   async deleteOne(id: string) {
@@ -46,12 +51,12 @@ export class DestinationTypeService {
   async change(value: UpdateDestinationTypeDto, id: string) {
     const destinationType = await this.destTypeRepository.findOne({
       where: { id },
-      relations:{
-        page:true
-      }
+      relations: {
+        page: true,
+      },
     });
 
-    if(value.contents.length){
+    if (value.contents.length) {
       await this.pageService.change(value, destinationType.page.id);
     }
   }
