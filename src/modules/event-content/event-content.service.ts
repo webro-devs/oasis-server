@@ -70,7 +70,7 @@ export class EventContentService {
     newContents.length ? await this.create(newContents, attraction) : null;
   }
 
-  async create(values: CreateAttractionContentDto[], attraction: string) {
+  async create(values: CreateAttractionContentDto[], event: string) {
     await Promise.all(
       values.map(async (value) => {
         let tags = []
@@ -82,7 +82,7 @@ export class EventContentService {
           .createQueryBuilder()
           .insert()
           .into(EventContent)
-          .values({...value,tags,attraction} as unknown as EventContent)
+          .values({...value,tags,event} as unknown as EventContent)
           .execute();
       }),
     );
