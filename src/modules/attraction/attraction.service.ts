@@ -14,8 +14,12 @@ export class AttractionService {
     private readonly attrContService: AttractionContentService,
   ) {}
 
-  async getAll(langCode:string) {
-    const data = await this.attractionRepository.find();
+  async getAll(langCode:string,type) {
+    const data = await this.attractionRepository.find({
+      where:{
+        type
+      }
+    });
     const ids = data.map(d=>d.id)
     return await this.attrContService.getAll(ids,langCode)
   }

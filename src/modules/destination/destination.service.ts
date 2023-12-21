@@ -15,15 +15,18 @@ export class DestinationService {
   ) {}
 
   async getAll() {
-    const [data] = await this.destinationRepository.find({});
+    const data = await this.destinationRepository.find({});
     return data
   }
 
-  async getOne(langCode:string) {
-    const data = await this.destinationRepository
-      .findOne({
+  async getOne(id:string,langCode:string) {
+    const [data] = await this.destinationRepository
+      .find({
         relations:{
           page:true
+        },
+        where:{
+          id
         }
       })
       .catch(() => {

@@ -28,13 +28,23 @@ export class DestinationController {
   constructor(private readonly destinationService: DestinationService) {}
 
   @Get('/')
+  @ApiOperation({ summary: 'Method: returns all destinations' })
+  @ApiOkResponse({
+    description: 'The destinations was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getAll(){
+    return this.destinationService.getAll();
+  }
+
+  @Get('/:id')
   @ApiOperation({ summary: 'Method: returns single destination by id' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Query('langCode') langCode:string){
-    return this.destinationService.getOne(langCode);
+  async getMe(@Query('langCode') langCode:string,@Param('id') id:string){
+    return this.destinationService.getOne(id,langCode);
   }
 
   @Post('/')

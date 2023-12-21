@@ -10,7 +10,6 @@ import {
   Get,
   Query,
 } from '@nestjs/common';
-import { UpdateResult } from 'typeorm';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -33,8 +32,8 @@ export class AttractionController {
     description: 'The attractions were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query('langCode') langCode:string) {
-    return await this.attractionService.getAll(langCode);
+  async getData(@Query('langCode') langCode:string,@Query('type') type:string) {
+    return await this.attractionService.getAll(langCode,type);
   }
 
   @Get('/:id')
