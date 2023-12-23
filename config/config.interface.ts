@@ -35,5 +35,6 @@ export interface IConfig {
   codeBytes: number;
   HTTP_TIMEOUT: number;
   HTTP_MAX_REDIRECTS: number,
-  fileStorageUrl:string
+  fileStorageUrl:string,
+  clientUrl:string
 }

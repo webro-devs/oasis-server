@@ -60,7 +60,7 @@ export class DestinationService {
     const destination = new Destination();
     await this.destinationRepository.save(destination);
 
-    await this.pageService.create(value, {destination,isTopic:false});
+    await this.pageService.create(value, {destination,isTopic:false},'destination/');
     return destination;
   }
 }

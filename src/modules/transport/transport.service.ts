@@ -81,7 +81,7 @@ export class TransportService {
     transport.type = value.type;
     await this.transportRepository.save(transport);
 
-    await this.pageService.create(value, { transport, isTopic: false });
+    await this.pageService.create(value, { transport, isTopic: false },`${value.type}/`);
 
     if (value?.roadTransports?.length) {
       await this.roadTransService.create(value.roadTransports, transport.id);

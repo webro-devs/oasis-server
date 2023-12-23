@@ -34,5 +34,6 @@ export default (): IConfig => ({
   codeBytes: 2,
   HTTP_TIMEOUT: 20000,
   HTTP_MAX_REDIRECTS: 5,
-  fileStorageUrl: process.env.FILE_URL
+  fileStorageUrl: process.env.FILE_URL,
+  clientUrl:process.env.CLIENT_URL
 });

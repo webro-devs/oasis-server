@@ -1,10 +1,12 @@
-import { NotFoundException, Injectable } from '@nestjs/common';
+import { NotFoundException, Injectable, HttpException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import slugify from 'slugify';
 
 import { UpdatePageDto, CreatePageDto, PageDto } from './dto';
 import { Page } from './page.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageContentService } from '../page-content/page-content.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PageService {
@@ -12,6 +14,7 @@ export class PageService {
     @InjectRepository(Page)
     private readonly pageRepository: Repository<Page>,
     private readonly pageContService: PageContentService,
+    private readonly configService: ConfigService,
   ) {}
 
   async getAll() {
@@ -98,16 +101,36 @@ export class PageService {
     }
   }
 
-  async create(value: CreatePageDto, data: any) {
+  async create(value: CreatePageDto, data: any, path: string) {
+    const shortTitle = value.contents.find((c) => c.langCode == 'en')
+      ?.shortTitle;
+    if (!shortTitle) {
+      throw new HttpException('short title in english should be exist', 400);
+    }
+    const url = await this.makeUrl(path ,shortTitle);
+
     const page = await this.pageRepository
       .createQueryBuilder()
       .insert()
       .into(Page)
-      .values({ ...data } as unknown as Page)
+      .values({ ...data, url } as unknown as Page)
       .returning('id')
       .execute();
 
     await this.pageContService.create(value.contents, page.raw[0].id);
     return page;
+  }
+
+  async makeUrl(path:string, shortTitle: string) {
+    const url = this.configService.get('clientUrl') + path + slugify(shortTitle, { lower: true });
+    const isExist = await this.pageRepository.findOne({
+      where: { url },
+    });
+
+    if (isExist) {
+      return url + '_';
+    }
+
+    return url;
   }
 }
