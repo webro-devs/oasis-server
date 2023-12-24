@@ -52,6 +52,19 @@ export class PageService {
     return { page, pagesOnLeft, pagesOnRight };
   }
 
+  async getByUrl(path: string, langCode: string) {
+    const url = this.configService.get('clientUrl') + path;
+
+    const data = await this.pageRepository.findOne({
+      where: {
+        url,
+      },
+    });
+    if (!data) return {};
+
+    return await this.getOne(data.id, langCode);
+  }
+
   async deleteOne(id: string) {
     const response = await this.pageRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');
@@ -66,7 +79,7 @@ export class PageService {
     });
 
     const addPage = await this.pageRepository.findOne({
-      where: { id: data.addedPage },
+      where: { url: data.addedPage },
     });
 
     curPage.pagesOnLeft.push(addPage);
@@ -82,7 +95,7 @@ export class PageService {
     });
 
     const addPage = await this.pageRepository.findOne({
-      where: { id: data.addedPage },
+      where: { url: data.addedPage },
     });
 
     curPage.pagesOnRight.push(addPage);
@@ -107,7 +120,7 @@ export class PageService {
     if (!shortTitle) {
       throw new HttpException('short title in english should be exist', 400);
     }
-    const url = await this.makeUrl(path ,shortTitle);
+    const url = await this.makeUrl(path, shortTitle);
 
     const page = await this.pageRepository
       .createQueryBuilder()
@@ -121,8 +134,11 @@ export class PageService {
     return page;
   }
 
-  async makeUrl(path:string, shortTitle: string) {
-    const url = this.configService.get('clientUrl') + path + slugify(shortTitle, { lower: true });
+  async makeUrl(path: string, shortTitle: string) {
+    const url =
+      this.configService.get('clientUrl') +
+      path +
+      slugify(shortTitle, { lower: true });
     const isExist = await this.pageRepository.findOne({
       where: { url },
     });

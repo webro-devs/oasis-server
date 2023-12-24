@@ -38,6 +38,10 @@ export class DestinationService {
     return res;
   }
 
+  async getByTitle(title:string, langCode:string){
+    return await this.pageService.getByUrl(`destination/${title}`, langCode)
+  }
+
   async deleteOne(id: string) {
     const response = await this.destinationRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

@@ -33,7 +33,7 @@ export class TransportService {
     if (data) {
       const page = await this.pageService.getOne(data.page.id, langCode);
 
-      return { ...data, page };
+      return { ...data, ...page };
     }
   }
 
@@ -44,6 +44,12 @@ export class TransportService {
       },
     });
     return data;
+  }
+
+  async getByTitle(type:TransportType,title:string, langCode:string){
+    const page =  await this.pageService.getByUrl(`transport/${type}/${title}`, langCode)
+    const transport = await this.getOneByType(type)
+    return {...transport, ...page}
   }
 
   async deleteOne(id: string) {
@@ -81,11 +87,12 @@ export class TransportService {
     transport.type = value.type;
     await this.transportRepository.save(transport);
 
-    await this.pageService.create(value, { transport, isTopic: false },`${value.type}/`);
-
     if (value?.roadTransports?.length) {
       await this.roadTransService.create(value.roadTransports, transport.id);
+      delete value.roadTransports
     }
+
+    await this.pageService.create(value, { transport, isTopic: false },`transport/${value.type}/`);
     return transport;
   }
 }

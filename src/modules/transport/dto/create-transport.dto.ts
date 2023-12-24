@@ -65,7 +65,7 @@ class CreateTransportDto {
   })
   @IsOptional()
   @IsArray()
-  readonly roadTransports: CreateRoadTransportDto[];
+  roadTransports: CreateRoadTransportDto[];
 }
 
 export default CreateTransportDto;

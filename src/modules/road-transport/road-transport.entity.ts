@@ -1,12 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Transport } from '../transport/transport.entity';
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 
 @Entity('road_transport')
 export class RoadTransport {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type:'simple-json',array:true, nullable:true})
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
   type: {langCode:string,type:string}[];
 
   @Column({type:'varchar',nullable:true})

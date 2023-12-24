@@ -11,7 +11,7 @@ class PageDto {
 
   @ApiProperty({
     description: `addedPage`,
-    example: 'uuid',
+    example: 'url',
   })
   @IsNotEmpty()
   @IsString()
