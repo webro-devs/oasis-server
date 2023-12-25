@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { UpdateEventDto, CreateEventDto } from './dto';
-import { Event} from './event.entity';
+import { Event } from './event.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventContentService } from '../event-content/event-content.service';
+import slugify from 'slugify';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EventService {
@@ -12,17 +14,28 @@ export class EventService {
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
     private readonly eventContService: EventContentService,
+    private readonly configService: ConfigService,
   ) {}
 
-  async getAll(langCode:string) {
+  async getAll(langCode: string) {
     const data = await this.eventRepository.find();
-    const ids = data.map(d=>d.id)
-    return await this.eventContService.getAll(ids,langCode)
+    const ids = data.map((d) => d.id);
+    return await this.eventContService.getAll(ids, langCode);
   }
 
-  async getOne(id: string,langCode:string) {
-    const data = await this.eventContService.getOne(id,langCode)
+  async getOne(id: string, langCode: string) {
+    const data = await this.eventContService.getOne(id, langCode);
     return data;
+  }
+
+  async getByUrl(path: string, langCode: string) {
+    const url = this.configService.get('clientUrl') + `event/${path}`;
+    const data = await this.eventRepository.findOne({
+      where:{
+        url
+      }
+    });
+    return this.getOne(data.id, langCode)
   }
 
   async deleteOne(id: string) {
@@ -37,16 +50,41 @@ export class EventService {
       where: { id },
     });
 
-    if(value.contents.length){
+    if (value.contents.length) {
       await this.eventContService.change(value.contents, event.id);
     }
   }
 
   async create(value: CreateEventDto) {
+    const shortTitle = value.contents.find((c) => c.langCode == 'en')?.shortTitle;
+
+    if (!shortTitle) {
+      throw new HttpException('short title in english should be exist', 400);
+    }
+    const url = await this.makeUrl('event/', shortTitle);
+
     const event = new Event();
+    event.url = url;
     await this.eventRepository.save(event);
 
     await this.eventContService.create(value.contents, event.id);
     return event;
+  }
+
+  async makeUrl(path: string, shortTitle: string) {
+    const url =
+      this.configService.get('clientUrl') +
+      path +
+      slugify(shortTitle, { lower: true });
+
+    const isExist = await this.eventRepository.findOne({
+      where: { url },
+    });
+
+    if (isExist) {
+      return url + '_';
+    }
+
+    return url;
   }
 }

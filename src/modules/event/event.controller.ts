@@ -36,7 +36,17 @@ export class EventController {
     return await this.eventService.getAll(langCode);
   }
 
-  @Get('/:id')
+  @Get('/:title')
+  @ApiOperation({ summary: 'Method: returns single event by title' })
+  @ApiOkResponse({
+    description: 'The event was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByUrl(@Query('langCode') langCode:string,@Param('title') title:string){
+    return this.eventService.getByUrl(title,langCode);
+  }
+
+  @Get('/single/:id')
   @ApiOperation({ summary: 'Method: returns single event by id' })
   @ApiOkResponse({
     description: 'The event was returned successfully',

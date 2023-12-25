@@ -8,12 +8,14 @@ class CreateEventDto {
       {
         langCode: '',
         title: '',
+        shortTitle: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },
       {
         langCode: '',
         title: '',
+        shortTitle: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },

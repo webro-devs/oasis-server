@@ -8,15 +8,15 @@ class UpdateEventDto {
       {
         langCode: '',
         title: '',
-        region: '',
+        shortTitle: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },
       {
         id:'uuid',
         langCode: '',
-        region: '',
         title: '',
+        shortTitle: '',
         description: '',
         tags: ['uuid', 'uuid'],
       },
