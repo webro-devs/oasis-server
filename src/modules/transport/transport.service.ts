@@ -46,12 +46,6 @@ export class TransportService {
     return data;
   }
 
-  async getByTitle(type:TransportType,title:string, langCode:string){
-    const page =  await this.pageService.getByUrl(`transport/${type}/${title}`, langCode)
-    const transport = await this.getOneByType(type)
-    return {...transport, ...page}
-  }
-
   async deleteOne(id: string) {
     const response = await this.transportRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');
@@ -92,7 +86,7 @@ export class TransportService {
       delete value.roadTransports
     }
 
-    await this.pageService.create(value, { transport, isTopic: false },`transport/${value.type}/`);
+    await this.pageService.create(value, { transport, isTopic: false },{path:`${value.type}`, short:false});
     return transport;
   }
 }

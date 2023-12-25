@@ -64,7 +64,7 @@ export class DestinationService {
     const destination = new Destination();
     await this.destinationRepository.save(destination);
 
-    await this.pageService.create(value, {destination,isTopic:false},'destination/');
+    await this.pageService.create(value, {destination,isTopic:false},{path:'destination/', short:true});
     return destination;
   }
 }

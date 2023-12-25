@@ -114,13 +114,13 @@ export class PageService {
     }
   }
 
-  async create(value: CreatePageDto, data: any, path: string) {
-    const shortTitle = value.contents.find((c) => c.langCode == 'en')
-      ?.shortTitle;
-    if (!shortTitle) {
+  async create(value: CreatePageDto, data: any, path:{path: string,short:boolean}) {
+    const shortTitle =path.short ? value.contents.find((c) => c.langCode == 'en')
+      ?.shortTitle : '';
+    if (!shortTitle && shortTitle !== '') {
       throw new HttpException('short title in english should be exist', 400);
     }
-    const url = await this.makeUrl(path, shortTitle);
+    const url = await this.makeUrl(path.path, shortTitle);
 
     const page = await this.pageRepository
       .createQueryBuilder()
