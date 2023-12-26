@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tour } from './tour.entity';
 import { TourService } from './tour.service';
 import { TourController } from './tour.controller';
+import { TourContentModule } from '../tour-content/tour-content.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tour])],
+  imports: [TypeOrmModule.forFeature([Tour]),TourContentModule],
   controllers: [TourController],
   providers: [TourService],
   exports: [TourService],

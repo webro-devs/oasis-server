@@ -8,6 +8,7 @@ import {
 import { PageContent } from '../page-content/page-content.entity';
 import { AttractionContent } from '../attraction-content/attraction-content.entity';
 import { EventContent } from '../event-content/event-content.entity';
+import { TourContent } from '../tour-content/tour-content.entity';
 
 @Entity({ name: 'tag' })
 export class Tag extends BaseEntity {
@@ -31,4 +32,9 @@ export class Tag extends BaseEntity {
     onDelete:"CASCADE"
   })
   eventContents: EventContent[]
+
+  @ManyToMany(()=>TourContent, event=> event.tags, {
+    onDelete:"CASCADE"
+  })
+  tourContents: TourContent[]
 }

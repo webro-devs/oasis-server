@@ -17,15 +17,59 @@ export class AttractionService {
   async getAll(langCode:string,type) {
     const data = await this.attractionRepository.find({
       where:{
-        type
+        type,
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:true
+      },
+      select:{
+        id:true,
+        photo:true,
+        type:true,
+        contents:{
+          region:true,
+          title:true,
+          langCode:true
+        }
       }
     });
-    const ids = data.map(d=>d.id)
-    return await this.attrContService.getAll(ids,langCode)
+  
+    return data
   }
 
   async getOne(id: string,langCode:string) {
-    const data = await this.attrContService.getOne(id,langCode)
+    const data = await this.attractionRepository.findOne({
+      where:{
+        id,
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:{
+          tags:true
+        }
+      },
+      select:{
+        id:true,
+        photo:true,
+        type:true,
+        contents:{
+          id:true,
+          title:true,
+          description:true,
+          langCode:true,
+          region:true,
+          tags:{
+            id:true,
+            title:true
+          }
+        }
+      }
+    })
     return data;
   }
 

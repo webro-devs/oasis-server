@@ -14,41 +14,6 @@ export class AttractionContentService {
     private readonly tagService: TagService,
   ) {}
 
-  async getAll(ids:string[], langCode:string){
-    const data = await this.attrRepo.find({
-      where:{
-        langCode,
-        attraction:{
-          id: In(ids)
-        },
-      },
-      relations:{
-        attraction:true
-      }
-    })
-    return data
-  }
-
-  async getOne(id: string,langCode:string) {
-    const data = await this.attrRepo
-      .findOne({
-        where: { 
-          attraction:{
-            id
-          },
-          langCode
-         },
-         relations:{
-          attraction:true
-         }
-      })
-      .catch(() => {
-        throw new NotFoundException('data not found');
-      });
-
-    return data;
-  }
-
   async deleteOne(id: string) {
     const response = await this.attrRepo.delete(id).catch(() => {
       throw new NotFoundException('data not found');

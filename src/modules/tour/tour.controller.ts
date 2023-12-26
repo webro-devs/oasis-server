@@ -33,7 +33,7 @@ export class TourController {
   })
   @HttpCode(HttpStatus.OK)
   async getData() {
-    return await this.tourService.getAll();
+   
   }
   
   @Get('/:id')
@@ -52,7 +52,7 @@ export class TourController {
     description: 'The tour was created successfully',
   })
   @HttpCode(HttpStatus.CREATED)
-  async saveData(@Body() data: CreateTourDto): Promise<Tour> {
+  async saveData(@Body() data: CreateTourDto) {
     return await this.tourService.create(data);
   }
 
@@ -65,7 +65,7 @@ export class TourController {
   async changeData(
     @Body() data: UpdateTourDto,
     @Param('id') id: string,
-  ): Promise<UpdateResult> {
+  ){
     return await this.tourService.change(data, id);
   }
 

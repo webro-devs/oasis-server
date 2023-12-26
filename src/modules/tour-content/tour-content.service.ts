@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
-import { UpdateEventContentDto, CreateEventContentDto } from './dto';
-import { EventContent } from './event-content.entity';
+import { UpdateTourContentDto, CreateTourContentDto } from './dto';
+import { TourContent } from './tour-content.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TagService } from '../tag/tag.service';
 
 @Injectable()
-export class EventContentService {
+export class TourContentService {
   constructor(
-    @InjectRepository(EventContent)
-    private readonly eventContRepo: Repository<EventContent>,
+    @InjectRepository(TourContent)
+    private readonly eventContRepo: Repository<TourContent>,
     private readonly tagService: TagService,
   ) {}
 
@@ -21,7 +21,7 @@ export class EventContentService {
     return response;
   }
 
-  async change(values: UpdateEventContentDto[], event: string) {
+  async change(values: UpdateTourContentDto[], data) {
     const newContents = values.filter((dc) => !dc.id);
     const olderContents = values.filter((dc) => dc.id);
 
@@ -32,10 +32,10 @@ export class EventContentService {
       }),
     );
 
-    newContents.length ? await this.create(newContents, event) : null;
+    newContents.length ? await this.create(newContents, data) : null;
   }
 
-  async create(values: CreateEventContentDto[], event: string) {
+  async create(values: CreateTourContentDto[], data) {
     await Promise.all(
       values.map(async (value) => {
         let tags = []
@@ -46,8 +46,8 @@ export class EventContentService {
         await this.eventContRepo
           .createQueryBuilder()
           .insert()
-          .into(EventContent)
-          .values({...value,tags,event} as unknown as EventContent)
+          .into(TourContent)
+          .values({...value,tags,...data} as unknown as TourContent)
           .execute();
       }),
     );

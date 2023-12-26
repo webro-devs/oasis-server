@@ -16,32 +16,71 @@ export class TourCategoryService {
 
   async getAll(langCode: string) {
     const data = await this.tourCategoryRepository.find({
-      relations: {
-        page: true,
+      where:{
+        page:{
+          contents:{
+            langCode
+          }
+        }
       },
+      relations: {
+        page: {
+          contents:true
+        },
+      },
+      select:{
+        id:true,
+        type:true,
+        page:{
+          id:true,
+          contents:{
+            shortTitle:true,
+            description:true,
+            langCode:true,
+            title:true
+          }
+        }
+      }
     });
-    const pageIds = data.map((d) => d.page.id);
    
-    return 0;
+    return data;
   }
 
   async getOne(type: string, langCode: string) {
     const data = await this.tourCategoryRepository
       .findOne({
-        where: { type },
-        relations: {
-          page: true,
+        where:{
+          type,
+          page:{
+            contents:{
+              langCode
+            }
+          }
         },
+        relations: {
+          page: {
+            contents:true
+          },
+        },
+        select:{
+          id:true,
+          type:true,
+          page:{
+            id:true,
+            contents:{
+              shortTitle:true,
+              description:true,
+              langCode:true,
+              title:true
+            }
+          }
+        }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
-    if (data) {
-      const page = await this.pageService.getOne(data.page.id, langCode);
-
-      return { ...data, ...page };
-    }
+    return data
   }
 
   async getOneByType(type: string) {
@@ -61,7 +100,7 @@ export class TourCategoryService {
   }
 
   async change(value: UpdateTourCategoryDto, id: string) {
-    const transport = await this.tourCategoryRepository.findOne({
+    const tourCategory = await this.tourCategoryRepository.findOne({
       where: { id },
       relations: {
         page: true,
@@ -69,7 +108,7 @@ export class TourCategoryService {
     });
 
     if (value?.contents?.length) {
-      await this.pageService.change(value, transport.page.id);
+      await this.pageService.change(value, tourCategory.page.id);
     }
   }
 
@@ -80,15 +119,15 @@ export class TourCategoryService {
       return new HttpException(`${value.type} already exist`, 400);
     }
 
-    const transport = new TourCategory();
-    transport.type = value.type;
-    await this.tourCategoryRepository.save(transport);
+    const tourCategory = new TourCategory();
+    tourCategory.type = value.type;
+    await this.tourCategoryRepository.save(tourCategory);
 
     await this.pageService.create(
       value,
-      { transport, isTopic: false },
-      { path: `${value.type}`, short: false },
+      { tourCategory, isTopic: false },
+      { path: `tour-category/${value.type}`, short: false },
     );
-    return transport;
+    return tourCategory;
   }
 }
