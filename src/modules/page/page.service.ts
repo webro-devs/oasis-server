@@ -25,31 +25,51 @@ export class PageService {
     });
   }
 
+
   async getOne(id: string, langCode: string) {
     const data = await this.pageRepository
       .findOne({
         where: { id },
         relations: {
-          pagesOnLeft: true,
-          pagesOnRight: true,
+          pagesOnLeft:{
+            contents:true
+          },
+          pagesOnRight:{
+            contents:true
+          },
+          contents:true
         },
+        select:{
+            id:true,
+            url:true,
+            pagesOnLeft:{
+              id:true,
+              contents:{
+                description:true,
+                title:true,
+                shortTitle:true
+              }
+            },
+            pagesOnRight:{
+              id:true,
+              contents:{
+                shortTitle:true
+              }
+            },
+            contents:{
+              title:true,
+              shortTitle:true,
+              description:true,
+              descriptionPage:true,
+              langCode:true
+            }
+          }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
-    const pagesOnLeft = await this.pageContService.getMoreByLeftPageIds(
-      data.pagesOnLeft.map((p) => p.id),
-      langCode,
-    );
 
-    const pagesOnRight = await this.pageContService.getMoreByRightPageIds(
-      data.pagesOnRight.map((p) => p.id),
-      langCode,
-    );
-
-    const page = await this.pageContService.getOneByPageId(data.id, langCode);
-
-    return { page, pagesOnLeft, pagesOnRight };
+    return data;
   }
 
   async getByUrl(path: string, langCode: string) {

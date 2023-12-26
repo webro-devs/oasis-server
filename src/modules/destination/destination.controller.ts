@@ -33,8 +33,8 @@ export class DestinationController {
     description: 'The destinations was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAll(){
-    return this.destinationService.getAll();
+  async getAll(@Query('langCode') langCode:string){
+    return this.destinationService.getAll(langCode);
   }
 
   @Get('/:title')

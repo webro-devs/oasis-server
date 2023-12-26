@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne,
 import { Destination } from '../destination/destination.entity';
 import { PageContent } from '../page-content/page-content.entity';
 import { Transport } from '../transport/transport.entity';
+import { TourCategory } from '../tour-category/tour-category.entity';
 
 @Entity('page')
 export class Page {
@@ -38,4 +39,11 @@ export class Page {
   })
   @JoinColumn()
   transport: Transport
+
+  @OneToOne(()=> TourCategory, tourCategory=>tourCategory.page, {
+    onDelete:"CASCADE",
+    cascade:true
+  })
+  @JoinColumn()
+  tourCategory: TourCategory
 }

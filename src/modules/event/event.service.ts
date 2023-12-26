@@ -18,13 +18,52 @@ export class EventService {
   ) {}
 
   async getAll(langCode: string) {
-    const data = await this.eventRepository.find();
-    const ids = data.map((d) => d.id);
-    return await this.eventContService.getAll(ids, langCode);
+    const data = await this.eventRepository.find({
+      where:{
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:true
+      },
+      select:{
+        id:true,
+        url:true,
+        contents:{
+          title:true
+        }
+      }
+    });
+
+    return data
   }
 
   async getOne(id: string, langCode: string) {
-    const data = await this.eventContService.getOne(id, langCode);
+    const data = await this.eventRepository.findOne({
+      where:{
+        id,
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:{
+          tags:true
+        }
+      },
+      select:{
+        id:true,
+        url:true,
+        contents:{
+          title:true,
+          shortTitle:true,
+          description:true,
+          langCode:true,
+          tags:true
+        }
+      }
+    });
     return data;
   }
 

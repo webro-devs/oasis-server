@@ -12,22 +12,6 @@ export class RoadTransportService {
     private readonly roadTransRepository: Repository<RoadTransport>,
   ) {}
 
-  async getAll() {
-    return await this.roadTransRepository.find({});
-  }
-
-  async getOne(id: string) {
-    const data = await this.roadTransRepository
-      .findOne({
-        where: { id },
-      })
-      .catch(() => {
-        throw new NotFoundException('data not found');
-      });
-
-    return data;
-  }
-
   async deleteOne(id: string) {
     const response = await this.roadTransRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

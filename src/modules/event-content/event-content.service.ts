@@ -14,41 +14,6 @@ export class EventContentService {
     private readonly tagService: TagService,
   ) {}
 
-  async getAll(ids:string[], langCode:string){
-    const data = await this.eventContRepo.find({
-      where:{
-        langCode,
-        event:{
-          id: In(ids)
-        },
-      },
-      relations:{
-        event:true
-      }
-    })
-    return data
-  }
-
-  async getOne(id: string,langCode:string) {
-    const data = await this.eventContRepo
-      .findOne({
-        where: { 
-          event:{
-            id
-          },
-          langCode
-         },
-         relations:{
-          event:true
-         }
-      })
-      .catch(() => {
-        throw new NotFoundException('data not found');
-      });
-
-    return data;
-  }
-
   async deleteOne(id: string) {
     const response = await this.eventContRepo.delete(id).catch(() => {
       throw new NotFoundException('data not found');

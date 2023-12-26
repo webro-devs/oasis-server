@@ -5,7 +5,6 @@ import { UpdatePageContentDto, CreatePageContentDto } from './dto';
 import { PageContent } from './page-content.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TagService } from '../tag/tag.service';
-import { Page } from '../page/page.entity';
 
 @Injectable()
 export class PageContentService {
@@ -20,50 +19,6 @@ export class PageContentService {
       throw new NotFoundException('data not found');
     });
     return response;
-  }
-
-  async getMoreByLeftPageIds(ids:string[], langCode:string){
-    return await this.pageContRepo.find({
-      where:{
-        langCode,
-        page:{
-          id: In(ids)
-        },
-      },
-      relations:{
-        page:true
-      },
-      select:['description','shortTitle','title']
-    })
-  }
-
-  async getMoreByRightPageIds(ids:string[], langCode:string){
-    return await this.pageContRepo.find({
-      where:{
-        langCode,
-        page:{
-          id: In(ids)
-        },
-      },
-      relations:{
-        page:true
-      },
-      select:['shortTitle']
-    })
-  }
-
-  async getOneByPageId(id:string, langCode:string){
-    return await this.pageContRepo.find({
-      where:{
-        langCode,
-        page:{
-          id
-        },
-      },
-      relations:{
-        page:true
-      }
-    })
   }
 
   async change(values: UpdatePageContentDto[], page: string) {

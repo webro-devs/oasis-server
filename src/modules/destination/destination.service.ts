@@ -5,6 +5,7 @@ import { UpdateDestinationDto, CreateDestinationDto } from './dto';
 import { Destination } from './destination.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageService } from '../page/page.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class DestinationService {
@@ -12,34 +13,109 @@ export class DestinationService {
     @InjectRepository(Destination)
     private readonly destinationRepository: Repository<Destination>,
     private readonly pageService: PageService,
+    private readonly configService: ConfigService
   ) {}
 
-  async getAll() {
-    const data = await this.destinationRepository.find({});
+  async getAll(langCode:string) {
+    const data = await this.destinationRepository.find({
+      where:{
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations:{
+        page:{
+          pagesOnLeft:true,
+          pagesOnRight:true,
+          contents:true
+        }
+      },
+      select:{
+        page:{
+          id:true,
+          url:true,
+          contents:{
+            shortTitle:true
+          }
+        }
+      }
+    });
     return data
   }
 
   async getOne(id:string,langCode:string) {
-    const [data] = await this.destinationRepository
-      .find({
+    const data = await this.destinationRepository
+      .findOne({
         relations:{
-          page:true
+          page:{
+            pagesOnLeft:{
+              contents:true
+            },
+            pagesOnRight:{
+              contents:true
+            },
+            contents:true
+          }
         },
         where:{
-          id
+          id,
+          page:{
+            contents:{
+              langCode
+            }
+          }
+        },
+        select:{
+          page:{
+            id:true,
+            url:true,
+            pagesOnLeft:{
+              id:true,
+              contents:{
+                description:true,
+                title:true,
+                shortTitle:true
+              }
+            },
+            pagesOnRight:{
+              id:true,
+              contents:{
+                shortTitle:true
+              }
+            },
+            contents:{
+              title:true,
+              shortTitle:true,
+              description:true,
+              descriptionPage:true,
+              langCode:true
+            }
+          }
         }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
-    const res = await this.pageService.getOne(data.page.id, langCode)
+    // const res = await this.pageService.getOne(data.page.id, langCode)
 
-    return res;
+    return data;
   }
 
   async getByTitle(title:string, langCode:string){
-    return await this.pageService.getByUrl(`destination/${title}`, langCode)
+    const url = this.configService.get('clientUrl') +`destination/${title}`
+    console.log(url);
+    
+    const data = await this.destinationRepository.findOne({
+      where:{
+        page:{
+          url
+        }
+      }
+    })
+    return await this.getOne(data.id, langCode)
   }
 
   async deleteOne(id: string) {

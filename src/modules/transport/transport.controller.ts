@@ -40,20 +40,6 @@ export class TransportController {
     return this.transportService.getOne(type, langCode);
   }
 
-  // @Get('/:type/:title')
-  // @ApiOperation({ summary: 'Method: returns single transport by type' })
-  // @ApiOkResponse({
-  //   description: 'The transport was returned successfully',
-  // })
-  // @HttpCode(HttpStatus.OK)
-  // async getByTitle(
-  //   @Param('type') type: TransportType,
-  //   @Param('title') title: string,
-  //   @Query('langCode') langCode: string,
-  // ) {
-  //   return this.transportService.getByTitle(type,title, langCode);
-  // }
-
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new transport' })
   @ApiCreatedResponse({

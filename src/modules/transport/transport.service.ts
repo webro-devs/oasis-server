@@ -20,21 +20,54 @@ export class TransportService {
   async getOne(type: TransportType, langCode: string) {
     const data = await this.transportRepository
       .findOne({
-        where: { type },
+        where: {
+          type,
+          page: {
+            contents: {
+              langCode,
+            },
+          },
+        },
         relations: {
-          page: true,
+          page: {
+            pagesOnLeft: true,
+            pagesOnRight: true,
+            contents: true,
+          },
           roadTransports: true,
+        },
+        select: {
+          page: {
+            id: true,
+            url: true,
+            pagesOnLeft: {
+              id: true,
+              contents: {
+                description: true,
+                title: true,
+                shortTitle: true,
+              },
+            },
+            pagesOnRight: {
+              id: true,
+              contents: {
+                shortTitle: true,
+              },
+            },
+            contents: {
+              title: true,
+              shortTitle: true,
+              description: true,
+              descriptionPage: true,
+            },
+          },
         },
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
-    if (data) {
-      const page = await this.pageService.getOne(data.page.id, langCode);
-
-      return { ...data, ...page };
-    }
+    return data || {};
   }
 
   async getOneByType(type: TransportType) {
@@ -83,10 +116,14 @@ export class TransportService {
 
     if (value?.roadTransports?.length) {
       await this.roadTransService.create(value.roadTransports, transport.id);
-      delete value.roadTransports
+      delete value.roadTransports;
     }
 
-    await this.pageService.create(value, { transport, isTopic: false },{path:`${value.type}`, short:false});
+    await this.pageService.create(
+      value,
+      { transport, isTopic: false },
+      { path: `${value.type}`, short: false },
+    );
     return transport;
   }
 }

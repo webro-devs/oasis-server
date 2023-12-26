@@ -38,8 +38,18 @@ export class PageController {
     return await this.pageService.getAll();
   }
 
+  @Get('/:title')
+  @ApiOperation({ summary: 'Method: returns single page by title' })
+  @ApiOkResponse({
+    description: 'The page was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByUrl(@Query('langCode') langCode:string,@Param('title') title:string){
+    return this.pageService.getByUrl(`page/${title}`,langCode);
+  }
+
   @Public()
-  @Get('/:id')
+  @Get('/single/:id')
   @ApiOperation({ summary: 'Method: returns single page by id' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
