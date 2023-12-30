@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TourContentService } from '../tour-content/tour-content.service';
 import { ConfigService } from '@nestjs/config';
 import slugify from 'slugify';
+import { TagService } from '../tag/tag.service';
+import { TourPriceService } from '../tour-price/tour-price.service';
 
 @Injectable()
 export class TourService {
@@ -15,6 +17,8 @@ export class TourService {
     private readonly tourRepository: Repository<Tour>,
     private readonly tourContService: TourContentService,
     private readonly configService: ConfigService,
+    private readonly tagService: TagService,
+    private readonly tourPriceService: TourPriceService
   ) {}
 
   async getOne(id: string) {
@@ -63,6 +67,10 @@ export class TourService {
     if (value?.specification?.length) {
       await this.tourContService.change(value.specification, tour.id);
     }
+
+    if(value?.price?.length){
+      await this.tourPriceService.change(value.price, tour.id)
+    }
   }
 
   async create(value: CreateTourDto) {
@@ -73,12 +81,14 @@ export class TourService {
     }
 
     const url = await this.makeUrl('tour/', title);
+    const routes = await this.tagService.getMoreByIds(value.routes) || []
 
-    const id = await this.createTour(
-      url,
-      value.tourCategory,
-      value?.photoGallery || [],
-    );
+    const id = await this.createTour(url, {
+      tourCategory: value.tourCategory,
+      photoGallery: value?.photoGallery || [],
+      routes,
+      destination: value?.destination
+    });
 
     if (value?.about?.length) {
       await this.tourContService.create(value.about, id);
@@ -95,15 +105,20 @@ export class TourService {
     if (value?.specification?.length) {
       await this.tourContService.create(value.specification, id);
     }
+
+    if(value?.price?.length){
+      await this.tourPriceService.create(value.price, id)
+    }
+    
     return 'Created';
   }
 
-  async createTour(url: string, tourCategory: string, photoGallery) {
+  async createTour(url: string, value) {
     const data = await this.tourRepository
       .createQueryBuilder()
       .insert()
       .into(Tour)
-      .values({ url, tourCategory, photoGallery } as unknown as Tour)
+      .values({ url, ...value } as unknown as Tour)
       .returning('id')
       .execute();
 

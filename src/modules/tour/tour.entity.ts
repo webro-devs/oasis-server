@@ -1,6 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TourContent } from '../tour-content/tour-content.entity';
 import { TourCategory } from '../tour-category/tour-category.entity';
+import { Destination } from '../destination/destination.entity';
+import { Tag } from '../tag/tag.entity';
+import { TourPrice } from '../tour-price/tour-price.entity';
 
 @Entity('tour')
 export class Tour {
@@ -28,4 +31,21 @@ export class Tour {
   @ManyToOne(()=>TourCategory, tourCat=> tourCat.tour)
   @JoinColumn()
   tourCategory:TourCategory
+
+  @ManyToOne(()=>Destination, destination=>destination.tours,{
+    onDelete:"SET NULL",
+    cascade:true
+  })
+  @JoinColumn()
+  destination: Destination
+
+  @ManyToMany(()=>Tag, tag=>tag.tours,{
+    onDelete:"CASCADE",
+    cascade:true
+  })
+  @JoinTable()
+  routes: Tag[]
+
+  @OneToMany(()=>TourPrice,tourPrice=>tourPrice.tour)
+  price: TourPrice[]
 }

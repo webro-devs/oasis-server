@@ -18,6 +18,7 @@ import { EventContentModule } from './modules/event-content/event-content.module
 import { TransportModule } from './modules/transport/transport.module';
 import { RoadTransport } from './modules/road-transport/road-transport.entity';
 import { TourCategoryModule } from './modules/tour-category/tour-category.module';
+import { TourPriceModule } from './modules/tour-price/tour-price.module';
 
 @Module({
   imports: [
@@ -43,8 +44,9 @@ import { TourCategoryModule } from './modules/tour-category/tour-category.module
     PageContentModule,
     RoadTransport,
     TagModule,
-    TourModule,
     TourCategoryModule,
+    TourModule,
+    TourPriceModule,
     TransportModule,
     UserModule,
   ],
