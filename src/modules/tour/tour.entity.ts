@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TourContent } from '../tour-content/tour-content.entity';
 import { TourCategory } from '../tour-category/tour-category.entity';
 import { Destination } from '../destination/destination.entity';
@@ -9,6 +9,10 @@ import { TourPrice } from '../tour-price/tour-price.entity';
 export class Tour {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Generated('increment')
+  @Column({type:"int",nullable:true })
+  index:number
 
   @Column({type:'text',array:true,nullable:true})
   photoGallery: string[];

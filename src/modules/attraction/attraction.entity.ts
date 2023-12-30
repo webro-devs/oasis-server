@@ -1,11 +1,15 @@
 import { AttractionType } from 'src/infra/shared/type';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AttractionContent } from '../attraction-content/attraction-content.entity';
 
 @Entity('attraction')
 export class Attraction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Generated('increment')
+  @Column({type:"int",nullable:true })
+  index:number
 
   @Column('varchar')
   type: AttractionType;

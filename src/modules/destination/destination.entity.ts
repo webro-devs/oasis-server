@@ -1,4 +1,4 @@
-import { Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Page } from '../page/page.entity';
 import { Tour } from '../tour/tour.entity';
 
@@ -6,6 +6,10 @@ import { Tour } from '../tour/tour.entity';
 export class Destination {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Generated('increment')
+  @Column({type:"int",nullable:true })
+  index:number
 
   @OneToOne(()=> Page, page=> page.destination)
   page: Page

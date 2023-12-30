@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Destination } from '../destination/destination.entity';
 import { PageContent } from '../page-content/page-content.entity';
 import { Transport } from '../transport/transport.entity';
@@ -14,6 +14,10 @@ export class Page {
 
   @Column({type:'boolean', default:true})
   isTopic: boolean
+
+  @Generated('increment')
+  @Column({type:"int",nullable:true })
+  index:number
 
   @ManyToMany(() => Page, (page) => page.pagesOnLeft)
   @JoinTable()
