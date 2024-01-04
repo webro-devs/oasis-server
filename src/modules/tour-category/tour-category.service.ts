@@ -88,7 +88,10 @@ export class TourCategoryService {
       where: {
         type,
       },
-    });
+    })
+
+    if(!data) return {}
+
     return data;
   }
 

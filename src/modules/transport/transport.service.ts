@@ -75,7 +75,9 @@ export class TransportService {
       where: {
         type,
       },
-    });
+    }) 
+    if(!data) return {}
+    
     return data;
   }
 

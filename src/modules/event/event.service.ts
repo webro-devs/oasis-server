@@ -73,7 +73,10 @@ export class EventService {
       where:{
         url
       }
-    });
+    })
+    
+    if(!data) return {}
+
     return this.getOne(data.id, langCode)
   }
 

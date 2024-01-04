@@ -99,14 +99,11 @@ export class DestinationService {
         throw new NotFoundException('data not found');
       });
 
-    // const res = await this.pageService.getOne(data.page.id, langCode)
-
     return data;
   }
 
   async getByTitle(title:string, langCode:string){
     const url = this.configService.get('clientUrl') +`destination/${title}`
-    console.log(url);
     
     const data = await this.destinationRepository.findOne({
       where:{
@@ -115,6 +112,9 @@ export class DestinationService {
         }
       }
     })
+    
+    if(!data) return {}
+
     return await this.getOne(data.id, langCode)
   }
 
