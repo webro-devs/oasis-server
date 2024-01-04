@@ -6,14 +6,14 @@ interface IJWT {
 }
 
 interface IDatabase {
-  host: string;
+  // host: string;
   type: string;
-  name: string;
-  port: number;
-  // url: string;
-  username: string;
-  password: string;
-  database: string;
+  // name: string;
+  // port: number;
+  url: string;
+  // username: string;
+  // password: string;
+  // database: string;
   entities: string[];
   synchronize: boolean;
 
