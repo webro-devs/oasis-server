@@ -49,6 +49,6 @@ import { TourPriceModule } from './modules/tour-price/tour-price.module';
     TourPriceModule,
     TransportModule,
     UserModule,
-  ],
+  ]
 })
 export class AppModule {}
