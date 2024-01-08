@@ -17,11 +17,28 @@ export class PageService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getAll() {
+  async getAll(langCode:string) {
     return await this.pageRepository.find({
       where: {
         isTopic: true,
+        contents:{
+          langCode
+        }
       },
+      relations:{
+        contents:true,
+        pagesOnLeft:true,
+        pagesOnRight:true
+      },
+      select:{
+        id:true,
+        url:true,
+        index:true,
+        contents:{
+          shortTitle:true,
+          title:true
+        }
+      }
     });
   }
 
@@ -38,36 +55,27 @@ export class PageService {
             contents:true
           },
           contents:true
-        },
-        select:{
-            id:true,
-            url:true,
-            pagesOnLeft:{
-              id:true,
-              contents:{
-                description:true,
-                title:true,
-                shortTitle:true
-              }
-            },
-            pagesOnRight:{
-              id:true,
-              contents:{
-                shortTitle:true
-              }
-            },
-            contents:{
-              title:true,
-              shortTitle:true,
-              description:true,
-              descriptionPage:true,
-              langCode:true
-            }
-          }
+        }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
+
+      data.pagesOnLeft.forEach(pr=>{
+        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
+        pr.contents.forEach(c=>{
+          delete c.descriptionPage
+        })
+      }) 
+  
+      data.pagesOnRight.forEach(pr=>{
+        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
+        pr.contents.forEach(c=>{
+          delete c.description
+          delete c.title
+          delete c.descriptionPage
+        })
+      })
 
     return data;
   }

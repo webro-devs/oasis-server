@@ -76,7 +76,6 @@ export class DestinationService {
       pr.contents = pr.contents.filter(c=>c.langCode == langCode)
       pr.contents.forEach(c=>{
         delete c.descriptionPage
-        delete c.langCode
       })
     }) 
 
@@ -86,7 +85,6 @@ export class DestinationService {
         delete c.description
         delete c.title
         delete c.descriptionPage
-        delete c.langCode
       })
     })
 

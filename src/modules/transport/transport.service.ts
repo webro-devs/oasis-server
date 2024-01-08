@@ -35,37 +35,27 @@ export class TransportService {
             contents: true,
           },
           roadTransports: true,
-        },
-        select: {
-          page: {
-            id: true,
-            url: true,
-            pagesOnLeft: {
-              id: true,
-              contents: {
-                description: true,
-                title: true,
-                shortTitle: true,
-              },
-            },
-            pagesOnRight: {
-              id: true,
-              contents: {
-                shortTitle: true,
-              },
-            },
-            contents: {
-              title: true,
-              shortTitle: true,
-              description: true,
-              descriptionPage: true,
-            },
-          },
-        },
+        }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
+
+      data.page.pagesOnLeft.forEach(pr=>{
+        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
+        pr.contents.forEach(c=>{
+          delete c.descriptionPage
+        })
+      }) 
+  
+      data.page.pagesOnRight.forEach(pr=>{
+        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
+        pr.contents.forEach(c=>{
+          delete c.description
+          delete c.title
+          delete c.descriptionPage
+        })
+      })
 
     return data || {};
   }

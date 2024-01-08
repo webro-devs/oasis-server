@@ -34,8 +34,8 @@ export class PageController {
     description: 'The page were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData() {
-    return await this.pageService.getAll();
+  async getData(@Query('langCode') langCode:string) {
+    return await this.pageService.getAll(langCode);
   }
 
   @Get('/:title')
