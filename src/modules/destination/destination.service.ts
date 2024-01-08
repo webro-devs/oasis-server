@@ -72,7 +72,7 @@ export class DestinationService {
         throw new NotFoundException('data not found');
       });
 
-    data.page.pagesOnRight.forEach(pr=>{
+    data.page.pagesOnLeft.forEach(pr=>{
       pr.contents = pr.contents.filter(c=>c.langCode == langCode)
       pr.contents.forEach(c=>{
         delete c.descriptionPage
@@ -80,7 +80,7 @@ export class DestinationService {
       })
     }) 
 
-    data.page.pagesOnLeft.forEach(pr=>{
+    data.page.pagesOnRight.forEach(pr=>{
       pr.contents = pr.contents.filter(c=>c.langCode == langCode)
       pr.contents.forEach(c=>{
         delete c.description
