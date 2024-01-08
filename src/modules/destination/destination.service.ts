@@ -67,33 +67,33 @@ export class DestinationService {
             }
           }
         },
-        select:{
-          page:{
-            id:true,
-            url:true,
-            pagesOnLeft:{
-              id:true,
-              contents:{
-                description:true,
-                title:true,
-                shortTitle:true
-              }
-            },
-            pagesOnRight:{
-              id:true,
-              contents:{
-                shortTitle:true
-              }
-            },
-            contents:{
-              title:true,
-              shortTitle:true,
-              description:true,
-              descriptionPage:true,
-              langCode:true
-            }
-          }
-        }
+        // select:{
+        //   page:{
+        //     id:true,
+        //     url:true,
+        //     pagesOnLeft:{
+        //       id:true,
+        //       contents:{
+        //         description:true,
+        //         title:true,
+        //         shortTitle:true
+        //       }
+        //     },
+        //     pagesOnRight:{
+        //       id:true,
+        //       contents:{
+        //         shortTitle:true
+        //       }
+        //     },
+        //     contents:{
+        //       title:true,
+        //       shortTitle:true,
+        //       description:true,
+        //       descriptionPage:true,
+        //       langCode:true
+        //     }
+        //   }
+        // }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
