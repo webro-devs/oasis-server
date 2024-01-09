@@ -49,6 +49,16 @@ export class AttractionController {
     return this.attractionService.getOne(id,langCode);
   }
 
+  @Get('/:type/:title')
+  @ApiOperation({ summary: 'Method: returns single attraction by id' })
+  @ApiOkResponse({
+    description: 'The attraction was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByUrl(@Param('type') type: string,@Param('title') title: string,@Query('langCode') langCode:string){
+    return this.attractionService.getByUrl(type,title,langCode);
+  }
+
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new attraction' })
   @ApiCreatedResponse({

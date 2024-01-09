@@ -14,6 +14,9 @@ export class Attraction {
   @Column('varchar')
   type: AttractionType;
 
+  @Column({type:'varchar', nullable:true})
+  url: string;
+
   @Column({type:"varchar",nullable:true})
   photo: string;
 

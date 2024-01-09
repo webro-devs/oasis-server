@@ -41,6 +41,8 @@ export class TransportService {
         throw new NotFoundException('data not found');
       });
 
+      if(!data) return {}
+
       data.page.pagesOnLeft.forEach(pr=>{
         pr.contents = pr.contents.filter(c=>c.langCode == langCode)
         pr.contents.forEach(c=>{
@@ -57,7 +59,7 @@ export class TransportService {
         })
       })
 
-    return data || {};
+    return data;
   }
 
   async getOneByType(type: TransportType) {
