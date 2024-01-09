@@ -68,7 +68,6 @@ export class TransportService {
         type,
       },
     }) 
-    if(!data) return {}
     
     return data;
   }
