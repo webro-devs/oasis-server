@@ -10,6 +10,9 @@ export class Event {
   @Column({type:"int",nullable:true })
   index:number
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date: string;
+
   @Column({type:'varchar', nullable:true})
   url:string
 
