@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EventContentService } from '../event-content/event-content.service';
 import slugify from 'slugify';
 import { ConfigService } from '@nestjs/config';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @Injectable()
 export class EventService {
@@ -30,8 +31,9 @@ export class EventService {
       select:{
         id:true,
         url:true,
+        date: true,
         contents:{
-          title:true
+          title:true,
         }
       }
     });
@@ -49,17 +51,6 @@ export class EventService {
       },
       relations:{
         contents:{
-          tags:true
-        }
-      },
-      select:{
-        id:true,
-        url:true,
-        contents:{
-          title:true,
-          shortTitle:true,
-          description:true,
-          langCode:true,
           tags:true
         }
       }
@@ -93,7 +84,7 @@ export class EventService {
     });
 
     if (value.contents.length) {
-      await this.eventContService.change(value.contents, event.id);
+      await this.eventContService.change(value.contents, event);
     }
   }
 
@@ -109,7 +100,7 @@ export class EventService {
     event.url = url;
     await this.eventRepository.save(event);
 
-    await this.eventContService.create(value.contents, event.id);
+    await this.eventContService.create(value.contents, event);
     return event;
   }
 
@@ -128,5 +119,13 @@ export class EventService {
     }
 
     return url;
+  }
+
+  async addTag(values: TagTagDto){
+    await this.eventContService.addTag(values)
+  }
+
+  async removeTag(values: TagTagDto){
+    await this.eventContService.removeTag(values)
   }
 }

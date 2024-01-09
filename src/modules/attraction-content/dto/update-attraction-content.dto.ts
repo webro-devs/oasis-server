@@ -4,6 +4,6 @@ class UpdateAttractionContentDto {
   readonly region:string
   readonly description: string;
   readonly langCode: string;
-  readonly tags: string[];
+  tags: string[];
 }
 export default UpdateAttractionContentDto;

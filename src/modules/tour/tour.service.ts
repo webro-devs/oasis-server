@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import slugify from 'slugify';
 import { TagService } from '../tag/tag.service';
 import { TourPriceService } from '../tour-price/tour-price.service';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @Injectable()
 export class TourService {
@@ -18,7 +19,7 @@ export class TourService {
     private readonly tourContService: TourContentService,
     private readonly configService: ConfigService,
     private readonly tagService: TagService,
-    private readonly tourPriceService: TourPriceService
+    private readonly tourPriceService: TourPriceService,
   ) {}
 
   async getOne(id: string) {
@@ -53,23 +54,23 @@ export class TourService {
     }
 
     if (value?.about?.length) {
-      await this.tourContService.change(value.about, tour.id);
+      await this.tourContService.change(value.about, tour,'tourAbout');
     }
 
     if (value?.book?.length) {
-      await this.tourContService.change(value.book, tour.id);
+      await this.tourContService.change(value.book, tour,'tourBook');
     }
 
     if (value?.itinerary?.length) {
-      await this.tourContService.change(value.itinerary, tour.id);
+      await this.tourContService.change(value.itinerary, tour,'tourItineary');
     }
 
     if (value?.specification?.length) {
-      await this.tourContService.change(value.specification, tour.id);
+      await this.tourContService.change(value.specification, tour,'tourSpecification');
     }
 
-    if(value?.price?.length){
-      await this.tourPriceService.change(value.price, tour.id)
+    if (value?.price?.length) {
+      await this.tourPriceService.change(value.price, tour.id);
     }
   }
 
@@ -81,36 +82,36 @@ export class TourService {
     }
 
     const url = await this.makeUrl('tour/', title);
-    const routes = await this.tagService.getMoreByIds(value.routes) || []
+    const routes = (await this.tagService.getMoreByIds(value.routes)) || [];
 
-    const id = await this.createTour(url, {
+    const tour = await this.createTour(url, {
       tourCategory: value.tourCategory,
       photoGallery: value?.photoGallery || [],
       routes,
-      destination: value?.destination
+      destination: value?.destination,
     });
 
     if (value?.about?.length) {
-      await this.tourContService.create(value.about, id);
+      await this.tourContService.create(value.about, tour,'tourAbout');
     }
 
     if (value?.book?.length) {
-      await this.tourContService.create(value.book, id);
+      await this.tourContService.create(value.book, tour,'tourBook');
     }
 
     if (value?.itinerary?.length) {
-      await this.tourContService.create(value.itinerary, id);
+      await this.tourContService.create(value.itinerary, tour,'tourItineary')
     }
 
     if (value?.specification?.length) {
-      await this.tourContService.create(value.specification, id);
+      await this.tourContService.create(value.specification, tour,'tourSpecification');
     }
 
-    if(value?.price?.length){
-      await this.tourPriceService.create(value.price, id)
+    if (value?.price?.length) {
+      await this.tourPriceService.create(value.price, tour.id);
     }
-    
-    return 'Created';
+
+    return tour;
   }
 
   async createTour(url: string, value) {
@@ -122,7 +123,7 @@ export class TourService {
       .returning('id')
       .execute();
 
-    return data.raw[0].id;
+    return await this.tourRepository.findOne({ where: { id: data.raw[0].id } });
   }
 
   async makeUrl(path: string, title: string) {
@@ -140,5 +141,13 @@ export class TourService {
     }
 
     return url;
+  }
+
+  async addTag(values: TagTagDto){
+    await this.tourContService.addTag(values)
+  }
+
+  async removeTag(values: TagTagDto){
+    await this.tourContService.removeTag(values)
   }
 }

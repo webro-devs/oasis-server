@@ -5,6 +5,7 @@ import { UpdateAttractionDto, CreateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AttractionContentService } from '../attraction-content/attraction-content.service';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @Injectable()
 export class AttractionService {
@@ -94,7 +95,7 @@ export class AttractionService {
     }
 
     if(value.contents.length){
-      await this.attrContService.change(value.contents, attraction.id);
+      await this.attrContService.change(value.contents, attraction);
     }
   }
 
@@ -104,7 +105,15 @@ export class AttractionService {
     attraction.photo = value?.photo || null
     await this.attractionRepository.save(attraction);
 
-    await this.attrContService.create(value.contents, attraction.id);
+    await this.attrContService.create(value.contents, attraction);
     return attraction;
+  }
+
+  async addTag(values: TagTagDto){
+    await this.attrContService.addTag(values)
+  }
+
+  async removeTag(values: TagTagDto){
+    await this.attrContService.removeTag(values)
   }
 }

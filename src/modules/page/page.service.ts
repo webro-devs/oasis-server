@@ -7,6 +7,7 @@ import { Page } from './page.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageContentService } from '../page-content/page-content.service';
 import { ConfigService } from '@nestjs/config';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @Injectable()
 export class PageService {
@@ -93,6 +94,16 @@ export class PageService {
     return await this.getOne(data.id, langCode);
   }
 
+  async getById(id:string){
+    const data = await this.pageRepository.findOne({
+      where:{
+        id
+      }
+    })
+
+    return data
+  }
+
   async deleteOne(id: string) {
     const response = await this.pageRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');
@@ -138,7 +149,7 @@ export class PageService {
     });
 
     if (value.contents.length) {
-      await this.pageContService.change(value.contents, page.id);
+      await this.pageContService.change(value.contents, page);
     }
   }
 
@@ -158,7 +169,8 @@ export class PageService {
       .returning('id')
       .execute();
 
-    await this.pageContService.create(value.contents, page.raw[0].id);
+    const newPage = await this.getById(page.raw[0].id)
+    await this.pageContService.create(value.contents, newPage);
     return page;
   }
 
@@ -176,5 +188,13 @@ export class PageService {
     }
 
     return url;
+  }
+
+  async addTag(values: TagTagDto){
+    await this.pageContService.addTag(values)
+  }
+
+  async removeTag(values: TagTagDto){
+    await this.pageContService.removeTag(values)
   }
 }

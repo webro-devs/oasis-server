@@ -20,6 +20,7 @@ import {
 import { CreateEventDto, UpdateEventDto } from './dto';
 import { Event } from './event.entity';
 import { EventService } from './event.service';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @ApiTags('Event')
 @Controller('event')
@@ -64,6 +65,26 @@ export class EventController {
   @HttpCode(HttpStatus.CREATED)
   async saveData(@Body() data: CreateEventDto): Promise<Event> {
     return await this.eventService.create(data);
+  }
+
+  @Post('/add-tag')
+  @ApiOperation({ summary: 'Method: adds new tag' })
+  @ApiCreatedResponse({
+    description: 'The tag was added successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async addTag(@Body() data: TagTagDto) {
+    return await this.eventService.addTag(data);
+  }
+
+  @Post('/remove-tag')
+  @ApiOperation({ summary: 'Method: adds new tag' })
+  @ApiCreatedResponse({
+    description: 'The tag was added successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async removeTag(@Body() data: TagTagDto) {
+    return await this.eventService.removeTag(data);
   }
 
   @Patch('/:id')

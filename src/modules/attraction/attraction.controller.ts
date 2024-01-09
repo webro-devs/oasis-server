@@ -20,11 +20,14 @@ import {
 import { CreateAttractionDto, UpdateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { AttractionService } from './attraction.service';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @ApiTags('Attraction')
 @Controller('attraction')
 export class AttractionController {
-  constructor(private readonly attractionService: AttractionService) {}
+  constructor(
+    private readonly attractionService: AttractionService,
+  ) {}
 
   @Get('/')
   @ApiOperation({ summary: 'Method: returns all attractions' })
@@ -54,6 +57,26 @@ export class AttractionController {
   @HttpCode(HttpStatus.CREATED)
   async saveData(@Body() data: CreateAttractionDto): Promise<Attraction> {
     return await this.attractionService.create(data);
+  }
+
+  @Post('/add-tag')
+  @ApiOperation({ summary: 'Method: adds new tag' })
+  @ApiCreatedResponse({
+    description: 'The tag was added successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async addTag(@Body() data: TagTagDto) {
+    return await this.attractionService.addTag(data);
+  }
+
+  @Post('/remove-tag')
+  @ApiOperation({ summary: 'Method: adds new tag' })
+  @ApiCreatedResponse({
+    description: 'The tag was added successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async removeTag(@Body() data: TagTagDto) {
+    return await this.attractionService.removeTag(data);
   }
 
   @Patch('/:id')

@@ -10,7 +10,6 @@ import {
   Get,
   Query,
 } from '@nestjs/common';
-import { UpdateResult } from 'typeorm';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -19,7 +18,6 @@ import {
 } from '@nestjs/swagger';
 
 import { CreateDestinationDto, UpdateDestinationDto } from './dto';
-import { Destination } from './destination.entity';
 import { DestinationService } from './destination.service';
 
 @ApiTags('Destination')

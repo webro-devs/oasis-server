@@ -21,6 +21,7 @@ import { CreatePageDto, PageDto, UpdatePageDto } from './dto';
 import { Page } from './page.entity';
 import { PageService } from './page.service';
 import { Public } from '../auth/decorators/public.decorator';
+import { TagTagDto } from 'src/infra/shared/dto';
 
 @ApiTags('Page')
 @Controller('page')
@@ -67,6 +68,26 @@ export class PageController {
   @HttpCode(HttpStatus.CREATED)
   async saveData(@Body() data: CreatePageDto){
     return await this.pageService.create(data,{isTopic:true},{path:'page/',short:true});
+  }
+
+  @Post('/add-tag')
+  @ApiOperation({ summary: 'Method: adds new tag' })
+  @ApiCreatedResponse({
+    description: 'The tag was added successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async addTag(@Body() data: TagTagDto) {
+    return await this.pageService.addTag(data);
+  }
+
+  @Post('/remove-tag')
+  @ApiOperation({ summary: 'Method: adds new tag' })
+  @ApiCreatedResponse({
+    description: 'The tag was added successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async removeTag(@Body() data: TagTagDto) {
+    return await this.pageService.removeTag(data);
   }
 
   @Post('/add-page-to-left')

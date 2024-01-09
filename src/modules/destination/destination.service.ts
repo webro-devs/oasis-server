@@ -101,7 +101,6 @@ export class DestinationService {
         }
       }
     })
-    //
     
     if(!data) return {}
 
