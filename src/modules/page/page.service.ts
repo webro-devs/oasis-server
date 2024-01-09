@@ -47,7 +47,12 @@ export class PageService {
   async getOne(id: string, langCode: string) {
     const data = await this.pageRepository
       .findOne({
-        where: { id },
+        where: { 
+          id,
+          contents:{
+            langCode
+          }
+         },
         relations: {
           pagesOnLeft:{
             contents:true

@@ -45,6 +45,33 @@ export class DestinationService {
     return data
   }
 
+  async getAllForSite(langCode:string) {
+    const data = await this.destinationRepository.find({
+      where:{
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations:{
+        page:{
+          contents:true
+        }
+      },
+      select:{
+        page:{
+          id:true,
+          url:true,
+          contents:{
+            shortTitle:true
+          }
+        }
+      }
+    });
+    return data
+  }
+
   async getOne(id:string,langCode:string) {
     const data = await this.destinationRepository
       .findOne({

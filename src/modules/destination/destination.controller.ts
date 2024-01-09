@@ -35,6 +35,16 @@ export class DestinationController {
     return this.destinationService.getAll(langCode);
   }
 
+  @Get('/for-site')
+  @ApiOperation({ summary: 'Method: returns all destinations' })
+  @ApiOkResponse({
+    description: 'The destinations was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getAllForSite(@Query('langCode') langCode:string){
+    return this.destinationService.getAllForSite(langCode);
+  }
+
   @Get('/:title')
   @ApiOperation({ summary: 'Method: returns single destination by title' })
   @ApiOkResponse({
