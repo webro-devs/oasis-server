@@ -33,6 +33,7 @@ export class AttractionService {
         id:true,
         photo:true,
         type:true,
+        url:true,
         contents:{
           region:true,
           title:true,
@@ -55,22 +56,6 @@ export class AttractionService {
       relations:{
         contents:{
           tags:true
-        }
-      },
-      select:{
-        id:true,
-        photo:true,
-        type:true,
-        contents:{
-          id:true,
-          title:true,
-          description:true,
-          langCode:true,
-          region:true,
-          tags:{
-            id:true,
-            title:true
-          }
         }
       }
     })
