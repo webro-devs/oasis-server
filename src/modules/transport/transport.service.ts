@@ -30,8 +30,12 @@ export class TransportService {
         },
         relations: {
           page: {
-            pagesOnLeft: true,
-            pagesOnRight: true,
+            pagesOnLeft: {
+              contents:true
+            },
+            pagesOnRight: {
+              contents:true
+            },
             contents: true,
           },
           roadTransports: true,
