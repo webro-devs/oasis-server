@@ -10,6 +10,7 @@ import slugify from 'slugify';
 import { TagService } from '../tag/tag.service';
 import { TourPriceService } from '../tour-price/tour-price.service';
 import { TagTagDto } from 'src/infra/shared/dto';
+import { TourItineraryService } from '../tour-itinerary/tour-itinerary.service';
 
 @Injectable()
 export class TourService {
@@ -20,6 +21,7 @@ export class TourService {
     private readonly configService: ConfigService,
     private readonly tagService: TagService,
     private readonly tourPriceService: TourPriceService,
+    private readonly tourItineraryService: TourItineraryService
   ) {}
 
   async getOne(id: string) {
@@ -61,10 +63,6 @@ export class TourService {
       await this.tourContService.change(value.book, tour,'tourBook');
     }
 
-    if (value?.itinerary?.length) {
-      await this.tourContService.change(value.itinerary, tour,'tourItineary');
-    }
-
     if (value?.specification?.length) {
       await this.tourContService.change(value.specification, tour,'tourSpecification');
     }
@@ -100,7 +98,7 @@ export class TourService {
     }
 
     if (value?.itinerary?.length) {
-      await this.tourContService.create(value.itinerary, tour,'tourItineary')
+      await this.tourItineraryService.create(value.itinerary, tour)
     }
 
     if (value?.specification?.length) {

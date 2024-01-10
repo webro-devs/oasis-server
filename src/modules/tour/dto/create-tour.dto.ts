@@ -2,6 +2,7 @@ import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateTourContentDto } from 'src/modules/tour-content/dto';
 import { CreateTourPriceDto } from 'src/modules/tour-price/dto';
+import { CreateTourItineraryDto } from 'src/modules/tour-itinerary/dto';
 
 class CreateTourDto {
   @ApiProperty({
@@ -64,7 +65,7 @@ class CreateTourDto {
   readonly price: CreateTourPriceDto[];
 
   @ApiProperty({
-    description: `contents`,
+    description: `about`,
     example: [
       {
         langCode: '',
@@ -80,23 +81,52 @@ class CreateTourDto {
   readonly about: CreateTourContentDto[];
 
   @ApiProperty({
-    description: `contents`,
+    description: `itinerary`,
     example: [
       {
-        langCode: '',
-        title: '',
-        description: '',
-        descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        days:[
+          {
+            langCode: 'uz',
+            day:'1-kun',
+            title: '',
+            description: '',
+            tags: ['uuid', 'uuid'],
+          },
+          {
+            langCode: 'ru',
+            day:'1-день',
+            title: '',
+            description: '',
+            tags: ['uuid', 'uuid'],
+          }
+        ]
+      },
+      {
+        days:[
+          {
+            langCode: 'uz',
+            day:'2-kun',
+            title: '',
+            description: '',
+            tags: ['uuid', 'uuid'],
+          },
+          {
+            langCode: 'ru',
+            day:'2-день',
+            title: '',
+            description: '',
+            tags: ['uuid', 'uuid'],
+          }
+        ]
       }
     ],
   })
   @IsOptional()
   @IsArray()
-  readonly itinerary: CreateTourContentDto[];
+  readonly itinerary: CreateTourItineraryDto[];
 
   @ApiProperty({
-    description: `contents`,
+    description: `specification`,
     example: [
       {
         langCode: '',
@@ -112,7 +142,7 @@ class CreateTourDto {
   readonly specification: CreateTourContentDto[];
 
   @ApiProperty({
-    description: `contents`,
+    description: `book`,
     example: [
       {
         langCode: '',

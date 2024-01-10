@@ -102,30 +102,6 @@ class UpdateTourDto {
   })
   @IsOptional()
   @IsArray()
-  readonly itinerary: UpdateTourContentDto[];
-
-  @ApiProperty({
-    description: `contents`,
-    example: [
-      {
-        langCode: '',
-        title: '',
-        description: '',
-        descriptionPage: '',
-        tags: ['uuid', 'uuid'],
-      },
-      {
-        id:'',
-        langCode: '',
-        title: '',
-        description: '',
-        descriptionPage: '',
-        tags: ['uuid', 'uuid'],
-      }
-    ],
-  })
-  @IsOptional()
-  @IsArray()
   readonly specification: UpdateTourContentDto[];
 
   @ApiProperty({

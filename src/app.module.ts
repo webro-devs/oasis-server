@@ -19,6 +19,7 @@ import { TransportModule } from './modules/transport/transport.module';
 import { RoadTransport } from './modules/road-transport/road-transport.entity';
 import { TourCategoryModule } from './modules/tour-category/tour-category.module';
 import { TourPriceModule } from './modules/tour-price/tour-price.module';
+import { TourItineraryModule } from './modules/tour-itinerary/tour-itinerary.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { TourPriceModule } from './modules/tour-price/tour-price.module';
     RoadTransport,
     TagModule,
     TourCategoryModule,
+    TourItineraryModule,
     TourModule,
     TourPriceModule,
     TransportModule,
