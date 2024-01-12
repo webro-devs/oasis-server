@@ -124,6 +124,7 @@ export class TourCategoryService {
 
     const tourCategory = new TourCategory();
     tourCategory.type = value.type;
+    tourCategory.photo = value.photo;
     await this.tourCategoryRepository.save(tourCategory);
 
     await this.pageService.create(

@@ -22,6 +22,14 @@ class CreateTourDto {
   destination: string;
 
   @ApiProperty({
+    description: `photo`,
+    example: 'url',
+  })
+  @IsOptional()
+  @IsString()
+  photo: string;
+
+  @ApiProperty({
     description: `photoGallery`,
     example: ['url','url'],
   })

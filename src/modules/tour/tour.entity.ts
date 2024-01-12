@@ -21,6 +21,9 @@ export class Tour {
   @Column({type:'varchar',nullable:true})
   url: string;
 
+  @Column({type:'varchar',nullable:true})
+  photo: string;
+
   @OneToOne(()=>TourContent, tourCon=>tourCon.tourAbout)
   about: TourContent
 

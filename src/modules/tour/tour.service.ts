@@ -87,6 +87,7 @@ export class TourService {
       photoGallery: value?.photoGallery || [],
       routes,
       destination: value?.destination,
+      photo: value?.photo || null
     });
 
     if (value?.about?.length) {
