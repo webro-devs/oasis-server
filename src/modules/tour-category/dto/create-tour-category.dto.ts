@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CreatePageContentDto } from 'src/modules/page-content/dto';
 
@@ -10,6 +10,14 @@ class CreateTourCategoryDto {
   @IsNotEmpty()
   @IsString()
   type: string;
+
+  @ApiProperty({
+    description: `photo`,
+    example: 'url',
+  })
+  @IsOptional()
+  @IsString()
+  photo: string;
 
   @ApiProperty({
     description: `contents`,

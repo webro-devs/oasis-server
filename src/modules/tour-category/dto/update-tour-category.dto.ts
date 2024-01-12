@@ -11,6 +11,14 @@ class UpdateTourCategoryDto {
   type:string
 
   @ApiProperty({
+    description: `photo`,
+    example: 'url',
+  })
+  @IsOptional()
+  @IsString()
+  photo: string;
+
+  @ApiProperty({
     description: `contents`,
     example: [
       {
