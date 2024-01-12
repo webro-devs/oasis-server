@@ -5,6 +5,8 @@ import { UpdateTourCategoryDto, CreateTourCategoryDto } from './dto';
 import { TourCategory } from './tour-category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageService } from '../page/page.service';
+import { ConfigService } from '@nestjs/config';
+import slugify from 'slugify';
 
 @Injectable()
 export class TourCategoryService {
@@ -12,6 +14,7 @@ export class TourCategoryService {
     @InjectRepository(TourCategory)
     private readonly tourCategoryRepository: Repository<TourCategory>,
     private readonly pageService: PageService,
+    private readonly configService: ConfigService,
   ) {}
 
   async getAll(langCode: string) {
@@ -31,6 +34,43 @@ export class TourCategoryService {
       select:{
         id:true,
         type:true,
+        photo:true,
+        page:{
+          id:true,
+          contents:{
+            shortTitle:true,
+            description:true,
+            langCode:true,
+            title:true
+          }
+        }
+      }
+    });
+   
+    return data;
+  }
+
+  async getAllForTourPage(langCode: string) {
+    const data = await this.tourCategoryRepository.find({
+      where:{
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations: {
+        page: {
+          contents:true,
+        },
+        tour:{
+          about:true
+        }
+      },
+      select:{
+        id:true,
+        type:true,
+        photo:true,
         page:{
           id:true,
           contents:{
@@ -65,6 +105,7 @@ export class TourCategoryService {
         select:{
           id:true,
           type:true,
+          photo:true,
           page:{
             id:true,
             contents:{
@@ -119,10 +160,12 @@ export class TourCategoryService {
     if (isExist) {
       return new HttpException(`${value.type} already exist`, 400);
     }
+    const url = await this.makeUrl('tour-category/', value.type);
 
     const tourCategory = new TourCategory();
-    tourCategory.type = value.type;
+    tourCategory.type = slugify(value.type);
     tourCategory.photo = value.photo;
+    tourCategory.url = url
     await this.tourCategoryRepository.save(tourCategory);
 
     await this.pageService.create(
@@ -131,5 +174,22 @@ export class TourCategoryService {
       { path: `tour-category/${value.type}`, short: false },
     );
     return tourCategory;
+  }
+
+  async makeUrl(path: string, title: string) {
+    const url =
+      this.configService.get('clientUrl') +
+      path +
+      slugify(title, { lower: true });
+
+    const isExist = await this.tourCategoryRepository.findOne({
+      where: { url },
+    });
+
+    if (isExist) {
+      return url + '_';
+    }
+
+    return url;
   }
 }

@@ -17,6 +17,9 @@ export class TourCategory {
   @Column({type:'varchar',nullable:true})
   photo:string
 
+  @Column({type:'varchar',nullable:true})
+  url:string
+
   @OneToOne(()=> Page, page=> page.tourCategory)
   page: Page
 
