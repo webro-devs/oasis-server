@@ -26,7 +26,7 @@ export class TourCategoryController {
   constructor(private readonly tourCategoryService: TourCategoryService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all tour category' })
+  @ApiOperation({ summary: 'Method: returns all tour category for home page' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -38,7 +38,7 @@ export class TourCategoryController {
   }
 
   @Get('/for-tours-page')
-  @ApiOperation({ summary: 'Method: returns all tour category' })
+  @ApiOperation({ summary: 'Method: returns all tour category for tour page' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -47,6 +47,18 @@ export class TourCategoryController {
     @Query('langCode') langCode: string,
   ) {
     return this.tourCategoryService.getAllForTourPage(langCode);
+  }
+
+  @Get('/for-admin-page')
+  @ApiOperation({ summary: 'Method: returns all tour category for admin' })
+  @ApiOkResponse({
+    description: 'The tour category was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getAllForAdminPage(
+    @Query('langCode') langCode: string,
+  ) {
+    return this.tourCategoryService.getAllForAdmin(langCode);
   }
 
   @Get('/:type')

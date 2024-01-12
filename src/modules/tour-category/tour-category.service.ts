@@ -49,6 +49,39 @@ export class TourCategoryService {
     return data;
   }
 
+  async getAllForAdmin(langCode: string) {
+    const data = await this.tourCategoryRepository.find({
+      where:{
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations: {
+        page: {
+          contents:true
+        },
+        tour:true
+      },
+      select:{
+        id:true,
+        type:true,
+        photo:true,
+        url:true,
+        page:{
+          id:true,
+          contents:{
+            shortTitle:true,
+            title:true
+          }
+        }
+      }
+    });
+   
+    return data;
+  }
+
   async getAllForTourPage(langCode: string) {
     const data = await this.tourCategoryRepository.find({
       where:{
@@ -100,6 +133,9 @@ export class TourCategoryService {
           page: {
             contents:true
           },
+          tour:{
+            about:true
+          }
         },
         select:{
           id:true,
