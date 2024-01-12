@@ -90,8 +90,6 @@ export class TourCategoryService {
       },
     })
 
-    if(!data) return {}
-
     return data;
   }
 
