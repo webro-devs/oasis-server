@@ -4,6 +4,7 @@ import { TourCategory } from '../tour-category/tour-category.entity';
 import { Destination } from '../destination/destination.entity';
 import { Tag } from '../tag/tag.entity';
 import { TourPrice } from '../tour-price/tour-price.entity';
+import { TourItinerary } from '../tour-itinerary/tour-itinerary.entity';
 
 @Entity('tour')
 export class Tour {
@@ -23,8 +24,8 @@ export class Tour {
   @OneToOne(()=>TourContent, tourCon=>tourCon.tourAbout)
   about: TourContent
 
-  @OneToOne(()=>TourContent, tourCon=>tourCon.tourItineary)
-  itinerary: TourContent
+  @OneToOne(()=>TourItinerary, tourCon=>tourCon.tour)
+  itinerary: TourItinerary
 
   @OneToOne(()=>TourContent, tourCon=>tourCon.tourSpecification)
   specification: TourContent
