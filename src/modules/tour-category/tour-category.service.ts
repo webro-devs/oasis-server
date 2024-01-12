@@ -35,12 +35,11 @@ export class TourCategoryService {
         id:true,
         type:true,
         photo:true,
+        url:true,
         page:{
           id:true,
           contents:{
             shortTitle:true,
-            description:true,
-            langCode:true,
             title:true
           }
         }
@@ -106,6 +105,7 @@ export class TourCategoryService {
           id:true,
           type:true,
           photo:true,
+          url:true,
           page:{
             id:true,
             contents:{
