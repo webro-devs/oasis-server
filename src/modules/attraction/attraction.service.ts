@@ -26,6 +26,9 @@ export class AttractionService {
           langCode
         }
       },
+      order:{
+        index:"ASC"
+      },
       relations:{
         contents:true
       },

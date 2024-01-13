@@ -25,6 +25,9 @@ export class DestinationService {
           }
         }
       },
+      order:{
+        index:"ASC"
+      },
       relations:{
         page:{
           pagesOnLeft:true,
@@ -53,6 +56,9 @@ export class DestinationService {
             langCode
           }
         }
+      },
+      order:{
+        index:"ASC"
       },
       relations:{
         page:{

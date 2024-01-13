@@ -26,6 +26,9 @@ export class PageService {
           langCode
         }
       },
+      order:{
+        index:"ASC"
+      },
       relations:{
         contents:true,
         pagesOnLeft:true,

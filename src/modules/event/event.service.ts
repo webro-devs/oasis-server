@@ -25,6 +25,9 @@ export class EventService {
           langCode
         }
       },
+      order:{
+        index:"ASC"
+      },
       relations:{
         contents:true
       },

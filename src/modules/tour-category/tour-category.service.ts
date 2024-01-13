@@ -26,6 +26,9 @@ export class TourCategoryService {
           }
         }
       },
+      order:{
+        index:"ASC"
+      },
       relations: {
         page: {
           contents:true
@@ -57,6 +60,9 @@ export class TourCategoryService {
             langCode
           }
         }
+      },
+      order:{
+        index:"ASC"
       },
       relations: {
         page: {
@@ -90,6 +96,9 @@ export class TourCategoryService {
             langCode
           }
         }
+      },
+      order:{
+        index:"ASC"
       },
       relations: {
         page: {
