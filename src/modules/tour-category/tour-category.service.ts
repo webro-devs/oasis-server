@@ -205,12 +205,11 @@ export class TourCategoryService {
     if (isExist) {
       return new HttpException(`${value.type} already exist`, 400);
     }
-    const url = await this.makeUrl('tour-category/', value.type);
 
     const tourCategory = new TourCategory();
     tourCategory.type = slugify(value.type);
     tourCategory.photo = value.photo;
-    tourCategory.url = url
+    tourCategory.url = await this.makeUrl('tour-category/', value.type);
     await this.tourCategoryRepository.save(tourCategory);
 
     await this.pageService.create(

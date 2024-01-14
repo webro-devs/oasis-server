@@ -37,10 +37,10 @@ export class AttractionService {
         photo:true,
         type:true,
         url:true,
+        title:true,
         contents:{
           region:true,
           title:true,
-          langCode:true
         }
       }
     });
@@ -109,13 +109,13 @@ export class AttractionService {
     if (!title) {
       throw new HttpException('short title in english should be exist', 400);
     }
-    const url = await this.makeUrl(value.type + '/', title);
 
     const attraction = new Attraction();
 
     attraction.type = value.type
     attraction.photo = value?.photo || null
-    attraction.url = url
+    attraction.url = await this.makeUrl(value.type + '/', title)
+    attraction.title = await this.makeTitle(title)
     await this.attractionRepository.save(attraction);
 
     await this.attrContService.create(value.contents, attraction);
@@ -138,6 +138,21 @@ export class AttractionService {
 
     return url;
   }
+
+  async makeTitle(shortTitle: string) {
+    const title = slugify(shortTitle, { lower: true });
+
+    const isExist = await this.attractionRepository.findOne({
+      where: { title },
+    });
+
+    if (isExist) {
+      return title + '_';
+    }
+
+    return title;
+  }
+
 
   async addTag(values: TagTagDto){
     await this.attrContService.addTag(values)

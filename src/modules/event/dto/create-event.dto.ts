@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import CreateEventContentDto from 'src/modules/event-content/dto/create-event-content.dto';
 class CreateEventDto {
@@ -24,6 +24,14 @@ class CreateEventDto {
   @IsNotEmpty()
   @IsArray()
   readonly contents: CreateEventContentDto[];
+
+  @ApiProperty({
+    description: `photo`,
+    example: 'url',
+  })
+  @IsOptional()
+  @IsString()
+  readonly photo: string;
 }
 
 export default CreateEventDto;

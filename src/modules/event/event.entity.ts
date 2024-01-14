@@ -13,6 +13,12 @@ export class Event {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: string;
 
+  @Column({type:"varchar",nullable:true})
+  photo: string;
+
+  @Column({type:"varchar",nullable:true})
+  title: string;
+
   @Column({type:'varchar', nullable:true})
   url:string
 

@@ -1,4 +1,4 @@
-import { IsOptional, IsArray } from 'class-validator';
+import { IsOptional, IsArray, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import UpdateEventContentDto from 'src/modules/event-content/dto/update-event-content.dto';
 class UpdateEventDto {
@@ -25,5 +25,13 @@ class UpdateEventDto {
   @IsOptional()
   @IsArray()
   readonly contents: UpdateEventContentDto[];
+
+  @ApiProperty({
+    description: `photo`,
+    example: 'url',
+  })
+  @IsOptional()
+  @IsString()
+  readonly photo: string;
 }
 export default UpdateEventDto;

@@ -35,8 +35,12 @@ export class EventService {
         id:true,
         url:true,
         date: true,
+        photo:true,
+        title:true,
         contents:{
           title:true,
+          description:true,
+          shortTitle:true
         }
       }
     });
@@ -61,8 +65,8 @@ export class EventService {
     return data;
   }
 
-  async getByUrl(path: string, langCode: string) {
-    const url = this.configService.get('clientUrl') + `event/${path}`;
+  async getByUrl(title: string, langCode: string) {
+    const url = this.configService.get('clientUrl') + `event/${title}`;
     const data = await this.eventRepository.findOne({
       where:{
         url
@@ -101,6 +105,8 @@ export class EventService {
 
     const event = new Event();
     event.url = url;
+    event.photo = value.photo
+    event.title = await this.makeTitle(shortTitle)
     await this.eventRepository.save(event);
 
     await this.eventContService.create(value.contents, event);
@@ -122,6 +128,20 @@ export class EventService {
     }
 
     return url;
+  }
+
+  async makeTitle(shortTitle: string) {
+    const title = slugify(shortTitle, { lower: true });
+
+    const isExist = await this.eventRepository.findOne({
+      where: { title },
+    });
+
+    if (isExist) {
+      return title + '_';
+    }
+
+    return title;
   }
 
   async addTag(values: TagTagDto){
