@@ -20,6 +20,7 @@ import { RoadTransport } from './modules/road-transport/road-transport.entity';
 import { TourCategoryModule } from './modules/tour-category/tour-category.module';
 import { TourPriceModule } from './modules/tour-price/tour-price.module';
 import { TourItineraryModule } from './modules/tour-itinerary/tour-itinerary.module';
+import { LanguageModule } from './modules/language/language.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { TourItineraryModule } from './modules/tour-itinerary/tour-itinerary.mod
     EventContentModule,
     EventModule,
     FeedbackModule,
+    LanguageModule,
     PageModule,
     PageContentModule,
     RoadTransport,

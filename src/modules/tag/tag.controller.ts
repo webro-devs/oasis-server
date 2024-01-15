@@ -66,10 +66,10 @@ export class TagController {
   })
   @HttpCode(HttpStatus.OK)
   async changeData(
-    @Body() positionData: UpdateTagDto,
+    @Body() data: UpdateTagDto,
     @Param('id') id: string,
   ): Promise<UpdateResult> {
-    return await this.tagService.change(positionData, id);
+    return await this.tagService.change(data, id);
   }
 
   @Delete('/:id')
