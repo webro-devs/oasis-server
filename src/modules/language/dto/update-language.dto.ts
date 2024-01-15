@@ -10,6 +10,14 @@ class UpdateLanguageDto {
   readonly key: string;
 
   @ApiProperty({
+    description: `title`,
+    example: 'English',
+  })
+  @IsOptional()
+  @IsString()
+  readonly title: string;
+
+  @ApiProperty({
     description: `photo`,
     example: 'url',
   })

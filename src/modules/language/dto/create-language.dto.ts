@@ -10,6 +10,14 @@ class CreateLanguageDto {
   readonly key: string;
 
   @ApiProperty({
+    description: `title`,
+    example: 'Uzbek',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly title: string;
+
+  @ApiProperty({
     description: `photo`,
     example: 'url',
   })

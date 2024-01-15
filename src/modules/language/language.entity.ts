@@ -13,6 +13,9 @@ export class Language extends BaseEntity {
   @Column({type: 'varchar'})
   key: string;
 
+  @Column({type: 'varchar', nullable:true})
+  title: string;
+
   @Column({type: 'varchar'})
   photo: string;
 }
