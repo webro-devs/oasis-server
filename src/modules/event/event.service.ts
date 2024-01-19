@@ -36,7 +36,7 @@ export class EventService {
         url:true,
         date: true,
         photo:true,
-        title:true,
+        slug:true,
         contents:{
           title:true,
           description:true,

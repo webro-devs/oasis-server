@@ -37,7 +37,7 @@ export class DestinationService {
         },
       },
       select: {
-        title:true,
+        slug:true,
         index:true,
         page: {
           id: true,
@@ -83,7 +83,7 @@ export class DestinationService {
       res.push({
         id:d.id,
         shortTitle:d.page.contents[0].shortTitle,
-        title: d.title
+        title: d.slug
       })
     })
     return res;
@@ -116,23 +116,30 @@ export class DestinationService {
         throw new NotFoundException('data not found');
       });
 
-    data.page.pagesOnLeft.forEach((pr) => {
-      pr.contents = pr.contents.filter((c) => c.langCode == langCode);
-      pr.contents.forEach((c) => {
-        delete c.descriptionPage;
-      });
-    });
+      const pagesOnLeft = []
+      const pagesOnRight = []
 
-    data.page.pagesOnRight.forEach((pr) => {
-      pr.contents = pr.contents.filter((c) => c.langCode == langCode);
-      pr.contents.forEach((c) => {
-        delete c.description;
-        delete c.title;
-        delete c.descriptionPage;
-      });
-    });
+      data.page.pagesOnLeft.forEach(pr=>{
+        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
+        pagesOnLeft.push({
+          slug:pr.slug,
+          title:pr.contents[0]?.title,
+          shortTitle: pr.contents[0]?.shortTitle,
+          description: pr.contents[0]?.description
+        })
+      }) 
+  
+      data.page.pagesOnRight.forEach(pr=>{
+        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
+        pagesOnRight.push({
+          slug:pr.slug,
+          shortTitle: pr.contents[0]?.shortTitle,
+        })
+      })
+      delete data.page.pagesOnLeft
+      delete data.page.pagesOnRight
 
-    return data;
+      return {...data,pagesOnLeft,pagesOnRight};
   }
 
   async getByTitle(slug: string, langCode: string) {

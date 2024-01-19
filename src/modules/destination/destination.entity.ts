@@ -13,9 +13,6 @@ export class Destination {
   index:number
 
   @Column({type:'varchar', nullable:true})
-  title: string;
-
-  @Column({type:'varchar', nullable:true})
   slug: string;
 
   @OneToOne(()=> Page, page=> page.destination)

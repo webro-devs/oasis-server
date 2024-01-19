@@ -16,9 +16,6 @@ export class Event {
   @Column({type:"varchar",nullable:true})
   photo: string;
 
-  @Column({type:"varchar",nullable:true})
-  title: string;
-
   @Column({type:'varchar', nullable:true})
   slug: string;
 

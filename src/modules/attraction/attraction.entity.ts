@@ -18,9 +18,6 @@ export class Attraction {
   url: string;
 
   @Column({type:'varchar', nullable:true})
-  title: string;
-
-  @Column({type:'varchar', nullable:true})
   slug: string;
 
   @Column({type:"varchar",nullable:true})
