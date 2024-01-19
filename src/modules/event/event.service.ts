@@ -48,10 +48,10 @@ export class EventService {
     return data
   }
 
-  async getOne(id: string, langCode: string) {
+  async getOne(slug: string, langCode: string) {
     const data = await this.eventRepository.findOne({
       where:{
-        id,
+        slug,
         contents:{
           langCode
         }
@@ -75,7 +75,7 @@ export class EventService {
     
     if(!data) return {}
 
-    return this.getOne(data.id, langCode)
+    return this.getOne(data.slug, langCode)
   }
 
   async deleteOne(id: string) {
@@ -96,17 +96,17 @@ export class EventService {
   }
 
   async create(value: CreateEventDto) {
-    const shortTitle = value.contents.find((c) => c.langCode == 'en')?.shortTitle;
+    const title = value.contents.find((c) => c.langCode == 'en')?.title;
 
-    if (!shortTitle) {
+    if (!title) {
       throw new HttpException('short title in english should be exist', 400);
     }
-    const url = await this.makeUrl('event/', shortTitle);
+    const url = await this.makeUrl('event/', title);
 
     const event = new Event();
     event.url = url;
     event.photo = value.photo
-    event.title = await this.makeTitle(shortTitle)
+    event.slug = await this.makeSlug(title)
     await this.eventRepository.save(event);
 
     await this.eventContService.create(value.contents, event);
@@ -130,18 +130,18 @@ export class EventService {
     return url;
   }
 
-  async makeTitle(shortTitle: string) {
-    const title = slugify(shortTitle, { lower: true });
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
 
     const isExist = await this.eventRepository.findOne({
-      where: { title },
+      where: { slug },
     });
 
     if (isExist) {
-      return title + '_';
+      return slug + '_';
     }
 
-    return title;
+    return slug;
   }
 
   async addTag(values: TagTagDto){

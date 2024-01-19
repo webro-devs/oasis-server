@@ -89,7 +89,7 @@ export class DestinationService {
     return res;
   }
 
-  async getOne(id: string, langCode: string) {
+  async getOne(slug: string, langCode: string) {
     const data = await this.destinationRepository
       .findOne({
         relations: {
@@ -104,7 +104,7 @@ export class DestinationService {
           },
         },
         where: {
-          id,
+          slug,
           page: {
             contents: {
               langCode,
@@ -135,10 +135,10 @@ export class DestinationService {
     return data;
   }
 
-  async getByTitle(title: string, langCode: string) {
+  async getByTitle(slug: string, langCode: string) {
     const data = await this.destinationRepository.findOne({
       where: {
-        title,
+        slug,
       },
     });
 
@@ -166,14 +166,14 @@ export class DestinationService {
   }
 
   async create(value: CreateDestinationDto) {
-    const shortTitle = value.contents.find((c) => c.langCode == 'en')
-      ?.shortTitle;
-    if (!shortTitle) {
-      throw new HttpException('short title in english should be exist', 400);
+    const title = value.contents.find((c) => c.langCode == 'en')
+      ?.title;
+    if (!title) {
+      throw new HttpException('title in english should be exist', 400);
     }
 
     const destination = new Destination();
-    destination.title = await this.makeTitle(shortTitle)
+    destination.slug = await this.makeSlug(title)
     await this.destinationRepository.save(destination);
 
     await this.pageService.create(
@@ -184,17 +184,17 @@ export class DestinationService {
     return destination;
   }
 
-  async makeTitle(shortTitle: string) {
-    const title = slugify(shortTitle, { lower: true });
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
 
     const isExist = await this.destinationRepository.findOne({
-      where: { title },
+      where: { slug },
     });
 
     if (isExist) {
-      return title + '_';
+      return await this.makeSlug(slug + '_')
     }
 
-    return title;
+    return slug;
   }
 }

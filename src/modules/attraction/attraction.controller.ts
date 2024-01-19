@@ -39,24 +39,24 @@ export class AttractionController {
     return await this.attractionService.getAll(langCode,type);
   }
 
-  @Get('/:id')
-  @ApiOperation({ summary: 'Method: returns single attraction by id' })
+  @Get('/:slug')
+  @ApiOperation({ summary: 'Method: returns single attraction by slug' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string,@Query('langCode') langCode:string){
-    return this.attractionService.getOne(id,langCode);
+  async getMe(@Param('slug') slug: string,@Query('langCode') langCode:string){
+    return this.attractionService.getOne(slug,langCode);
   }
 
-  @Get('/:type/:title')
+  @Get('/:type/:slug')
   @ApiOperation({ summary: 'Method: returns single attraction by id' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByUrl(@Param('type') type: string,@Param('title') title: string,@Query('langCode') langCode:string){
-    return this.attractionService.getByUrl(type,title,langCode);
+  async getByUrl(@Param('type') type: string,@Param('slug') slug: string,@Query('langCode') langCode:string){
+    return this.attractionService.getByUrl(type,slug,langCode);
   }
 
   @Post('/')

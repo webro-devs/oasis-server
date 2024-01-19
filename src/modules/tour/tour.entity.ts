@@ -15,6 +15,9 @@ export class Tour {
   @Column({type:"int",nullable:true })
   index:number
 
+  @Column({type:'varchar', nullable:true})
+  slug: string;
+
   @Column({type:'text',array:true,nullable:true})
   photoGallery: string[];
 

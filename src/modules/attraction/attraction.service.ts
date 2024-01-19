@@ -37,7 +37,7 @@ export class AttractionService {
         photo:true,
         type:true,
         url:true,
-        title:true,
+        slug:true,
         contents:{
           region:true,
           title:true,
@@ -48,10 +48,10 @@ export class AttractionService {
     return data
   }
 
-  async getOne(id: string,langCode:string) {
+  async getOne(slug: string,langCode:string) {
     const data = await this.attractionRepository.findOne({
       where:{
-        id,
+        slug,
         contents:{
           langCode
         }
@@ -68,8 +68,8 @@ export class AttractionService {
     return data;
   }
 
-  async getByUrl(type: string,title:string, langCode: string) {
-    const url = this.configService.get('clientUrl') + `${type}/${title}`;
+  async getByUrl(type: string,slug:string, langCode: string) {
+    const url = this.configService.get('clientUrl') + `${type}/${slug}`;
     const data = await this.attractionRepository.findOne({
       where:{
         url
@@ -115,18 +115,18 @@ export class AttractionService {
     attraction.type = value.type
     attraction.photo = value?.photo || null
     attraction.url = await this.makeUrl(value.type + '/', title)
-    attraction.title = await this.makeTitle(title)
+    attraction.slug = await this.makeSlug(title)
     await this.attractionRepository.save(attraction);
 
     await this.attrContService.create(value.contents, attraction);
     return attraction;
   }
 
-  async makeUrl(path: string, shortTitle: string) {
+  async makeUrl(path: string, title: string) {
     const url =
       this.configService.get('clientUrl') +
       path +
-      slugify(shortTitle, { lower: true });
+      slugify(title, { lower: true });
 
     const isExist = await this.attractionRepository.findOne({
       where: { url },
@@ -139,18 +139,18 @@ export class AttractionService {
     return url;
   }
 
-  async makeTitle(shortTitle: string) {
-    const title = slugify(shortTitle, { lower: true });
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
 
     const isExist = await this.attractionRepository.findOne({
-      where: { title },
+      where: { slug },
     });
 
     if (isExist) {
-      return title + '_';
+      return await this.makeSlug(slug + '_')
     }
 
-    return title;
+    return slug;
   }
 
 

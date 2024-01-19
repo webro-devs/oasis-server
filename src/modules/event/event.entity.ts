@@ -20,6 +20,9 @@ export class Event {
   title: string;
 
   @Column({type:'varchar', nullable:true})
+  slug: string;
+
+  @Column({type:'varchar', nullable:true})
   url:string
 
   @OneToMany(()=>EventContent, eventContent=>eventContent.event)

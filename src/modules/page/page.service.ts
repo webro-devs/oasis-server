@@ -47,11 +47,11 @@ export class PageService {
   }
 
 
-  async getOne(id: string, langCode: string) {
+  async getOne(slug: string, langCode: string) {
     const data = await this.pageRepository
       .findOne({
         where: { 
-          id,
+          slug,
           contents:{
             langCode
           }
@@ -70,23 +70,28 @@ export class PageService {
         throw new NotFoundException('data not found');
       });
 
+      const pagesOnLeft = []
+      const pagesOnRight = []
+
       data.pagesOnLeft.forEach(pr=>{
         pr.contents = pr.contents.filter(c=>c.langCode == langCode)
-        pr.contents.forEach(c=>{
-          delete c.descriptionPage
+        pagesOnLeft.push({
+          slug:pr.slug,
+          title:pr.contents[0]?.title,
+          shortTitle: pr.contents[0]?.shortTitle,
+          description: pr.contents[0]?.description
         })
       }) 
   
       data.pagesOnRight.forEach(pr=>{
         pr.contents = pr.contents.filter(c=>c.langCode == langCode)
-        pr.contents.forEach(c=>{
-          delete c.description
-          delete c.title
-          delete c.descriptionPage
+        pagesOnRight.push({
+          slug:pr.slug,
+          shortTitle: pr.contents[0]?.shortTitle,
         })
       })
 
-    return data;
+    return {...data,pagesOnLeft,pagesOnRight};
   }
 
   async getByUrl(path: string, langCode: string) {
@@ -99,7 +104,7 @@ export class PageService {
     });
     if (!data) return {};
 
-    return await this.getOne(data.id, langCode);
+    return await this.getOne(data.slug, langCode);
   }
 
   async getById(id:string){
@@ -162,18 +167,19 @@ export class PageService {
   }
 
   async create(value: CreatePageDto, data: any, path:{path: string,short:boolean}) {
-    const shortTitle =path.short ? value.contents.find((c) => c.langCode == 'en')
-      ?.shortTitle : '';
-    if (!shortTitle && shortTitle !== '') {
-      throw new HttpException('short title in english should be exist', 400);
+    const title =path.short ? value.contents.find((c) => c.langCode == 'en')
+      ?.title : '';
+    if (!title && title !== '') {
+      throw new HttpException('title in english should be exist', 400);
     }
-    const url = await this.makeUrl(path.path, shortTitle);
+    const url = await this.makeUrl(path.path, title);
+    const slug = await this.makeSlug( title);
 
     const page = await this.pageRepository
       .createQueryBuilder()
       .insert()
       .into(Page)
-      .values({ ...data, url } as unknown as Page)
+      .values({ ...data, url, slug } as unknown as Page)
       .returning('id')
       .execute();
 
@@ -196,6 +202,20 @@ export class PageService {
     }
 
     return url;
+  }
+
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
+
+    const isExist = await this.pageRepository.findOne({
+      where: { slug },
+    });
+
+    if (isExist) {
+      return await this.makeSlug(slug + '_')
+    }
+
+    return slug;
   }
 
   async addTag(values: TagTagDto){

@@ -20,6 +20,9 @@ export class Attraction {
   @Column({type:'varchar', nullable:true})
   title: string;
 
+  @Column({type:'varchar', nullable:true})
+  slug: string;
+
   @Column({type:"varchar",nullable:true})
   photo: string;
 

@@ -12,6 +12,9 @@ export class Page {
   @Column({type:'varchar',nullable:true})
   url:string
 
+  @Column({type:'varchar', nullable:true, unique:true})
+  slug: string;
+
   @Column({type:'boolean', default:true})
   isTopic: boolean
 
