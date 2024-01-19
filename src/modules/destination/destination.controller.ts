@@ -52,17 +52,7 @@ export class DestinationController {
   })
   @HttpCode(HttpStatus.OK)
   async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.destinationService.getByTitle(slug,langCode);
-  }
-
-  @Get('/single/:id')
-  @ApiOperation({ summary: 'Method: returns single destination by id' })
-  @ApiOkResponse({
-    description: 'The destination was returned successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async getOne(@Query('langCode') langCode:string,@Param('id') id:string){
-    return this.destinationService.getOne(id,langCode);
+    return this.destinationService.getOne(slug,langCode);
   }
 
   @Post('/')

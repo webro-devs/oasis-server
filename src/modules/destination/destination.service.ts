@@ -142,18 +142,6 @@ export class DestinationService {
       return {...data,pagesOnLeft,pagesOnRight};
   }
 
-  async getByTitle(slug: string, langCode: string) {
-    const data = await this.destinationRepository.findOne({
-      where: {
-        slug,
-      },
-    });
-
-    if (!data) return {};
-
-    return await this.getOne(data.id, langCode);
-  }
-
   async deleteOne(id: string) {
     const response = await this.destinationRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');
