@@ -25,11 +25,15 @@ export class Page {
   @Column({type:"int",nullable:true })
   index:number
 
-  @ManyToMany(() => Page, (page) => page.pagesOnLeft)
+  @ManyToMany(() => Page, (page) => page.pagesOnLeft,{
+    onDelete:"CASCADE",
+  })
   @JoinTable()
   pagesOnLeft: Page[];
 
-  @ManyToMany(() => Page, (page) => page.pagesOnRight)
+  @ManyToMany(() => Page, (page) => page.pagesOnRight,{
+    onDelete:"CASCADE",
+  })
   @JoinTable()
   pagesOnRight: Page[];
 

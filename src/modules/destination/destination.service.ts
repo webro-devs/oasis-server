@@ -81,6 +81,7 @@ export class DestinationService {
       select: {
         page: {
           id: true,
+          slug:true,
           contents: {
             shortTitle: true,
           },
