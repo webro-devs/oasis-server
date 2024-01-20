@@ -55,6 +55,16 @@ export class DestinationController {
     return this.destinationService.getOne(slug,langCode);
   }
 
+  @Get('/:id/:menu')
+  @ApiOperation({ summary: 'Method: returns destination menu' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getMenu(@Query('langCode') langCode:string,@Param('menu') menu:string,@Param('id') id:string){
+    return this.destinationService.getMenu(id,langCode,menu);
+  }
+
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new destination' })
   @ApiCreatedResponse({

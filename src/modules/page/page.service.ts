@@ -1,5 +1,5 @@
 import { NotFoundException, Injectable, HttpException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import slugify from 'slugify';
 
 import { UpdatePageDto, CreatePageDto, PageDto } from './dto';
@@ -47,6 +47,36 @@ export class PageService {
     });
   }
 
+  async getMoreByIds(ids:string[],langCode:string){
+   const data = await this.pageRepository.find({
+    where:{
+      id:In(ids),
+      contents:{langCode}
+    },
+    relations:{
+     pagesOnLeft:true,
+     pagesOnRight:true,
+     contents:true
+    },
+    select:{
+      slug:true,
+      id:true,
+      url:true,
+      views:true,
+      pagesOnLeft:{
+        slug:true,
+      },
+      pagesOnRight:{
+        slug:true,
+      },
+      contents:{
+        shortTitle:true
+      }
+    }
+   })
+
+   return data
+  }
 
   async getOne(slug: string, langCode: string) {
     const data = await this.pageRepository

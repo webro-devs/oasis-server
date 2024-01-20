@@ -99,6 +99,68 @@ export class DestinationService {
     return res;
   }
 
+  async getMenu(id:string,langCode:string, menu:string){
+    if(menu == 'left'){
+      return await this.getLeftMenu(id, langCode)
+    }else if(menu == 'right'){
+      return await this.getRightMenu(id, langCode)
+    }
+  }
+  async getLeftMenu(id:string, langCode:string){
+    const data = await this.destinationRepository.findOne({
+      where:{id},
+      relations:{
+        page:{
+          pagesOnLeft:true
+        }
+      },
+      select:{
+        id:true,
+        page:{
+          id:true,
+          pagesOnLeft:{
+            id:true
+          }
+        }
+      }
+    })
+
+    if(!data) return {}
+
+    const ids = data?.page?.pagesOnLeft?.map(p=> p.id)
+
+    if(!ids?.length) return {}
+
+    return await this.pageService.getMoreByIds(ids,langCode)
+  }
+  async getRightMenu(id:string, langCode:string){
+    const data = await this.destinationRepository.findOne({
+      where:{id},
+      relations:{
+        page:{
+          pagesOnRight:true
+        }
+      },
+      select:{
+        id:true,
+        page:{
+          id:true,
+          pagesOnRight:{
+            id:true
+          }
+        }
+      }
+    })
+
+    if(!data) return {}
+
+    const ids = data?.page?.pagesOnRight?.map(p=> p.id)
+
+    if(!ids?.length) return {}
+
+    return await this.pageService.getMoreByIds(ids,langCode)
+  }
+
   async getOne(slug: string, langCode: string) {
     const data = await this.destinationRepository
       .findOne({
