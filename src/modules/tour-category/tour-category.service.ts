@@ -142,7 +142,9 @@ export class TourCategoryService {
         },
         relations: {
           page: {
-            contents:true
+            contents:{
+              tags:true
+            }
           },
           tour:{
             about:true

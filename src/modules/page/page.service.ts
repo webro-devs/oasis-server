@@ -64,7 +64,9 @@ export class PageService {
           pagesOnRight:{
             contents:true
           },
-          contents:true
+          contents:{
+            tags:true
+          }
         }
       })
       .catch(() => {

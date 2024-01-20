@@ -110,7 +110,9 @@ export class DestinationService {
             pagesOnRight: {
               contents: true,
             },
-            contents: true,
+            contents: {
+              tags:true
+            },
           },
         },
         where: {

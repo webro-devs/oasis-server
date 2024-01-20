@@ -36,7 +36,9 @@ export class TransportService {
             pagesOnRight: {
               contents:true
             },
-            contents: true,
+            contents: {
+              tags:true
+            },
           },
           roadTransports: true,
         }
