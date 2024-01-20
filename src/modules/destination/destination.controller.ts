@@ -45,6 +45,16 @@ export class DestinationController {
     return this.destinationService.getAllForSite(langCode);
   }
 
+  @Get('/single-for-update/:id')
+  @ApiOperation({ summary: 'Method: returns single destination by id for update' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByIdForUpdate(@Param('id') id:string){
+    return this.destinationService.getOneForUpdate(id);
+  }
+
   @Get('/:slug')
   @ApiOperation({ summary: 'Method: returns single destination by slug' })
   @ApiOkResponse({

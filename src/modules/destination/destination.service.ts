@@ -106,6 +106,7 @@ export class DestinationService {
       return await this.getRightMenu(id, langCode)
     }
   }
+
   async getLeftMenu(id:string, langCode:string){
     const data = await this.destinationRepository.findOne({
       where:{id},
@@ -133,6 +134,7 @@ export class DestinationService {
 
     return await this.pageService.getMoreByIds(ids,langCode)
   }
+
   async getRightMenu(id:string, langCode:string){
     const data = await this.destinationRepository.findOne({
       where:{id},
@@ -214,6 +216,19 @@ export class DestinationService {
       delete data.page.pagesOnRight
 
       return {...data,pagesOnLeft,pagesOnRight};
+  }
+
+  async getOneForUpdate(id:string){
+    const data = await this.destinationRepository.findOne({
+      where:{id},
+      relations:{
+        page:{
+          contents:true
+        }
+      }
+    })
+
+    return data
   }
 
   async deleteOne(id: string) {
