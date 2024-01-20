@@ -224,7 +224,9 @@ export class DestinationService {
       where:{id},
       relations:{
         page:{
-          contents:true
+          contents:{
+            tags:true
+          }
         }
       }
     })
