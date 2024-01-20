@@ -47,6 +47,14 @@ export class DestinationService {
           contents: {
             shortTitle: true,
           },
+          pagesOnLeft:{
+            slug:true,
+            index:true,
+          },
+          pagesOnRight:{
+            slug:true,
+            index:true
+          }
         },
       },
     });
