@@ -38,6 +38,7 @@ export class AttractionService {
         type:true,
         url:true,
         slug:true,
+        views:true,
         contents:{
           region:true,
           title:true,

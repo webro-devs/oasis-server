@@ -38,6 +38,7 @@ export class PageService {
         id:true,
         url:true,
         index:true,
+        views:true,
         contents:{
           shortTitle:true,
           title:true

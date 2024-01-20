@@ -40,6 +40,7 @@ export class DestinationService {
         slug:true,
         index:true,
         id:true,
+        views:true,
         page: {
           id: true,
           url: true,

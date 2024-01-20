@@ -39,6 +39,7 @@ export class TourCategoryService {
         type:true,
         photo:true,
         url:true,
+        views:true,
         page:{
           id:true,
           contents:{
@@ -75,6 +76,7 @@ export class TourCategoryService {
         type:true,
         photo:true,
         url:true,
+        views:true,
         page:{
           id:true,
           contents:{
@@ -151,6 +153,7 @@ export class TourCategoryService {
           type:true,
           photo:true,
           url:true,
+          views:true,
           page:{
             id:true,
             contents:{
