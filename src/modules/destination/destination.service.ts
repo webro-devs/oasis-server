@@ -39,6 +39,7 @@ export class DestinationService {
       select: {
         slug:true,
         index:true,
+        id:true,
         page: {
           id: true,
           url: true,
