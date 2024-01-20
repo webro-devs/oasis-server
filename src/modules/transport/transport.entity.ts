@@ -11,6 +11,9 @@ export class Transport {
   @Column({type:'varchar'})
   type:TransportType
 
+  @Column({type:'int', default:0})
+  views: number;
+
   @OneToOne(()=> Page, page=> page.transport)
   page: Page
 

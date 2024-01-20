@@ -19,6 +19,9 @@ export class Event {
   @Column({type:'varchar', nullable:true})
   slug: string;
 
+  @Column({type:'int', default:0})
+  views: number;
+
   @Column({type:'varchar', nullable:true})
   url:string
 

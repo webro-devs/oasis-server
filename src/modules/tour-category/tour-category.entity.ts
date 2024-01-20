@@ -20,6 +20,9 @@ export class TourCategory {
   @Column({type:'varchar',nullable:true})
   url:string
 
+  @Column({type:'int', default:0})
+  views: number;
+
   @OneToOne(()=> Page, page=> page.tourCategory)
   page: Page
 

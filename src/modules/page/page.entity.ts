@@ -18,6 +18,9 @@ export class Page {
   @Column({type:'boolean', default:true})
   isTopic: boolean
 
+  @Column({type:'int', default:0})
+  views: number;
+
   @Generated('increment')
   @Column({type:"int",nullable:true })
   index:number

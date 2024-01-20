@@ -14,6 +14,9 @@ export class Attraction {
   @Column('varchar')
   type: AttractionType;
 
+  @Column({type:'int', default:0})
+  views: number;
+
   @Column({type:'varchar', nullable:true})
   url: string;
 
