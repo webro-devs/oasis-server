@@ -46,6 +46,78 @@ export class PageService {
     });
   }
 
+  async getMenu(id:string,langCode:string, menu:string){
+    if(menu == 'left'){
+      return await this.getLeftMenu(id, langCode)
+    }else if(menu == 'right'){
+      return await this.getRightMenu(id, langCode)
+    }
+  }
+
+  async getLeftMenu(id:string, langCode:string){
+    const data = await this.pageRepository.findOne({
+      where:{id},
+      relations:{
+          pagesOnLeft:true
+      },
+      select:{
+        id:true,
+        pagesOnLeft:{
+          id:true
+        }
+      }
+    })
+
+    if(!data) return {}
+
+    const ids = data?.pagesOnLeft?.map(p=> p.id)
+
+    if(!ids?.length) return {}
+
+    return await this.getMoreByIds(ids,langCode)
+  }
+
+  async getRightMenu(id:string, langCode:string){
+    const data = await this.pageRepository.findOne({
+      where:{id},
+      relations:{
+          pagesOnRight:true
+      },
+      select:{
+        id:true,
+        pagesOnRight:{
+          id:true
+        }
+      }
+    })
+
+    if(!data) return {}
+
+    const ids = data?.pagesOnRight?.map(p=> p.id)
+
+    if(!ids?.length) return {}
+
+    return await this.getMoreByIds(ids,langCode)
+  }
+
+  async getOneForUpdate(id:string, langCode:string){
+    const data = await this.pageRepository.findOne({
+      where:{
+        id,
+          contents:{
+            langCode
+          }
+      },
+      relations:{
+          contents:{
+            tags:true
+          }
+      }
+    })
+
+    return data.contents[0]
+  }
+
   async getMoreByIds(ids:string[],langCode:string){
    const data = await this.pageRepository.find({
     where:{

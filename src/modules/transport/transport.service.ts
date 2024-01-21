@@ -85,6 +85,92 @@ export class TransportService {
     return data;
   }
 
+  async getMenu(type:TransportType,langCode:string, menu:string){
+    if(menu == 'left'){
+      return await this.getLeftMenu(type, langCode)
+    }else if(menu == 'right'){
+      return await this.getRightMenu(type, langCode)
+    }
+  }
+
+  async getLeftMenu(type:TransportType, langCode:string){
+    const data = await this.transportRepository.findOne({
+      where:{type},
+      relations:{
+        page:{
+          pagesOnLeft:true
+        }
+      },
+      select:{
+        id:true,
+        page:{
+          id:true,
+          pagesOnLeft:{
+            id:true
+          }
+        }
+      }
+    })
+
+    if(!data) return {}
+
+    const ids = data?.page?.pagesOnLeft?.map(p=> p.id)
+
+    if(!ids?.length) return {}
+
+    return await this.pageService.getMoreByIds(ids,langCode)
+  }
+
+  async getRightMenu(type:TransportType, langCode:string){
+    const data = await this.transportRepository.findOne({
+      where:{type},
+      relations:{
+        page:{
+          pagesOnRight:true
+        }
+      },
+      select:{
+        id:true,
+        page:{
+          id:true,
+          pagesOnRight:{
+            id:true
+          }
+        }
+      }
+    })
+
+    if(!data) return {}
+
+    const ids = data?.page?.pagesOnRight?.map(p=> p.id)
+
+    if(!ids?.length) return {}
+
+    return await this.pageService.getMoreByIds(ids,langCode)
+  }
+
+  async getOneForUpdate(type:TransportType, langCode:string){
+    const data = await this.transportRepository.findOne({
+      where:{
+        type,
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations:{
+        page:{
+          contents:{
+            tags:true
+          }
+        }
+      }
+    })
+
+    return data.page.contents[0]
+  }
+
   async deleteOne(id: string) {
     const response = await this.transportRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

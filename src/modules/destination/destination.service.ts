@@ -185,6 +185,28 @@ export class DestinationService {
     return await this.pageService.getMoreByIds(ids,langCode)
   }
 
+  async getOneForUpdate(id:string, langCode:string){
+    const data = await this.destinationRepository.findOne({
+      where:{
+        id,
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations:{
+        page:{
+          contents:{
+            tags:true
+          }
+        }
+      }
+    })
+
+    return data.page.contents[0]
+  }
+
   async getOne(slug: string, langCode: string) {
     const data = await this.destinationRepository
       .findOne({
@@ -238,28 +260,6 @@ export class DestinationService {
       delete data.page.pagesOnRight
 
       return {...data,pagesOnLeft,pagesOnRight};
-  }
-
-  async getOneForUpdate(id:string, langCode:string){
-    const data = await this.destinationRepository.findOne({
-      where:{
-        id,
-        page:{
-          contents:{
-            langCode
-          }
-        }
-      },
-      relations:{
-        page:{
-          contents:{
-            tags:true
-          }
-        }
-      }
-    })
-
-    return data.page.contents[0]
   }
 
   async deleteOne(id: string) {

@@ -40,6 +40,26 @@ export class TransportController {
     return this.transportService.getOne(type, langCode);
   }
 
+  @Get('/single-for-update/:type')
+  @ApiOperation({ summary: 'Method: returns single destination by id for update' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByIdForUpdate(@Param('type') type:TransportType, @Query('langCode') langCode:string){
+    return this.transportService.getOneForUpdate(type, langCode);
+  }
+
+  @Get('/:type/:menu')
+  @ApiOperation({ summary: 'Method: returns destination menu' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getMenu(@Query('langCode') langCode:string,@Param('menu') menu:string,@Param('type') type:TransportType){
+    return this.transportService.getMenu(type,langCode,menu);
+  }
+
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new transport' })
   @ApiCreatedResponse({

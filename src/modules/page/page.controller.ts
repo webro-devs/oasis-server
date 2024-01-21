@@ -48,6 +48,16 @@ export class PageController {
     return this.pageService.getByUrl(`page/${title}`,langCode);
   }
 
+  @Get('/single-for-update/:id')
+  @ApiOperation({ summary: 'Method: returns single destination by id for update' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByIdForUpdate(@Param('id') id:string, @Query('langCode') langCode:string){
+    return this.pageService.getOneForUpdate(id, langCode);
+  }
+
   @Public()
   @Get('/single/:id')
   @ApiOperation({ summary: 'Method: returns single page by id' })
@@ -57,6 +67,16 @@ export class PageController {
   @HttpCode(HttpStatus.OK)
   async getMe(@Param('id') id: string, @Query('langCode') langCode:string) {
     return this.pageService.getOne(id, langCode);
+  }
+
+  @Get('/:id/:menu')
+  @ApiOperation({ summary: 'Method: returns destination menu' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getMenu(@Query('langCode') langCode:string,@Param('menu') menu:string,@Param('id') id:string){
+    return this.pageService.getMenu(id,langCode,menu);
   }
 
   @Post('/')
