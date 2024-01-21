@@ -31,8 +31,12 @@ export class DestinationService {
       },
       relations: {
         page: {
-          pagesOnLeft: true,
-          pagesOnRight: true,
+          pagesOnLeft: {
+            contents:true
+          },
+          pagesOnRight: {
+            contents:true
+          },
           contents: true,
         },
       },
@@ -50,14 +54,31 @@ export class DestinationService {
           pagesOnLeft:{
             slug:true,
             index:true,
+            contents:{
+              langCode:true,
+              shortTitle:true
+            }
           },
           pagesOnRight:{
             slug:true,
-            index:true
+            index:true,
+            contents:{
+              langCode:true,
+              shortTitle:true
+            }
           }
         },
       },
     });
+
+    data.forEach(d=>{
+      d.page.pagesOnLeft.forEach(pl=>{
+        pl.contents = pl.contents.filter(c=> c.langCode == langCode)
+      })
+      d.page.pagesOnRight.forEach(pl=>{
+        pl.contents = pl.contents.filter(c=> c.langCode == langCode)
+      })
+    })
     return data;
   }
 
@@ -219,9 +240,16 @@ export class DestinationService {
       return {...data,pagesOnLeft,pagesOnRight};
   }
 
-  async getOneForUpdate(id:string){
+  async getOneForUpdate(id:string, langCode:string){
     const data = await this.destinationRepository.findOne({
-      where:{id},
+      where:{
+        id,
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
       relations:{
         page:{
           contents:{
@@ -231,7 +259,7 @@ export class DestinationService {
       }
     })
 
-    return data
+    return data.page.contents[0]
   }
 
   async deleteOne(id: string) {

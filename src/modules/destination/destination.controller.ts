@@ -51,8 +51,8 @@ export class DestinationController {
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByIdForUpdate(@Param('id') id:string){
-    return this.destinationService.getOneForUpdate(id);
+  async getByIdForUpdate(@Param('id') id:string, @Query('langCode') langCode:string){
+    return this.destinationService.getOneForUpdate(id, langCode);
   }
 
   @Get('/:slug')
