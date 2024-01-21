@@ -10,7 +10,12 @@ class UpdateEventDto {
         title: '',
         shortTitle: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:'uuid',
@@ -18,7 +23,12 @@ class UpdateEventDto {
         title: '',
         shortTitle: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

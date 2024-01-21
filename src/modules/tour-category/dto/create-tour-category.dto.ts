@@ -28,7 +28,12 @@ class CreateTourCategoryDto {
         shortTitle: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         langCode: '',
@@ -36,7 +41,12 @@ class CreateTourCategoryDto {
         shortTitle: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

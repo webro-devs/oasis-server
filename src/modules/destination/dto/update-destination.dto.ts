@@ -10,7 +10,12 @@ class UpdateDestinationDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:"uuid",
@@ -18,7 +23,12 @@ class UpdateDestinationDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

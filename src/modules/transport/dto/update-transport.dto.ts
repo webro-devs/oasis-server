@@ -21,7 +21,12 @@ class UpdateTransportDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:"uuid",
@@ -29,7 +34,12 @@ class UpdateTransportDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

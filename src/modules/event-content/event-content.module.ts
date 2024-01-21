@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { EventContent } from './event-content.entity';
 import { EventContentService } from './event-content.service';
-import { TagModule } from '../tag/tag.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EventContent]),TagModule],
+  imports: [TypeOrmModule.forFeature([EventContent])],
   providers: [EventContentService],
   exports: [EventContentService],
 })

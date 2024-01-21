@@ -4,9 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateTourItineraryContentDto, CreateTourItineraryDto } from './dto';
 import { TourItinerary } from './tour-itinerary.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TagService } from '../tag/tag.service';
 import { Tour } from '../tour/tour.entity';
-import { TagTagDto } from 'src/infra/shared/dto';
 import { TourItineraryContent } from './tour-itinerary-content.entity';
 
 @Injectable()
@@ -16,7 +14,6 @@ export class TourItineraryService {
     private readonly tourItineraryRepo: Repository<TourItinerary>,
     @InjectRepository(TourItineraryContent)
     private readonly tourItiConRepo: Repository<TourItineraryContent>,
-    private readonly tagService: TagService,
   ) {}
 
   async getById(id:string){
@@ -60,33 +57,7 @@ export class TourItineraryService {
   }
 
   async createItineraryContentData(day:CreateTourItineraryContentDto,tourItinerary: TourItinerary){
-    await this.tourItiConRepo
-    .createQueryBuilder()
-    .insert()
-    .into(TourItineraryContent)
-    .values({...day,tourItinerary} as unknown as TourItineraryContent)
-    .execute()
-  }
-
-  async addTag(values: TagTagDto) {
-    const data = await this.getById(values.id);
-    const tag = await this.tagService.getOne(values.tagId);
-    data.tags.push(tag);
-
-    await this.tourItiConRepo.save(data);
-
-    return data;
-  }
-
-  async removeTag(values: TagTagDto) {
-    const data = await this.getById(values.id);
-
-    data.tags = data.tags.length
-      ? data.tags.filter((t) => t.id != values.tagId)
-      : [];
-
-    await this.tourItiConRepo.save(data);
-
-    return data;
+   const data = this.tourItiConRepo.create({...day,tourItinerary})
+   await this.tourItiConRepo.save(data)
   }
 }

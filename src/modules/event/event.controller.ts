@@ -20,7 +20,6 @@ import {
 import { CreateEventDto, UpdateEventDto } from './dto';
 import { Event } from './event.entity';
 import { EventService } from './event.service';
-import { TagTagDto } from 'src/infra/shared/dto';
 
 @ApiTags('Event')
 @Controller('event')
@@ -37,14 +36,14 @@ export class EventController {
     return await this.eventService.getAll(langCode);
   }
 
-  @Get('/:title')
-  @ApiOperation({ summary: 'Method: returns single event by title' })
+  @Get('/:slug')
+  @ApiOperation({ summary: 'Method: returns single event by slug' })
   @ApiOkResponse({
     description: 'The event was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByUrl(@Query('langCode') langCode:string,@Param('title') title:string){
-    return this.eventService.getByUrl(title,langCode);
+  async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.eventService.getByUrl(slug,langCode);
   }
 
   @Get('/single/:id')
@@ -65,26 +64,6 @@ export class EventController {
   @HttpCode(HttpStatus.CREATED)
   async saveData(@Body() data: CreateEventDto): Promise<Event> {
     return await this.eventService.create(data);
-  }
-
-  @Post('/add-tag')
-  @ApiOperation({ summary: 'Method: adds new tag' })
-  @ApiCreatedResponse({
-    description: 'The tag was added successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async addTag(@Body() data: TagTagDto) {
-    return await this.eventService.addTag(data);
-  }
-
-  @Post('/remove-tag')
-  @ApiOperation({ summary: 'Method: adds new tag' })
-  @ApiCreatedResponse({
-    description: 'The tag was added successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async removeTag(@Body() data: TagTagDto) {
-    return await this.eventService.removeTag(data);
   }
 
   @Patch('/:id')

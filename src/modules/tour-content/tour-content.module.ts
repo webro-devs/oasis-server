@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { TourContent } from './tour-content.entity';
 import { TourContentService } from './tour-content.service';
-import { TagModule } from '../tag/tag.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([TourContent]),TagModule],
+  imports: [TypeOrmModule.forFeature([TourContent])],
   providers: [TourContentService],
   exports: [TourContentService],
 })

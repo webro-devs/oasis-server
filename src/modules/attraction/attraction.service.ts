@@ -5,7 +5,6 @@ import { UpdateAttractionDto, CreateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AttractionContentService } from '../attraction-content/attraction-content.service';
-import { TagTagDto } from 'src/infra/shared/dto';
 import slugify from 'slugify';
 import { ConfigService } from '@nestjs/config';
 
@@ -152,14 +151,5 @@ export class AttractionService {
     }
 
     return slug;
-  }
-
-
-  async addTag(values: TagTagDto){
-    await this.attrContService.addTag(values)
-  }
-
-  async removeTag(values: TagTagDto){
-    await this.attrContService.removeTag(values)
   }
 }

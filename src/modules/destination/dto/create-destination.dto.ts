@@ -11,7 +11,12 @@ class CreateDestinationDto {
         shortTitle: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         langCode: '',
@@ -19,7 +24,12 @@ class CreateDestinationDto {
         shortTitle: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

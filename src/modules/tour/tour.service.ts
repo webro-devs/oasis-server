@@ -7,9 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TourContentService } from '../tour-content/tour-content.service';
 import { ConfigService } from '@nestjs/config';
 import slugify from 'slugify';
-import { TagService } from '../tag/tag.service';
 import { TourPriceService } from '../tour-price/tour-price.service';
-import { TagTagDto } from 'src/infra/shared/dto';
 import { TourItineraryService } from '../tour-itinerary/tour-itinerary.service';
 
 @Injectable()
@@ -19,7 +17,6 @@ export class TourService {
     private readonly tourRepository: Repository<Tour>,
     private readonly tourContService: TourContentService,
     private readonly configService: ConfigService,
-    private readonly tagService: TagService,
     private readonly tourPriceService: TourPriceService,
     private readonly tourItineraryService: TourItineraryService
   ) {}
@@ -80,8 +77,7 @@ export class TourService {
     }
 
     const url = await this.makeUrl('tour/', title);
-    const routes = (await this.tagService.getMoreByIds(value.routes)) || [];
-
+    const routes = value.routes
     const tour = await this.createTour(url, {
       tourCategory: value.tourCategory,
       photoGallery: value?.photoGallery || [],
@@ -140,13 +136,5 @@ export class TourService {
     }
 
     return url;
-  }
-
-  async addTag(values: TagTagDto){
-    await this.tourContService.addTag(values)
-  }
-
-  async removeTag(values: TagTagDto){
-    await this.tourContService.removeTag(values)
   }
 }

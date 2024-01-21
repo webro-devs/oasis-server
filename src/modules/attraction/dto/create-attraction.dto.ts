@@ -28,14 +28,24 @@ class CreateAttractionDto {
         title: '',
         region: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         langCode: '',
         title: '',
         region: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

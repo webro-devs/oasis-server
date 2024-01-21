@@ -18,7 +18,12 @@ class UpdateAttractionDto {
         title: '',
         region: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:'uuid',
@@ -26,7 +31,12 @@ class UpdateAttractionDto {
         region: '',
         title: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

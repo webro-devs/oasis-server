@@ -7,7 +7,6 @@ import { Page } from './page.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageContentService } from '../page-content/page-content.service';
 import { ConfigService } from '@nestjs/config';
-import { TagTagDto } from 'src/infra/shared/dto';
 
 @Injectable()
 export class PageService {
@@ -249,13 +248,5 @@ export class PageService {
     }
 
     return slug;
-  }
-
-  async addTag(values: TagTagDto){
-    await this.pageContService.addTag(values)
-  }
-
-  async removeTag(values: TagTagDto){
-    await this.pageContService.removeTag(values)
   }
 }

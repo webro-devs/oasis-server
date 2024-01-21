@@ -12,7 +12,12 @@ class UpdatePageDto {
           shortTitle: '',
           description: '',
           descriptionPage: '',
-          tags: ['uuid', 'uuid'],
+          tags: [
+            {
+              id:'',
+              title:''
+            }
+          ],
         },
         {
           langCode: '',
@@ -20,7 +25,12 @@ class UpdatePageDto {
           shortTitle: '',
           description: '',
           descriptionPage: '',
-          tags: ['uuid', 'uuid'],
+          tags: [
+            {
+              id:'',
+              title:''
+            }
+          ],
         },
       ],
     })

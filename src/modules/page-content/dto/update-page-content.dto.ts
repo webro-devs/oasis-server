@@ -1,3 +1,5 @@
+import { Tag } from "src/modules/tag/tag.entity";
+
 class UpdatePageContentDto {
   readonly id: string;
   readonly title: string;
@@ -5,6 +7,6 @@ class UpdatePageContentDto {
   readonly description: string;
   readonly descriptionPage: string;
   readonly langCode: string;
-  tags: string[];
+  tags: Tag[];
 }
 export default UpdatePageContentDto;

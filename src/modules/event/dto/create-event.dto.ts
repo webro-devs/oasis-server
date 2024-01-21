@@ -10,14 +10,24 @@ class CreateEventDto {
         title: '',
         shortTitle: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         langCode: '',
         title: '',
         shortTitle: '',
         description: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
     ],
   })

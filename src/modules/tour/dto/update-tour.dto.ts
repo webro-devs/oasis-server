@@ -30,7 +30,12 @@ class UpdateTourDto {
 
   @ApiProperty({
     description: `routes`,
-    example: ['uuid','uuid'],
+    example: [
+      {
+        id:'',
+        title:''
+      }
+    ],
   })
   @IsOptional()
   @IsArray()
@@ -72,7 +77,12 @@ class UpdateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:'',
@@ -80,7 +90,12 @@ class UpdateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       }
     ],
   })
@@ -96,7 +111,12 @@ class UpdateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:'',
@@ -104,7 +124,12 @@ class UpdateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       }
     ],
   })
@@ -120,7 +145,12 @@ class UpdateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       },
       {
         id:'',
@@ -128,7 +158,12 @@ class UpdateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       }
     ],
   })

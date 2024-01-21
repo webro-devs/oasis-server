@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AttractionContent } from './attraction-content.entity';
 import { AttractionContentService } from './attraction-content.service';
-import { TagModule } from '../tag/tag.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AttractionContent]),TagModule],
+  imports: [TypeOrmModule.forFeature([AttractionContent])],
   providers: [AttractionContentService],
   exports: [AttractionContentService],
 })

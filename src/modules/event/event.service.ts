@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EventContentService } from '../event-content/event-content.service';
 import slugify from 'slugify';
 import { ConfigService } from '@nestjs/config';
-import { TagTagDto } from 'src/infra/shared/dto';
 
 @Injectable()
 export class EventService {
@@ -49,10 +48,10 @@ export class EventService {
     return data
   }
 
-  async getOne(slug: string, langCode: string) {
+  async getOne(id: string, langCode: string) {
     const data = await this.eventRepository.findOne({
       where:{
-        slug,
+        id,
         contents:{
           langCode
         }
@@ -76,7 +75,7 @@ export class EventService {
     
     if(!data) return {}
 
-    return this.getOne(data.slug, langCode)
+    return this.getOne(data.id, langCode)
   }
 
   async deleteOne(id: string) {
@@ -139,17 +138,9 @@ export class EventService {
     });
 
     if (isExist) {
-      return slug + '_';
+      return await this.makeSlug(slug + '_')
     }
 
     return slug;
-  }
-
-  async addTag(values: TagTagDto){
-    await this.eventContService.addTag(values)
-  }
-
-  async removeTag(values: TagTagDto){
-    await this.eventContService.removeTag(values)
   }
 }

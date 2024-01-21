@@ -20,7 +20,6 @@ import {
 import { CreateTourDto, UpdateTourDto } from './dto';
 import { Tour } from './tour.entity';
 import { TourService } from './tour.service';
-import { TagTagDto } from 'src/infra/shared/dto';
 
 @ApiTags('Tour')
 @Controller('tour')
@@ -55,26 +54,6 @@ export class TourController {
   @HttpCode(HttpStatus.CREATED)
   async saveData(@Body() data: CreateTourDto) {
     return await this.tourService.create(data);
-  }
-
-  @Post('/add-tag')
-  @ApiOperation({ summary: 'Method: adds new tag' })
-  @ApiCreatedResponse({
-    description: 'The tag was added successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async addTag(@Body() data: TagTagDto) {
-    return await this.tourService.addTag(data);
-  }
-
-  @Post('/remove-tag')
-  @ApiOperation({ summary: 'Method: adds new tag' })
-  @ApiCreatedResponse({
-    description: 'The tag was added successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async removeTag(@Body() data: TagTagDto) {
-    return await this.tourService.removeTag(data);
   }
 
   @Patch('/:id')

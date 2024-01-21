@@ -26,7 +26,10 @@ class UpdateTourCategoryDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [{
+          id:'',
+          title:''
+        }],
       },
       {
         id:"uuid",
@@ -34,7 +37,10 @@ class UpdateTourCategoryDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [{
+          id:'',
+          title:''
+        }],
       },
     ],
   })

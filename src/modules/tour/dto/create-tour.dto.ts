@@ -39,7 +39,12 @@ class CreateTourDto {
 
   @ApiProperty({
     description: `routes`,
-    example: ['uuid','uuid'],
+    example: [
+      {
+        id:'',
+        title:''
+      }
+    ],
   })
   @IsOptional()
   @IsArray()
@@ -80,7 +85,12 @@ class CreateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       }
     ],
   })
@@ -98,14 +108,24 @@ class CreateTourDto {
             day:'1-kun',
             title: '',
             description: '',
-            tags: ['uuid', 'uuid'],
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
           },
           {
             langCode: 'ru',
             day:'1-день',
             title: '',
             description: '',
-            tags: ['uuid', 'uuid'],
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
           }
         ]
       },
@@ -116,14 +136,24 @@ class CreateTourDto {
             day:'2-kun',
             title: '',
             description: '',
-            tags: ['uuid', 'uuid'],
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
           },
           {
             langCode: 'ru',
             day:'2-день',
             title: '',
             description: '',
-            tags: ['uuid', 'uuid'],
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
           }
         ]
       }
@@ -141,7 +171,12 @@ class CreateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       }
     ],
   })
@@ -157,7 +192,12 @@ class CreateTourDto {
         title: '',
         description: '',
         descriptionPage: '',
-        tags: ['uuid', 'uuid'],
+        tags: [
+          {
+            id:'',
+            title:''
+          }
+        ],
       }
     ],
   })
