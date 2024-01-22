@@ -74,6 +74,16 @@ export class TourCategoryController {
     return this.tourCategoryService.getOne(type, langCode);
   }
 
+  @Get('/single-for-update/:id')
+  @ApiOperation({ summary: 'Method: returns single tour category by id for update' })
+  @ApiOkResponse({
+    description: 'The tour category was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByIdForUpdate(@Param('id') id:string, @Query('langCode') langCode:string){
+    return this.tourCategoryService.getOneForUpdate(id, langCode);
+  }
+
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new tour category' })
   @ApiCreatedResponse({

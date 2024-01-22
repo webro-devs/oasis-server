@@ -78,6 +78,24 @@ export class EventService {
     return this.getOne(data.id, langCode)
   }
 
+  async getOneForUpdate(id:string,langCode:string){
+    const data = await this.eventRepository.findOne({
+      where:{
+        id,
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:{
+          tags:true
+        }
+      }
+    })
+
+    return data.contents[0]
+  }
+
   async deleteOne(id: string) {
     const response = await this.eventRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

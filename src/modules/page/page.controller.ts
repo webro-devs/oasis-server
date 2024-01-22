@@ -49,7 +49,7 @@ export class PageController {
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Method: returns single destination by id for update' })
+  @ApiOperation({ summary: 'Method: returns single page by id for update' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -70,7 +70,7 @@ export class PageController {
   }
 
   @Get('/:id/:menu')
-  @ApiOperation({ summary: 'Method: returns destination menu' })
+  @ApiOperation({ summary: 'Method: returns page menu' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })

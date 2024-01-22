@@ -56,6 +56,16 @@ export class EventController {
     return this.eventService.getOne(id,langCode);
   }
 
+  @Get('/single-for-update/:id')
+  @ApiOperation({ summary: 'Method: returns single event by id for update' })
+  @ApiOkResponse({
+    description: 'The attraction was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getOneForUpdate(@Param('id') id: string,@Query('langCode') langCode:string){
+    return this.eventService.getOneForUpdate(id,langCode);
+  }
+
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new event' })
   @ApiCreatedResponse({

@@ -68,6 +68,24 @@ export class AttractionService {
     return data;
   }
 
+  async getOneForUpdate(id:string,langCode:string){
+    const data = await this.attractionRepository.findOne({
+      where:{
+        id,
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:{
+          tags:true
+        }
+      }
+    })
+
+    return data.contents[0]
+  }
+
   async getByUrl(type: string,slug:string, langCode: string) {
     const url = this.configService.get('clientUrl') + `${type}/${slug}`;
     const data = await this.attractionRepository.findOne({

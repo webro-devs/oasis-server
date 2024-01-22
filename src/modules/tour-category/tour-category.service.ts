@@ -184,6 +184,28 @@ export class TourCategoryService {
     return data;
   }
 
+  async getOneForUpdate(id:string, langCode:string){
+    const data = await this.tourCategoryRepository.findOne({
+      where:{
+        id,
+        page:{
+          contents:{
+            langCode
+          }
+        }
+      },
+      relations:{
+        page:{
+          contents:{
+            tags:true
+          }
+        }
+      }
+    })
+
+    return data.page.contents[0]
+  }
+
   async deleteOne(id: string) {
     const response = await this.tourCategoryRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

@@ -48,6 +48,16 @@ export class AttractionController {
     return this.attractionService.getOne(slug,langCode);
   }
 
+  @Get('/single-for-update/:id')
+  @ApiOperation({ summary: 'Method: returns single attraction by id for update' })
+  @ApiOkResponse({
+    description: 'The attraction was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getOneForUpdate(@Param('id') id: string,@Query('langCode') langCode:string){
+    return this.attractionService.getOneForUpdate(id,langCode);
+  }
+
   @Get('/:type/:slug')
   @ApiOperation({ summary: 'Method: returns single attraction by id' })
   @ApiOkResponse({
