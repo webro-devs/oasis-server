@@ -198,19 +198,6 @@ export class PageService {
     return {...data,pagesOnLeft,pagesOnRight};
   }
 
-  async getByUrl(path: string, langCode: string) {
-    const url = this.configService.get('clientUrl') + path;
-
-    const data = await this.pageRepository.findOne({
-      where: {
-        url,
-      },
-    });
-    if (!data) return {};
-
-    return await this.getOne(data.slug, langCode);
-  }
-
   async getById(id:string){
     const data = await this.pageRepository.findOne({
       where:{

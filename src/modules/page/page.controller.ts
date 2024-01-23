@@ -38,14 +38,14 @@ export class PageController {
     return await this.pageService.getAll(langCode);
   }
 
-  @Get('/:title')
-  @ApiOperation({ summary: 'Method: returns single page by title' })
+  @Get('/:slug')
+  @ApiOperation({ summary: 'Method: returns single page by slug' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByUrl(@Query('langCode') langCode:string,@Param('title') title:string){
-    return this.pageService.getByUrl(`page/${title}`,langCode);
+  async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.pageService.getOne(slug,langCode);
   }
 
   @Get('/single-for-update/:id')
@@ -56,17 +56,6 @@ export class PageController {
   @HttpCode(HttpStatus.OK)
   async getByIdForUpdate(@Param('id') id:string, @Query('langCode') langCode:string){
     return this.pageService.getOneForUpdate(id, langCode);
-  }
-
-  @Public()
-  @Get('/single/:id')
-  @ApiOperation({ summary: 'Method: returns single page by id' })
-  @ApiOkResponse({
-    description: 'The page was returned successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string, @Query('langCode') langCode:string) {
-    return this.pageService.getOne(id, langCode);
   }
 
   @Get('/:id/:menu')
