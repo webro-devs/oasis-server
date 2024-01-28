@@ -47,7 +47,7 @@ export class EventService {
     const res = []
     data.forEach(d=>{
       res.push({
-        ...d,constents:d.contents[0]
+        ...d,contents:d.contents[0]
       })
     })
 
