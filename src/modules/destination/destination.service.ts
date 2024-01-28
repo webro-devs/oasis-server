@@ -256,9 +256,9 @@ export class DestinationService {
           shortTitle: pr.contents[0]?.shortTitle,
         })
       })
-      const page = {...data.page,contents: data.page.contents[0]}
       delete data.page.pagesOnLeft
       delete data.page.pagesOnRight
+      const page = {...data.page,contents: data.page.contents[0]}
 
       return {...data,page,pagesOnLeft,pagesOnRight};
   }

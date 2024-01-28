@@ -70,9 +70,9 @@ export class TransportService {
         })
       })
 
-      const page = {...data.page,contents: data.page.contents[0]}
       delete data.page.pagesOnLeft
       delete data.page.pagesOnRight
+      const page = {...data.page,contents: data.page.contents[0]}
 
       return {...data,page,pagesOnLeft,pagesOnRight};
   }
