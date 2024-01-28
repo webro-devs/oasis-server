@@ -26,5 +26,5 @@ export class Event {
   url:string
 
   @OneToMany(()=>EventContent, eventContent=>eventContent.event)
-  contents: EventContent
+  contents: EventContent[]
 }

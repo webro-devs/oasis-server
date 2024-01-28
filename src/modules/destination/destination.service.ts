@@ -256,10 +256,11 @@ export class DestinationService {
           shortTitle: pr.contents[0]?.shortTitle,
         })
       })
+      const page = {...data.page,contents: data.page.contents[0]}
       delete data.page.pagesOnLeft
       delete data.page.pagesOnRight
 
-      return {...data,pagesOnLeft,pagesOnRight};
+      return {...data,page,pagesOnLeft,pagesOnRight};
   }
 
   async deleteOne(id: string) {

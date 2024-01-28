@@ -49,8 +49,18 @@ export class TourCategoryService {
         }
       }
     });
+    const res = []
+
+    data.forEach(d=>{
+      res.push({
+        type: d.type,
+        photo:d.photo,
+        title: d.page.contents[0].title,
+        shortTitle: d.page.contents[0].shortTitle
+      })
+    })
    
-    return data;
+    return res;
   }
 
   async getAllForAdmin(langCode: string) {
@@ -125,6 +135,16 @@ export class TourCategoryService {
         }
       }
     });
+
+    const res = []
+
+    data.forEach(d=>{
+      res.push({
+         type:d.type,
+         photo:d.photo,
+         contents:d.page.contents[0]
+      })
+    })
    
     return data;
   }
@@ -171,7 +191,9 @@ export class TourCategoryService {
         throw new NotFoundException('data not found');
       });
 
-    return data
+      const page = {...data.page, contents: data.page.contents}
+
+    return {...data,page}
   }
 
   async getOneByType(type: string) {

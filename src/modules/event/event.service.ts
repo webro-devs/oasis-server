@@ -44,8 +44,14 @@ export class EventService {
         }
       }
     });
+    const res = []
+    data.forEach(d=>{
+      res.push({
+        ...d,constents:d.contents[0]
+      })
+    })
 
-    return data
+    return res
   }
 
   async getOne(id: string, langCode: string) {
@@ -62,7 +68,7 @@ export class EventService {
         }
       }
     });
-    return data;
+    return {...data,contents: data.contents[0]};
   }
 
   async getByUrl(title: string, langCode: string) {
