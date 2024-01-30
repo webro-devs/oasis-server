@@ -327,7 +327,7 @@ export class DestinationService {
       select:{
         slug:true,
         page:{
-          slug:true,
+          id:true,
           // contents:{
           //   title:true,
           //   descriptionPage:true,
