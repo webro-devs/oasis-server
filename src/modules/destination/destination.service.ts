@@ -289,17 +289,17 @@ export class DestinationService {
       throw new NotFoundException('data not found');
     });
 
-    // const pagesOnLeft = []
+    const pagesOnLeft = []
 
-    // data.page.pagesOnLeft.forEach(pr=>{
-    //   const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
-    //   pagesOnLeft.push({
-    //     slug:pr.slug,
-    //     shortTitle,
-    //   })
-    // })
+    data.page.pagesOnLeft.forEach(pr=>{
+      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
+      pagesOnLeft.push({
+        slug:pr.slug,
+        shortTitle,
+      })
+    })
 
-    return data
+    return pagesOnLeft
   }
   async getContent(slug: string, langCode: string){
     const data = await this.destinationRepository
