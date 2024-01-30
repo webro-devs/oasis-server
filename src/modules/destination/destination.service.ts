@@ -349,12 +349,12 @@ export class DestinationService {
     });
 
     const content = []
-    console.log(data);
-    console.log(data.page);
-    console.log(data.page.contents[0]);
-    console.log(data.page.pagesOnLeft);
-    console.log(data.page.pagesOnLeft[0].contents.filter(c=>c.langCode == langCode));
-    
+    data.page.pagesOnLeft?.forEach(pr=>{  
+       pr.contents.forEach(s=>{
+        console.log(s);
+        
+       })
+    })
 
     data.page.pagesOnLeft?.forEach(pr=>{      
       const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
