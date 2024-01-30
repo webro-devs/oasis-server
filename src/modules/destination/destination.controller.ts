@@ -55,14 +55,34 @@ export class DestinationController {
     return this.destinationService.getOneForUpdate(id, langCode);
   }
 
-  @Get('/:slug')
+  @Get('/right/:slug')
   @ApiOperation({ summary: 'Method: returns single destination by slug' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.destinationService.getOne(slug,langCode);
+  async getRightSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.destinationService.getRightSide(slug,langCode);
+  }
+
+  @Get('/content/:slug')
+  @ApiOperation({ summary: 'Method: returns single destination by slug' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async GetLeftSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.destinationService.getLeftSide(slug,langCode);
+  }
+
+  @Get('/left/:slug')
+  @ApiOperation({ summary: 'Method: returns single destination by slug' })
+  @ApiOkResponse({
+    description: 'The destination was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getContent(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.destinationService.getContent(slug,langCode);
   }
 
   @Get('/:id/:menu')

@@ -207,6 +207,160 @@ export class DestinationService {
     return data.page.contents[0]
   }
 
+  async getRightSide(slug: string, langCode: string){
+    const data = await this.destinationRepository
+    .findOne({
+      relations: {
+        page: {
+          pagesOnRight: {
+            contents: true,
+          }
+        },
+      },
+      where: {
+        slug,
+        page: {
+          contents: {
+            langCode,
+          },
+        },
+      },
+      select:{
+        id:true,
+        page:{
+          id:true,
+          pagesOnRight:{
+            slug:true,
+            contents:{
+              shortTitle:true
+            }
+          }
+        }
+      }
+    })
+    .catch(() => {
+      throw new NotFoundException('data not found');
+    });
+
+    const pagesOnRight = []
+
+    data.page.pagesOnRight.forEach(pr=>{
+      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
+      pagesOnRight.push({
+        slug:pr.slug,
+        shortTitle
+      })
+    })
+
+    return pagesOnRight
+  }
+  async getLeftSide(slug: string, langCode: string){
+    const data = await this.destinationRepository
+    .findOne({
+      relations: {
+        page: {
+          pagesOnLeft: {
+            contents: true,
+          }
+        },
+      },
+      where: {
+        slug,
+        page: {
+          contents: {
+            langCode,
+          },
+        },
+      },
+      select:{
+        id:true,
+        page:{
+          id:true,
+          pagesOnLeft:{
+            slug:true,
+            contents:{
+              shortTitle:true,
+            }
+          }
+        }
+      }
+    })
+    .catch(() => {
+      throw new NotFoundException('data not found');
+    });
+
+    const pagesOnLeft = []
+
+    data.page.pagesOnLeft.forEach(pr=>{
+      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
+      pagesOnLeft.push({
+        slug:pr.slug,
+        shortTitle,
+      })
+    })
+
+    return pagesOnLeft
+  }
+  async getContent(slug: string, langCode: string){
+    const data = await this.destinationRepository
+    .findOne({
+      relations: {
+        page: {
+          pagesOnLeft: {
+            contents: true,
+          },
+          contents: {
+            tags:true
+          },
+        },
+      },
+      where: {
+        slug,
+        page: {
+          contents: {
+            langCode,
+          },
+        },
+      },
+      select:{
+        slug:true,
+        page:{
+          id:true,
+          pagesOnLeft:{
+            slug:true,
+            contents:{
+              title:true,
+              description:true
+            }
+          },
+          contents:{
+            title:true,
+            descriptionPage:true
+          }
+        },
+      }
+    })
+    .catch(() => {
+      throw new NotFoundException('data not found');
+    });
+
+    const content = []
+
+    data.page.pagesOnLeft.forEach(pr=>{
+      const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
+      content.push({
+        slug:pr.slug,
+        title,
+        description
+      })
+    }) 
+
+    const page = data.page.contents[0]
+
+    return {data:page,content};
+
+  }
+
   async getOne(slug: string, langCode: string) {
     const data = await this.destinationRepository
       .findOne({
