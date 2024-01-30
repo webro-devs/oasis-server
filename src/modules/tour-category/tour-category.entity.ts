@@ -1,8 +1,9 @@
-import { Column, Entity, Generated, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Page } from '../page/page.entity';
 import { Tour } from '../tour/tour.entity';
 
 @Entity('tour_category')
+@Index(["type"], { unique: true })
 export class TourCategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;

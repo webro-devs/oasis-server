@@ -1,10 +1,11 @@
-import { Column, Entity, Generated, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, Index, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Destination } from '../destination/destination.entity';
 import { PageContent } from '../page-content/page-content.entity';
 import { Transport } from '../transport/transport.entity';
 import { TourCategory } from '../tour-category/tour-category.entity';
 
 @Entity('page')
+@Index(["slug"], { unique: true })
 export class Page {
   @PrimaryGeneratedColumn('uuid')
   id: string;

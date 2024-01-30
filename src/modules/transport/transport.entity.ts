@@ -1,9 +1,10 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Page } from '../page/page.entity';
 import { RoadTransport } from '../road-transport/road-transport.entity';
 import { TransportType } from 'src/infra/shared/type';
 
 @Entity('transport')
+@Index(["type"], { unique: true })
 export class Transport {
   @PrimaryGeneratedColumn('uuid')
   id: string;

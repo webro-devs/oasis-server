@@ -1,7 +1,8 @@
-import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EventContent } from '../event-content/event-content.entity';
 
 @Entity('event')
+@Index(["slug"], { unique: true })
 export class Event {
   @PrimaryGeneratedColumn('uuid')
   id: string;

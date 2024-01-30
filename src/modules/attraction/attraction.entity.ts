@@ -1,8 +1,9 @@
 import { AttractionType } from 'src/infra/shared/type';
-import { Column, Entity, Generated, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AttractionContent } from '../attraction-content/attraction-content.entity';
 
 @Entity('attraction')
+@Index(["slug"], { unique: true })
 export class Attraction {
   @PrimaryGeneratedColumn('uuid')
   id: string;

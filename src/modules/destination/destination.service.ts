@@ -303,7 +303,7 @@ export class DestinationService {
 
     return pagesOnLeft
   }
-  async getContent(slug: string, langCode: string){
+  async getContent(slug: string, langCode: string){    
     const data = await this.destinationRepository
     .findOne({
       relations: {
@@ -325,6 +325,7 @@ export class DestinationService {
         },
       },
       select:{
+        id:true,
         slug:true,
         page:{
           id:true,
@@ -335,6 +336,10 @@ export class DestinationService {
               description:true,
               langCode:true
             }
+          },
+          contents:{
+            title:true,
+            descriptionPage:true
           }
         },
       }
