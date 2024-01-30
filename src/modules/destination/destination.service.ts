@@ -329,14 +329,14 @@ export class DestinationService {
         slug:true,
         page:{
           id:true,
-          pagesOnLeft:{
-            slug:true,
-            contents:{
-              title:true,
-              description:true,
-              langCode:true
-            }
-          },
+          // pagesOnLeft:{
+          //   slug:true,
+          //   contents:{
+          //     title:true,
+          //     description:true,
+          //     langCode:true
+          //   }
+          // },
           contents:{
             title:true,
             descriptionPage:true
@@ -349,15 +349,9 @@ export class DestinationService {
     });
 
     const content = []
-    data.page.pagesOnLeft?.forEach(pr=>{  
-       pr.contents.forEach(s=>{
-        console.log(s);
-        
-       })
-    })
 
     data.page.pagesOnLeft?.forEach(pr=>{      
-      const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
+      const {title,description} = pr.contents.find(c=>c.langCode == langCode)
       content.push({
         slug:pr.slug,
         title,
