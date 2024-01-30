@@ -27,17 +27,43 @@ import { TransportType } from 'src/infra/shared/type';
 export class TransportController {
   constructor(private readonly transportService: TransportService) {}
 
-  @Get('/:type')
-  @ApiOperation({ summary: 'Method: returns single transport by type' })
+  @Get('/content/:type')
+  @ApiOperation({ summary: 'Method: returns single transport content' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(
+  async getContent(
     @Param('type') type: TransportType,
     @Query('langCode') langCode: string,
   ) {
-    return this.transportService.getOne(type, langCode);
+    return this.transportService.getContent(type, langCode);
+  }
+
+  @Get('/right/:type')
+  @ApiOperation({ summary: 'Method: returns single transport right side' })
+  @ApiOkResponse({
+    description: 'The transport was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getRightSide(
+    @Param('type') type: TransportType,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.transportService.getRightSide(type, langCode);
+  }
+
+  @Get('/left/:type')
+  @ApiOperation({ summary: 'Method: returns single transport left side' })
+  @ApiOkResponse({
+    description: 'The transport was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getLeftSide(
+    @Param('type') type: TransportType,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.transportService.getLeftSide(type, langCode);
   }
 
   @Get('/single-for-update/:type')

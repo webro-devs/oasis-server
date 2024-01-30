@@ -246,7 +246,7 @@ export class DestinationService {
     const pagesOnRight = []
 
     data.page.pagesOnRight.forEach(pr=>{
-      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
+      const {shortTitle}  = pr.contents.find(c=>c.langCode == langCode)
       pagesOnRight.push({
         slug:pr.slug,
         shortTitle
@@ -294,7 +294,7 @@ export class DestinationService {
     const pagesOnLeft = []
 
     data.page.pagesOnLeft.forEach(pr=>{      
-      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
+      const {shortTitle}  = pr.contents.find(c=>c.langCode == langCode)
       pagesOnLeft.push({
         slug:pr.slug,
         shortTitle,
@@ -329,14 +329,6 @@ export class DestinationService {
         slug:true,
         page:{
           id:true,
-          // pagesOnLeft:{
-          //   slug:true,
-          //   contents:{
-          //     title:true,
-          //     description:true,
-          //     langCode:true
-          //   }
-          // },
           contents:{
             title:true,
             descriptionPage:true
@@ -363,62 +355,6 @@ export class DestinationService {
 
     return {data:page,content};
 
-  }
-
-  async getOne(slug: string, langCode: string) {
-    const data = await this.destinationRepository
-      .findOne({
-        relations: {
-          page: {
-            pagesOnLeft: {
-              contents: true,
-            },
-            pagesOnRight: {
-              contents: true,
-            },
-            contents: {
-              tags:true
-            },
-          },
-        },
-        where: {
-          slug,
-          page: {
-            contents: {
-              langCode,
-            },
-          },
-        },
-      })
-      .catch(() => {
-        throw new NotFoundException('data not found');
-      });
-
-      const pagesOnLeft = []
-      const pagesOnRight = []
-
-      data.page.pagesOnLeft.forEach(pr=>{
-        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
-        pagesOnLeft.push({
-          slug:pr.slug,
-          title:pr.contents[0]?.title,
-          shortTitle: pr.contents[0]?.shortTitle,
-          description: pr.contents[0]?.description
-        })
-      }) 
-  
-      data.page.pagesOnRight.forEach(pr=>{
-        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
-        pagesOnRight.push({
-          slug:pr.slug,
-          shortTitle: pr.contents[0]?.shortTitle,
-        })
-      })
-      delete data.page.pagesOnLeft
-      delete data.page.pagesOnRight
-      const page = {...data.page,contents: data.page.contents[0]}
-
-      return {...data,page,pagesOnLeft,pagesOnRight};
   }
 
   async deleteOne(id: string) {

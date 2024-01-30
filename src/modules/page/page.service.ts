@@ -17,195 +17,275 @@ export class PageService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getAll(langCode:string) {
+  async getAll(langCode: string) {
     return await this.pageRepository.find({
       where: {
         isTopic: true,
-        contents:{
-          langCode
-        }
+        contents: {
+          langCode,
+        },
       },
-      order:{
-        index:"ASC"
+      order: {
+        index: 'ASC',
       },
-      relations:{
-        contents:true,
-        pagesOnLeft:true,
-        pagesOnRight:true
+      relations: {
+        contents: true,
+        pagesOnLeft: true,
+        pagesOnRight: true,
       },
-      select:{
-        id:true,
-        url:true,
-        index:true,
-        views:true,
-        contents:{
-          shortTitle:true,
-          title:true
-        }
-      }
+      select: {
+        id: true,
+        url: true,
+        index: true,
+        views: true,
+        contents: {
+          shortTitle: true,
+          title: true,
+        },
+      },
     });
   }
 
-  async getMenu(id:string,langCode:string, menu:string){
-    if(menu == 'left'){
-      return await this.getLeftMenu(id, langCode)
-    }else if(menu == 'right'){
-      return await this.getRightMenu(id, langCode)
+  async getMenu(id: string, langCode: string, menu: string) {
+    if (menu == 'left') {
+      return await this.getLeftMenu(id, langCode);
+    } else if (menu == 'right') {
+      return await this.getRightMenu(id, langCode);
     }
   }
 
-  async getLeftMenu(id:string, langCode:string){
+  async getLeftMenu(id: string, langCode: string) {
     const data = await this.pageRepository.findOne({
-      where:{id},
-      relations:{
-          pagesOnLeft:true
+      where: { id },
+      relations: {
+        pagesOnLeft: true,
       },
-      select:{
-        id:true,
-        pagesOnLeft:{
-          id:true
-        }
-      }
-    })
+      select: {
+        id: true,
+        pagesOnLeft: {
+          id: true,
+        },
+      },
+    });
 
-    if(!data) return {}
+    if (!data) return {};
 
-    const ids = data?.pagesOnLeft?.map(p=> p.id)
+    const ids = data?.pagesOnLeft?.map((p) => p.id);
 
-    if(!ids?.length) return {}
+    if (!ids?.length) return {};
 
-    return await this.getMoreByIds(ids,langCode)
+    return await this.getMoreByIds(ids, langCode);
   }
 
-  async getRightMenu(id:string, langCode:string){
+  async getRightMenu(id: string, langCode: string) {
     const data = await this.pageRepository.findOne({
-      where:{id},
-      relations:{
-          pagesOnRight:true
+      where: { id },
+      relations: {
+        pagesOnRight: true,
       },
-      select:{
-        id:true,
-        pagesOnRight:{
-          id:true
-        }
-      }
-    })
+      select: {
+        id: true,
+        pagesOnRight: {
+          id: true,
+        },
+      },
+    });
 
-    if(!data) return {}
+    if (!data) return {};
 
-    const ids = data?.pagesOnRight?.map(p=> p.id)
+    const ids = data?.pagesOnRight?.map((p) => p.id);
 
-    if(!ids?.length) return {}
+    if (!ids?.length) return {};
 
-    return await this.getMoreByIds(ids,langCode)
+    return await this.getMoreByIds(ids, langCode);
   }
 
-  async getOneForUpdate(id:string, langCode:string){
+  async getOneForUpdate(id: string, langCode: string) {
     const data = await this.pageRepository.findOne({
-      where:{
+      where: {
         id,
-          contents:{
-            langCode
-          }
+        contents: {
+          langCode,
+        },
       },
-      relations:{
-          contents:{
-            tags:true
-          }
-      }
-    })
+      relations: {
+        contents: {
+          tags: true,
+        },
+      },
+    });
 
-    return data.contents[0]
+    return data.contents[0];
   }
 
-  async getMoreByIds(ids:string[],langCode:string){
-   const data = await this.pageRepository.find({
-    where:{
-      id:In(ids),
-      contents:{langCode}
-    },
-    relations:{
-     pagesOnLeft:true,
-     pagesOnRight:true,
-     contents:true
-    },
-    select:{
-      slug:true,
-      id:true,
-      url:true,
-      views:true,
-      pagesOnLeft:{
-        slug:true,
+  async getMoreByIds(ids: string[], langCode: string) {
+    const data = await this.pageRepository.find({
+      where: {
+        id: In(ids),
+        contents: { langCode },
       },
-      pagesOnRight:{
-        slug:true,
+      relations: {
+        pagesOnLeft: true,
+        pagesOnRight: true,
+        contents: true,
       },
-      contents:{
-        shortTitle:true
-      }
-    }
-   })
+      select: {
+        slug: true,
+        id: true,
+        url: true,
+        views: true,
+        pagesOnLeft: {
+          slug: true,
+        },
+        pagesOnRight: {
+          slug: true,
+        },
+        contents: {
+          shortTitle: true,
+        },
+      },
+    });
 
-   return data
+    return data;
   }
 
-  async getOne(slug: string, langCode: string) {
+  async getRightSide(slug: string, langCode: string) {
     const data = await this.pageRepository
       .findOne({
-        where: { 
-          slug,
-          contents:{
-            langCode
-          }
-         },
         relations: {
-          pagesOnLeft:{
-            contents:true
+          pagesOnRight: {
+            contents: true,
           },
-          pagesOnRight:{
-            contents:true
+        },
+        where: {
+          slug,
+          contents: {
+            langCode,
           },
-          contents:{
-            tags:true
-          }
-        }
+        },
+        select: {
+          id: true,
+          pagesOnRight: {
+            slug: true,
+            contents: {
+              shortTitle: true,
+              langCode: true,
+            },
+          },
+        },
       })
       .catch(() => {
         throw new NotFoundException('data not found');
       });
 
-      const pagesOnLeft = []
-      const pagesOnRight = []
+    const pagesOnRight = [];
 
-      data.pagesOnLeft.forEach(pr=>{
-        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
-        pagesOnLeft.push({
-          slug:pr.slug,
-          title:pr.contents[0]?.title,
-          shortTitle: pr.contents[0]?.shortTitle,
-          description: pr.contents[0]?.description
-        })
-      }) 
-  
-      data.pagesOnRight.forEach(pr=>{
-        pr.contents = pr.contents.filter(c=>c.langCode == langCode)
-        pagesOnRight.push({
-          slug:pr.slug,
-          shortTitle: pr.contents[0]?.shortTitle,
-        })
-      })
+    data.pagesOnRight.forEach((pr) => {
+      const { shortTitle } = pr.contents.find((c) => c.langCode == langCode);
+      pagesOnRight.push({
+        slug: pr.slug,
+        shortTitle,
+      });
+    });
 
-    return {...data,pagesOnLeft,pagesOnRight};
+    return pagesOnRight;
   }
 
-  async getById(id:string){
-    const data = await this.pageRepository.findOne({
-      where:{
-        id
-      }
-    })
+  async getLeftSide(slug: string, langCode: string) {
+    const data = await this.pageRepository
+      .findOne({
+        relations: {
+          pagesOnLeft: {
+            contents: true,
+          },
+        },
+        where: {
+          slug,
+          contents: {
+            langCode,
+          },
+        },
+        select: {
+          id: true,
+          pagesOnLeft: {
+            slug: true,
+            contents: {
+              shortTitle: true,
+              langCode: true,
+            },
+          },
+        },
+      })
+      .catch(() => {
+        throw new NotFoundException('data not found');
+      });
 
-    return data
+    const pagesOnLeft = [];
+
+    data.pagesOnLeft.forEach((pr) => {
+      const { shortTitle } = pr.contents.find((c) => c.langCode == langCode);
+      pagesOnLeft.push({
+        slug: pr.slug,
+        shortTitle,
+      });
+    });
+
+    return pagesOnLeft;
+  }
+  async getContent(slug: string, langCode: string) {
+    const data = await this.pageRepository
+      .findOne({
+        relations: {
+          pagesOnLeft: {
+            contents: true,
+          },
+          contents: {
+            tags: true,
+          },
+        },
+        where: {
+          slug,
+          contents: {
+            langCode,
+          },
+        },
+        select: {
+          id: true,
+          slug: true,
+          contents: {
+            title: true,
+            descriptionPage: true,
+          },
+        },
+      })
+      .catch(() => {
+        throw new NotFoundException('data not found');
+      });
+
+    const content = [];
+
+    data.pagesOnLeft?.forEach((pr) => {
+      const { title, description } = pr.contents.find((c) => c.langCode == langCode );
+      content.push({
+        slug: pr.slug,
+        title,
+        description,
+      });
+    });
+
+    const page: {} = data.contents[0];
+
+    return { data: page, content };
+  }
+
+  async getById(id: string) {
+    const data = await this.pageRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    return data;
   }
 
   async deleteOne(id: string) {
@@ -257,14 +337,19 @@ export class PageService {
     }
   }
 
-  async create(value: CreatePageDto, data: any, path:{path: string,short:boolean}) {
-    const title =path.short ? value.contents.find((c) => c.langCode == 'en')
-      ?.title : '';
+  async create(
+    value: CreatePageDto,
+    data: any,
+    path: { path: string; short: boolean },
+  ) {
+    const title = path.short
+      ? value.contents.find((c) => c.langCode == 'en')?.title
+      : '';
     if (!title && title !== '') {
       throw new HttpException('title in english should be exist', 400);
     }
     const url = await this.makeUrl(path.path, title);
-    const slug = await this.makeSlug( title);
+    const slug = await this.makeSlug(title);
 
     const page = await this.pageRepository
       .createQueryBuilder()
@@ -274,7 +359,7 @@ export class PageService {
       .returning('id')
       .execute();
 
-    const newPage = await this.getById(page.raw[0].id)
+    const newPage = await this.getById(page.raw[0].id);
     await this.pageContService.create(value.contents, newPage);
     return page;
   }
@@ -303,7 +388,7 @@ export class PageService {
     });
 
     if (isExist) {
-      return await this.makeSlug(slug + '_')
+      return await this.makeSlug(slug + '_');
     }
 
     return slug;

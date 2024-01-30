@@ -38,14 +38,34 @@ export class PageController {
     return await this.pageService.getAll(langCode);
   }
 
-  @Get('/:slug')
-  @ApiOperation({ summary: 'Method: returns single page by slug' })
+  @Get('/content/:slug')
+  @ApiOperation({ summary: 'Method: returns single page content' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.pageService.getOne(slug,langCode);
+  async getContent(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.pageService.getContent(slug,langCode);
+  }
+
+  @Get('/right/:slug')
+  @ApiOperation({ summary: 'Method: returns single page right side' })
+  @ApiOkResponse({
+    description: 'The page was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getRightSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.pageService.getRightSide(slug,langCode);
+  }
+
+  @Get('/left/:slug')
+  @ApiOperation({ summary: 'Method: returns single page left side' })
+  @ApiOkResponse({
+    description: 'The page was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getLeftSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
+    return this.pageService.getLeftSide(slug,langCode);
   }
 
   @Get('/single-for-update/:id')
