@@ -232,7 +232,8 @@ export class DestinationService {
           pagesOnRight:{
             slug:true,
             contents:{
-              shortTitle:true
+              shortTitle:true,
+              langCode:true,
             }
           }
         }
@@ -280,6 +281,7 @@ export class DestinationService {
             slug:true,
             contents:{
               shortTitle:true,
+              langCode:true
             }
           }
         }
@@ -291,9 +293,7 @@ export class DestinationService {
 
     const pagesOnLeft = []
 
-    data.page.pagesOnLeft.forEach(pr=>{
-      console.log(pr);
-      
+    data.page.pagesOnLeft.forEach(pr=>{      
       const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
       pagesOnLeft.push({
         slug:pr.slug,
@@ -332,7 +332,8 @@ export class DestinationService {
             slug:true,
             contents:{
               title:true,
-              description:true
+              description:true,
+              langCode:true
             }
           },
           contents:{
@@ -348,9 +349,7 @@ export class DestinationService {
 
     const content = []
 
-    data.page.pagesOnLeft?.forEach(pr=>{
-      console.log(pr);
-      
+    data.page.pagesOnLeft?.forEach(pr=>{      
       const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
       content.push({
         slug:pr.slug,
