@@ -161,7 +161,9 @@ export class TransportService {
       })
     }) 
 
-    const page = data.page.contents[0]
+    const page:any = data.page.contents[0]
+
+    data.roadTransports.length ? page.roadTransport = data.roadTransports : null
 
     return {data:page,content};
   }
