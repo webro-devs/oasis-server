@@ -125,6 +125,7 @@ export class TransportService {
             tags:true
           },
         },
+        roadTransports:true
       },
       where: {
         type,
