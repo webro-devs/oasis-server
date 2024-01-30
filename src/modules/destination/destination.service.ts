@@ -289,17 +289,17 @@ export class DestinationService {
       throw new NotFoundException('data not found');
     });
 
-    const pagesOnLeft = []
+    // const pagesOnLeft = []
 
-    data.page.pagesOnLeft.forEach(pr=>{
-      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
-      pagesOnLeft.push({
-        slug:pr.slug,
-        shortTitle,
-      })
-    })
+    // data.page.pagesOnLeft.forEach(pr=>{
+    //   const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
+    //   pagesOnLeft.push({
+    //     slug:pr.slug,
+    //     shortTitle,
+    //   })
+    // })
 
-    return pagesOnLeft
+    return data
   }
   async getContent(slug: string, langCode: string){
     const data = await this.destinationRepository
@@ -344,20 +344,21 @@ export class DestinationService {
       throw new NotFoundException('data not found');
     });
 
-    const content = []
+    // const content = []
 
-    data.page.pagesOnLeft.forEach(pr=>{
-      const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
-      content.push({
-        slug:pr.slug,
-        title,
-        description
-      })
-    }) 
+    // data.page.pagesOnLeft.forEach(pr=>{
+    //   const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
+    //   content.push({
+    //     slug:pr.slug,
+    //     title,
+    //     description
+    //   })
+    // }) 
 
-    const page = data.page.contents[0]
+    // const page = data.page.contents[0]
 
-    return {data:page,content};
+    // return {data:page,content};
+    return data
 
   }
 
