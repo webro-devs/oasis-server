@@ -72,7 +72,7 @@ export class DestinationController {
   })
   @HttpCode(HttpStatus.OK)
   async GetLeftSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.destinationService.getLeftSide(slug,langCode);
+    return this.destinationService.getContent(slug,langCode);
   }
 
   @Get('/left/:slug')
@@ -82,7 +82,7 @@ export class DestinationController {
   })
   @HttpCode(HttpStatus.OK)
   async getContent(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.destinationService.getContent(slug,langCode);
+    return this.destinationService.getLeftSide(slug,langCode);
   }
 
   @Get('/:id/:menu')
