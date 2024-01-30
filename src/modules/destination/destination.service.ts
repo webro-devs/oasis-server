@@ -292,6 +292,8 @@ export class DestinationService {
     const pagesOnLeft = []
 
     data.page.pagesOnLeft.forEach(pr=>{
+      console.log(pr);
+      
       const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
       pagesOnLeft.push({
         slug:pr.slug,
@@ -322,43 +324,44 @@ export class DestinationService {
           },
         },
       },
-      // select:{
-      //   slug:true,
-      //   page:{
-      //     id:true,
-      //     pagesOnLeft:{
-      //       slug:true,
-      //       contents:{
-      //         title:true,
-      //         description:true
-      //       }
-      //     },
-      //     contents:{
-      //       title:true,
-      //       descriptionPage:true
-      //     }
-      //   },
-      // }
+      select:{
+        slug:true,
+        page:{
+          slug:true,
+          pagesOnLeft:{
+            slug:true,
+            contents:{
+              title:true,
+              description:true
+            }
+          },
+          contents:{
+            title:true,
+            descriptionPage:true
+          }
+        },
+      }
     })
     .catch(() => {
       throw new NotFoundException('data not found');
     });
 
-    // const content = []
+    const content = []
 
-    // data.page.pagesOnLeft.forEach(pr=>{
-    //   const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
-    //   content.push({
-    //     slug:pr.slug,
-    //     title,
-    //     description
-    //   })
-    // }) 
+    data.page.pagesOnLeft?.forEach(pr=>{
+      console.log(pr);
+      
+      const {title,description} = pr.contents.filter(c=>c.langCode == langCode)[0]
+      content.push({
+        slug:pr.slug,
+        title,
+        description
+      })
+    }) 
 
-    // const page = data.page.contents[0]
+    const page = data.page.contents[0]
 
-    // return {data:page,content};
-    return data
+    return {data:page,content};
 
   }
 
