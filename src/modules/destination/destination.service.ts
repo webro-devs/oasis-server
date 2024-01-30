@@ -328,6 +328,11 @@ export class DestinationService {
         slug:true,
         page:{
           slug:true,
+          contents:{
+            title:true,
+            descriptionPage:true,
+            langCode:true
+          },
           pagesOnLeft:{
             slug:true,
             contents:{
@@ -335,10 +340,6 @@ export class DestinationService {
               description:true,
               langCode:true
             }
-          },
-          contents:{
-            title:true,
-            descriptionPage:true
           }
         },
       }
