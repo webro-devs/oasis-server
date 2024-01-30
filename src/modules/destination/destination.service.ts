@@ -328,10 +328,13 @@ export class DestinationService {
         slug:true,
         page:{
           id:true,
-          contents:{
-            title:true,
-            descriptionPage:true,
-            langCode:true
+          pagesOnLeft:{
+            slug:true,
+            contents:{
+              title:true,
+              description:true,
+              langCode:true
+            }
           }
         },
       }
@@ -351,7 +354,7 @@ export class DestinationService {
       })
     }) 
 
-    const page = data.page.contents[0]
+    const page:{} = data.page.contents[0]
 
     return {data:page,content};
 
