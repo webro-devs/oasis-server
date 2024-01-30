@@ -324,25 +324,25 @@ export class DestinationService {
           },
         },
       },
-      select:{
-        slug:true,
-        page:{
-          id:true,
-          // contents:{
-          //   title:true,
-          //   descriptionPage:true,
-          //   langCode:true
-          // },
-          pagesOnLeft:{
-            slug:true,
-            contents:{
-              title:true,
-              description:true,
-              langCode:true
-            }
-          }
-        },
-      }
+      // select:{
+      //   slug:true,
+      //   page:{
+      //     id:true,
+      //     contents:{
+      //       title:true,
+      //       descriptionPage:true,
+      //       langCode:true
+      //     },
+      //     pagesOnLeft:{
+      //       slug:true,
+      //       contents:{
+      //         title:true,
+      //         description:true,
+      //         langCode:true
+      //       }
+      //     }
+      //   },
+      // }
     })
     .catch(() => {
       throw new NotFoundException('data not found');
