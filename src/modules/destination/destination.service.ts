@@ -234,7 +234,7 @@ export class DestinationService {
               id: true,
               slug: true,
               contents: {
-                id:true,
+                id: true,
                 shortTitle: true,
                 langCode: true,
               },
@@ -245,6 +245,8 @@ export class DestinationService {
       .catch(() => {
         throw new NotFoundException('data not found');
       });
+
+    if (!data) return [];
 
     const pagesOnRight = [];
 
@@ -286,7 +288,7 @@ export class DestinationService {
               id: true,
               slug: true,
               contents: {
-                id:true,
+                id: true,
                 shortTitle: true,
                 langCode: true,
               },
@@ -297,6 +299,8 @@ export class DestinationService {
       .catch(() => {
         throw new NotFoundException('data not found');
       });
+
+    if (!data) return [];
 
     const pagesOnLeft = [];
 
@@ -346,7 +350,7 @@ export class DestinationService {
               id: true,
               slug: true,
               contents: {
-                id:true,
+                id: true,
                 title: true,
                 description: true,
                 langCode: true,
@@ -358,6 +362,8 @@ export class DestinationService {
       .catch(() => {
         throw new NotFoundException('data not found');
       });
+
+     if(!data) return {}
 
     const content = [];
 

@@ -35,36 +35,43 @@ export class TransportService {
           },
         },
       },
-      select:{
-        id:true,
-        page:{
-          id:true,
-          pagesOnRight:{
-            slug:true,
-            contents:{
-              shortTitle:true,
-              langCode:true,
-            }
-          }
-        }
-      }
+      select: {
+        id: true,
+        page: {
+          id: true,
+          pagesOnRight: {
+            id: true,
+            slug: true,
+            contents: {
+              id: true,
+              shortTitle: true,
+              langCode: true,
+            },
+          },
+        },
+      },
     })
     .catch(() => {
       throw new NotFoundException('data not found');
     });
 
-    const pagesOnRight = []
+  if (!data) return [];
 
-    data.page.pagesOnRight.forEach(pr=>{
-      const {shortTitle}  = pr.contents.find(c=>c.langCode == langCode)
-      pagesOnRight.push({
-        slug:pr.slug,
-        shortTitle
-      })
-    })
+  const pagesOnRight = [];
+
+  data.page.pagesOnRight.forEach((pr) => {
+    const data = pr.contents.find((c) => c.langCode == langCode);
+    if (!data) return;
+    const { shortTitle } = data;
+    pagesOnRight.push({
+      slug: pr.slug,
+      shortTitle,
+    });
+  });
 
     return pagesOnRight
   }
+
   async getLeftSide(type: TransportType, langCode: string){
     const data = await this.transportRepository
     .findOne({
@@ -83,36 +90,43 @@ export class TransportService {
           },
         },
       },
-      select:{
-        id:true,
-        page:{
-          id:true,
-          pagesOnLeft:{
-            slug:true,
-            contents:{
-              shortTitle:true,
-              langCode:true
-            }
-          }
-        }
-      }
+      select: {
+        id: true,
+        page: {
+          id: true,
+          pagesOnLeft: {
+            id: true,
+            slug: true,
+            contents: {
+              id: true,
+              shortTitle: true,
+              langCode: true,
+            },
+          },
+        },
+      },
     })
     .catch(() => {
       throw new NotFoundException('data not found');
     });
 
-    const pagesOnLeft = []
+  if (!data) return [];
 
-    data.page.pagesOnLeft.forEach(pr=>{      
-      const {shortTitle}  = pr.contents.filter(c=>c.langCode == langCode)[0]
-      pagesOnLeft.push({
-        slug:pr.slug,
-        shortTitle,
-      })
-    })
+  const pagesOnLeft = [];
+
+  data.page.pagesOnLeft.forEach((pr) => {
+    const data = pr.contents.find((c) => c.langCode == langCode);
+    if (!data) return;
+    const { shortTitle } = data;
+    pagesOnLeft.push({
+      slug: pr.slug,
+      shortTitle,
+    });
+  });
 
     return pagesOnLeft
   }
+
   async getContent(type: TransportType, langCode: string){    
     const data = await this.transportRepository
     .findOne({
@@ -135,32 +149,47 @@ export class TransportService {
           },
         },
       },
-      select:{
-        id:true,
-        type:true,
-        page:{
-          id:true,
-          contents:{
-            title:true,
-            descriptionPage:true
-          }
+      select: {
+        id: true,
+        type: true,
+        page: {
+          id: true,
+          contents: {
+            title: true,
+            descriptionPage: true,
+          },
+          pagesOnLeft: {
+            id: true,
+            slug: true,
+            contents: {
+              id: true,
+              title: true,
+              description: true,
+              langCode: true,
+            },
+          },
         },
-      }
+      },
     })
     .catch(() => {
       throw new NotFoundException('data not found');
     });
 
-    const content = []
+   if(!data) return {}
 
-    data.page.pagesOnLeft?.forEach(pr=>{      
-      const {title,description} = pr.contents.find(c=>c.langCode == langCode)
-      content.push({
-        slug:pr.slug,
-        title,
-        description
-      })
-    }) 
+  const content = [];
+
+  data.page?.pagesOnLeft?.forEach((pr) => {
+    const data = pr.contents.find((c) => c.langCode == langCode);
+    if (!data) return;
+    const { title, description } = data;
+    content.push({
+      slug: pr.slug,
+      title,
+      description,
+    });
+  });
+
 
     const page:any = data.page.contents[0]
 

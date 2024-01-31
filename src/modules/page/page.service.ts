@@ -166,8 +166,10 @@ export class PageService {
         select: {
           id: true,
           pagesOnRight: {
+            id: true,
             slug: true,
             contents: {
+              id: true,
               shortTitle: true,
               langCode: true,
             },
@@ -178,10 +180,14 @@ export class PageService {
         throw new NotFoundException('data not found');
       });
 
+    if (!data) return [];
+
     const pagesOnRight = [];
 
     data.pagesOnRight.forEach((pr) => {
-      const { shortTitle } = pr.contents.find((c) => c.langCode == langCode);
+      const data = pr.contents.find((c) => c.langCode == langCode);
+      if (!data) return;
+      const { shortTitle } = data;
       pagesOnRight.push({
         slug: pr.slug,
         shortTitle,
@@ -208,8 +214,10 @@ export class PageService {
         select: {
           id: true,
           pagesOnLeft: {
+            id: true,
             slug: true,
             contents: {
+              id: true,
               shortTitle: true,
               langCode: true,
             },
@@ -220,10 +228,14 @@ export class PageService {
         throw new NotFoundException('data not found');
       });
 
+    if (!data) return [];
+
     const pagesOnLeft = [];
 
     data.pagesOnLeft.forEach((pr) => {
-      const { shortTitle } = pr.contents.find((c) => c.langCode == langCode);
+      const data = pr.contents.find((c) => c.langCode == langCode);
+      if (!data) return;
+      const { shortTitle } = data;
       pagesOnLeft.push({
         slug: pr.slug,
         shortTitle,
@@ -232,6 +244,7 @@ export class PageService {
 
     return pagesOnLeft;
   }
+
   async getContent(slug: string, langCode: string) {
     const data = await this.pageRepository
       .findOne({
@@ -253,6 +266,7 @@ export class PageService {
           id: true,
           slug: true,
           contents: {
+            id: true,
             title: true,
             descriptionPage: true,
           },
@@ -262,10 +276,14 @@ export class PageService {
         throw new NotFoundException('data not found');
       });
 
+    if (!data) return {};
+
     const content = [];
 
     data.pagesOnLeft?.forEach((pr) => {
-      const { title, description } = pr.contents.find((c) => c.langCode == langCode );
+      const data = pr.contents.find((c) => c.langCode == langCode);
+      if (!data) return;
+      const { title, description } = data;
       content.push({
         slug: pr.slug,
         title,
