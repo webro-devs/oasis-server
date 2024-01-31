@@ -27,40 +27,40 @@ import { TransportType } from 'src/infra/shared/type';
 export class TransportController {
   constructor(private readonly transportService: TransportService) {}
 
-  @Get('/content/:type')
+  @Get('/content/:slug')
   @ApiOperation({ summary: 'Method: returns single transport content' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
   async getContent(
-    @Param('type') type: TransportType,
+    @Param('slug') type: TransportType,
     @Query('langCode') langCode: string,
   ) {
     return this.transportService.getContent(type, langCode);
   }
 
-  @Get('/right/:type')
+  @Get('/right/:slug')
   @ApiOperation({ summary: 'Method: returns single transport right side' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
   async getRightSide(
-    @Param('type') type: TransportType,
+    @Param('slug') type: TransportType,
     @Query('langCode') langCode: string,
   ) {
     return this.transportService.getRightSide(type, langCode);
   }
 
-  @Get('/left/:type')
+  @Get('/left/:slug')
   @ApiOperation({ summary: 'Method: returns single transport left side' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
   async getLeftSide(
-    @Param('type') type: TransportType,
+    @Param('slug') type: TransportType,
     @Query('langCode') langCode: string,
   ) {
     return this.transportService.getLeftSide(type, langCode);
