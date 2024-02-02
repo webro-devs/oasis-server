@@ -26,7 +26,7 @@ export class DestinationController {
   constructor(private readonly destinationService: DestinationService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all destinations' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'The destinations was returned successfully',
   })
@@ -36,7 +36,7 @@ export class DestinationController {
   }
 
   @Get('/for-site')
-  @ApiOperation({ summary: 'Method: returns all destinations' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destinations was returned successfully',
   })
@@ -46,7 +46,7 @@ export class DestinationController {
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Method: returns single destination by id for update' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -56,7 +56,7 @@ export class DestinationController {
   }
 
   @Get('/right/:slug')
-  @ApiOperation({ summary: 'Method: returns single destination by slug' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -66,7 +66,7 @@ export class DestinationController {
   }
 
   @Get('/content/:slug')
-  @ApiOperation({ summary: 'Method: returns single destination by slug' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -76,7 +76,7 @@ export class DestinationController {
   }
 
   @Get('/left/:slug')
-  @ApiOperation({ summary: 'Method: returns single destination by slug' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -86,7 +86,7 @@ export class DestinationController {
   }
 
   @Get('/:id/:menu')
-  @ApiOperation({ summary: 'Method: returns destination menu' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -96,7 +96,7 @@ export class DestinationController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new destination' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiCreatedResponse({
     description: 'The destination was created successfully',
   })
@@ -106,7 +106,7 @@ export class DestinationController {
   }
 
   @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating destination' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Destination was changed',
   })
@@ -119,7 +119,7 @@ export class DestinationController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting destination' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Destination was deleted',
   })

@@ -54,10 +54,10 @@ export class EventService {
     return res
   }
 
-  async getOne(id: string, langCode: string) {
+  async getOne(slug: string, langCode: string) {
     const data = await this.eventRepository.findOne({
       where:{
-        id,
+        slug,
         contents:{
           langCode
         }
@@ -69,19 +69,6 @@ export class EventService {
       }
     });
     return {...data,contents: data.contents[0]};
-  }
-
-  async getByUrl(title: string, langCode: string) {
-    const url = this.configService.get('clientUrl') + `event/${title}`;
-    const data = await this.eventRepository.findOne({
-      where:{
-        url
-      }
-    })
-    
-    if(!data) return {}
-
-    return this.getOne(data.id, langCode)
   }
 
   async getOneForUpdate(id:string,langCode:string){

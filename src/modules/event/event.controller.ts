@@ -5,10 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
   Query,
+  Put,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -27,7 +27,7 @@ export class EventController {
   constructor(private readonly eventService: EventService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all events' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The events were returned successfully',
   })
@@ -37,27 +37,17 @@ export class EventController {
   }
 
   @Get('/:slug')
-  @ApiOperation({ summary: 'Method: returns single event by slug' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The event was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
   async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.eventService.getByUrl(slug,langCode);
-  }
-
-  @Get('/single/:id')
-  @ApiOperation({ summary: 'Method: returns single event by id' })
-  @ApiOkResponse({
-    description: 'The event was returned successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string,@Query('langCode') langCode:string) {
-    return this.eventService.getOne(id,langCode);
+    return this.eventService.getOne(slug,langCode);
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Method: returns single event by id for update' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
   })
@@ -67,7 +57,7 @@ export class EventController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new event' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiCreatedResponse({
     description: 'The event was created successfully',
   })
@@ -76,8 +66,8 @@ export class EventController {
     return await this.eventService.create(data);
   }
 
-  @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating event' })
+  @Put('/:id')
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Event was changed',
   })
@@ -90,7 +80,7 @@ export class EventController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting event' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Event was deleted',
   })

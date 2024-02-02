@@ -5,9 +5,9 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
+  Put,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -27,7 +27,7 @@ export class FeedbackController {
   constructor(private readonly feedbaackService: FeedbackService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all feedbacks' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The feedbacks were returned successfully',
   })
@@ -37,7 +37,7 @@ export class FeedbackController {
   }
   
   @Get('/:id')
-  @ApiOperation({ summary: 'Method: returns single feedback by id' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'The feedback was returned successfully',
   })
@@ -47,7 +47,7 @@ export class FeedbackController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new feedback' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiCreatedResponse({
     description: 'The feedback was created successfully',
   })
@@ -56,8 +56,8 @@ export class FeedbackController {
     return await this.feedbaackService.create(data);
   }
 
-  @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating feedback' })
+  @Put('/:id')
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'Feedback was changed',
   })
@@ -70,7 +70,7 @@ export class FeedbackController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting feedback' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'Feedback was deleted',
   })

@@ -5,10 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
   Query,
+  Put,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -26,7 +26,7 @@ export class TourCategoryController {
   constructor(private readonly tourCategoryService: TourCategoryService) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all tour category for home page' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -38,7 +38,7 @@ export class TourCategoryController {
   }
 
   @Get('/for-tours-page')
-  @ApiOperation({ summary: 'Method: returns all tour category for tour page' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -50,7 +50,7 @@ export class TourCategoryController {
   }
 
   @Get('/for-admin-page')
-  @ApiOperation({ summary: 'Method: returns all tour category for admin' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -62,7 +62,7 @@ export class TourCategoryController {
   }
 
   @Get('/:slug')
-  @ApiOperation({ summary: 'Method: returns single tour category by type' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -75,7 +75,7 @@ export class TourCategoryController {
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Method: returns single tour category by id for update' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
@@ -85,7 +85,7 @@ export class TourCategoryController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new tour category' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiCreatedResponse({
     description: 'The tour category was created successfully',
   })
@@ -94,8 +94,8 @@ export class TourCategoryController {
     return await this.tourCategoryService.create(data);
   }
 
-  @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating tour category' })
+  @Put('/:id')
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'Tour category was changed',
   })
@@ -105,7 +105,7 @@ export class TourCategoryController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting tour category' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'Tour category was deleted',
   })

@@ -29,7 +29,7 @@ export class PageController {
 
   @Public()
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all page' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'The page were returned successfully',
   })
@@ -39,7 +39,7 @@ export class PageController {
   }
 
   @Get('/content/:slug')
-  @ApiOperation({ summary: 'Method: returns single page content' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
   })
@@ -49,7 +49,7 @@ export class PageController {
   }
 
   @Get('/right/:slug')
-  @ApiOperation({ summary: 'Method: returns single page right side' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
   })
@@ -59,7 +59,7 @@ export class PageController {
   }
 
   @Get('/left/:slug')
-  @ApiOperation({ summary: 'Method: returns single page left side' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
   })
@@ -69,7 +69,7 @@ export class PageController {
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Method: returns single page by id for update' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -79,7 +79,7 @@ export class PageController {
   }
 
   @Get('/:id/:menu')
-  @ApiOperation({ summary: 'Method: returns page menu' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -89,7 +89,7 @@ export class PageController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new page' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiCreatedResponse({
     description: 'The page was created successfully',
   })
@@ -99,7 +99,7 @@ export class PageController {
   }
 
   @Post('/add-page-to-left')
-  @ApiOperation({ summary: 'Method: adds a page to some page left side' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiCreatedResponse({
     description: 'The page was added successfully',
   })
@@ -109,7 +109,7 @@ export class PageController {
   }
 
   @Post('/add-page-to-right')
-  @ApiOperation({ summary: 'Method: adds page to some page right side' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiCreatedResponse({
     description: 'The page was added successfully',
   })
@@ -119,7 +119,7 @@ export class PageController {
   }
 
   @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating page' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'Page was changed',
   })
@@ -132,7 +132,7 @@ export class PageController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting page' })
+  @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'Page was deleted',
   })

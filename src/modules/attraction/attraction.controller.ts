@@ -5,10 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
   Query,
+  Put,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -29,7 +29,7 @@ export class AttractionController {
   ) {}
 
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all attractions' })
+  @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({
     description: 'The attractions were returned successfully',
   })
@@ -39,7 +39,7 @@ export class AttractionController {
   }
 
   @Get('/:slug')
-  @ApiOperation({ summary: 'Method: returns single attraction by slug' })
+  @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
   })
@@ -49,7 +49,7 @@ export class AttractionController {
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Method: returns single attraction by id for update' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
   })
@@ -59,7 +59,7 @@ export class AttractionController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new attraction' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiCreatedResponse({
     description: 'The attraction was created successfully',
   })
@@ -68,8 +68,8 @@ export class AttractionController {
     return await this.attractionService.create(data);
   }
 
-  @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating attraction' })
+  @Put('/:id')
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Attraction was changed',
   })
@@ -82,7 +82,7 @@ export class AttractionController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting attraction' })
+  @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Attraction was deleted',
   })

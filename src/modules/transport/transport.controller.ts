@@ -28,7 +28,7 @@ export class TransportController {
   constructor(private readonly transportService: TransportService) {}
 
   @Get('/content/:slug')
-  @ApiOperation({ summary: 'Method: returns single transport content' })
+  @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
@@ -41,7 +41,7 @@ export class TransportController {
   }
 
   @Get('/right/:slug')
-  @ApiOperation({ summary: 'Method: returns single transport right side' })
+  @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
@@ -54,7 +54,7 @@ export class TransportController {
   }
 
   @Get('/left/:slug')
-  @ApiOperation({ summary: 'Method: returns single transport left side' })
+  @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
   })
@@ -67,7 +67,7 @@ export class TransportController {
   }
 
   @Get('/single-for-update/:type')
-  @ApiOperation({ summary: 'Method: returns single destination by id for update' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -77,7 +77,7 @@ export class TransportController {
   }
 
   @Get('/:type/:menu')
-  @ApiOperation({ summary: 'Method: returns destination menu' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
   })
@@ -87,7 +87,7 @@ export class TransportController {
   }
 
   @Post('/')
-  @ApiOperation({ summary: 'Method: creates new transport' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiCreatedResponse({
     description: 'The transport was created successfully',
   })
@@ -97,7 +97,7 @@ export class TransportController {
   }
 
   @Patch('/:id')
-  @ApiOperation({ summary: 'Method: updating transport' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'Transport was changed',
   })
@@ -107,7 +107,7 @@ export class TransportController {
   }
 
   @Delete('/:id')
-  @ApiOperation({ summary: 'Method: deleting transport' })
+  @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
     description: 'Transport was deleted',
   })
