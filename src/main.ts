@@ -46,10 +46,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document, {
     swaggerOptions: {
       tagsSorter: 'alpha',
-      operationsSorter: function (a, b) {
-        var order = {'get': '0', 'post': '1', 'put': '2', 'delete': '3'};
-        return order[a.get("method")].localeCompare(order[b.get("method")]);
-    }
+      operationsSorter: 'method'
     },
   });
 
