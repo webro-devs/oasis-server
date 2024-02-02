@@ -19,6 +19,7 @@ import {
 
 import { CreateDestinationDto, UpdateDestinationDto } from './dto';
 import { DestinationService } from './destination.service';
+import { DestinationListWebsiteResponseType, DestinationSideResponseType } from './dto/response-destination.dto';
 
 @ApiTags('Destination')
 @Controller('destination')
@@ -39,6 +40,8 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destinations was returned successfully',
+    type: DestinationListWebsiteResponseType,
+    isArray:true
   })
   @HttpCode(HttpStatus.OK)
   async getAllForSite(@Query('langCode') langCode:string){
@@ -59,6 +62,8 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
+    type: DestinationSideResponseType,
+    isArray:true
   })
   @HttpCode(HttpStatus.OK)
   async getRightSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
@@ -79,6 +84,8 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
+    type: DestinationSideResponseType,
+    isArray:true
   })
   @HttpCode(HttpStatus.OK)
   async getContent(@Query('langCode') langCode:string,@Param('slug') slug:string){

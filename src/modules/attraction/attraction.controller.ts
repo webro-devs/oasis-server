@@ -20,6 +20,7 @@ import {
 import { CreateAttractionDto, UpdateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { AttractionService } from './attraction.service';
+import { AttractionListResponseType, AttractionSingleResponseType } from './dto/response-attraction.dto';
 
 @ApiTags('Attraction')
 @Controller('attraction')
@@ -32,6 +33,8 @@ export class AttractionController {
   @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({
     description: 'The attractions were returned successfully',
+    type: AttractionListResponseType,
+    isArray:true
   })
   @HttpCode(HttpStatus.OK)
   async getData(@Query('langCode') langCode:string,@Query('type') type:string) {
@@ -42,6 +45,7 @@ export class AttractionController {
   @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
+    type: AttractionSingleResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getMe(@Param('slug') slug: string,@Query('langCode') langCode:string){
