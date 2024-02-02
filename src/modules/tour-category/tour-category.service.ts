@@ -53,7 +53,7 @@ export class TourCategoryService {
 
     data.forEach(d=>{
       res.push({
-        type: d.type,
+        slug: d.type,
         photo:d.photo,
         title: d.page.contents[0].title,
         shortTitle: d.page.contents[0].shortTitle
@@ -140,7 +140,7 @@ export class TourCategoryService {
 
     data.forEach(d=>{
       res.push({
-         type:d.type,
+         slug:d.type,
          photo:d.photo,
          contents:d.page.contents[0]
       })

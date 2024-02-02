@@ -44,8 +44,20 @@ export class AttractionService {
         }
       }
     });
+
+    const res = []
+
+    data.forEach(d=>{
+      res.push({
+        slug: d.slug,
+        type:d.type,
+        photo: d.photo,
+        region: d?.contents[0]?.region,
+        title: d?.contents[0]?.title
+      })
+    })
   
-    return data
+    return res
   }
 
   async getOne(slug: string,langCode:string) {
@@ -65,7 +77,13 @@ export class AttractionService {
    
     if(!data) return {}
 
-    return data;
+    const res = {
+      slug: data.slug,
+      photo: data.photo,
+      contents: data?.contents[0]
+    }
+
+    return res;
   }
 
   async getOneForUpdate(id:string,langCode:string){
@@ -84,19 +102,6 @@ export class AttractionService {
     })
 
     return data.contents[0]
-  }
-
-  async getByUrl(type: string,slug:string, langCode: string) {
-    const url = this.configService.get('clientUrl') + `${type}/${slug}`;
-    const data = await this.attractionRepository.findOne({
-      where:{
-        url
-      }
-    })
-    
-    if(!data) return {}
-
-    return this.getOne(data.id, langCode)
   }
 
   async deleteOne(id: string) {

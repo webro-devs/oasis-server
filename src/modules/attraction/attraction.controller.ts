@@ -58,16 +58,6 @@ export class AttractionController {
     return this.attractionService.getOneForUpdate(id,langCode);
   }
 
-  @Get('/:type/:slug')
-  @ApiOperation({ summary: 'Method: returns single attraction by id' })
-  @ApiOkResponse({
-    description: 'The attraction was returned successfully',
-  })
-  @HttpCode(HttpStatus.OK)
-  async getByUrl(@Param('type') type: string,@Param('slug') slug: string,@Query('langCode') langCode:string){
-    return this.attractionService.getByUrl(type,slug,langCode);
-  }
-
   @Post('/')
   @ApiOperation({ summary: 'Method: creates new attraction' })
   @ApiCreatedResponse({

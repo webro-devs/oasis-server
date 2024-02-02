@@ -61,14 +61,14 @@ export class TourCategoryController {
     return this.tourCategoryService.getAllForAdmin(langCode);
   }
 
-  @Get('/:type')
+  @Get('/:slug')
   @ApiOperation({ summary: 'Method: returns single tour category by type' })
   @ApiOkResponse({
     description: 'The tour category was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
   async getMe(
-    @Param('type') type: string,
+    @Param('slug') type: string,
     @Query('langCode') langCode: string,
   ) {
     return this.tourCategoryService.getOne(type, langCode);
