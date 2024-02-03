@@ -17,7 +17,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { CreateEventDto, UpdateEventDto } from './dto';
+import { CreateEventDto, EventPaginationDto, UpdateEventDto } from './dto';
 import { Event } from './event.entity';
 import { EventService } from './event.service';
 
@@ -32,8 +32,11 @@ export class EventController {
     description: 'The events were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query('langCode') langCode:string) {
-    return await this.eventService.getAll(langCode);
+  async getData(@Query() query: EventPaginationDto) {
+    return await this.eventService.getAll(query.langCode, {
+      limit: query.limit,
+      page: query.page,
+    });
   }
 
   @Get('/:slug')
@@ -42,8 +45,11 @@ export class EventController {
     description: 'The event was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByUrl(@Query('langCode') langCode:string,@Param('slug') slug:string){
-    return this.eventService.getOne(slug,langCode);
+  async getByUrl(
+    @Query('langCode') langCode: string,
+    @Param('slug') slug: string,
+  ) {
+    return this.eventService.getOne(slug, langCode);
   }
 
   @Get('/single-for-update/:id')
@@ -52,8 +58,11 @@ export class EventController {
     description: 'The attraction was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getOneForUpdate(@Param('id') id: string,@Query('langCode') langCode:string){
-    return this.eventService.getOneForUpdate(id,langCode);
+  async getOneForUpdate(
+    @Param('id') id: string,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.eventService.getOneForUpdate(id, langCode);
   }
 
   @Post('/')
@@ -72,10 +81,7 @@ export class EventController {
     description: 'Event was changed',
   })
   @HttpCode(HttpStatus.OK)
-  async changeData(
-    @Body() data: UpdateEventDto,
-    @Param('id') id: string,
-  ){
+  async changeData(@Body() data: UpdateEventDto, @Param('id') id: string) {
     return await this.eventService.change(data, id);
   }
 

@@ -1,5 +1,9 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import {
+  IPaginationOptions,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 import { UpdateEventDto, CreateEventDto } from './dto';
 import { Event } from './event.entity';
@@ -17,8 +21,8 @@ export class EventService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getAll(langCode: string) {
-    const data = await this.eventRepository.find({
+  async getAll(langCode: string,options: IPaginationOptions) {
+    const data = await paginate<Event>(this.eventRepository, options, {
       where:{
         contents:{
           langCode
@@ -44,7 +48,7 @@ export class EventService {
       }
     });
     const res = []
-    data.forEach(d=>{
+    data.items.forEach(d=>{
       res.push({
         slug: d.slug,
         date: d.date,

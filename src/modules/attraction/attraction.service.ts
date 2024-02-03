@@ -2,7 +2,6 @@ import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import {
   IPaginationOptions,
-  Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
 
@@ -23,6 +22,9 @@ export class AttractionService {
   ) {}
 
   async getAll(langCode:string,type,options: IPaginationOptions,) {
+    console.log(langCode);
+    console.log(options);
+    
     const data = await paginate<Attraction>(this.attractionRepository, options, {
       where:{
         type,
