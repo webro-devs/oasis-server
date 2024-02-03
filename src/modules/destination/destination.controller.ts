@@ -19,7 +19,8 @@ import {
 
 import { CreateDestinationDto, UpdateDestinationDto } from './dto';
 import { DestinationService } from './destination.service';
-import { DestinationContentResponseType, DestinationListWebsiteResponseType, DestinationSideResponseType } from './dto/response-destination.dto';
+import { DestinationListWebsiteResponseType } from './dto/response-destination.dto';
+import { PageResponseTypeDto } from 'src/infra/shared/dto';
 
 @ApiTags('Destination')
 @Controller('destination')
@@ -62,7 +63,7 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
-    type: DestinationSideResponseType,
+    type: PageResponseTypeDto.PageSideResponseType,
     isArray:true
   })
   @HttpCode(HttpStatus.OK)
@@ -74,7 +75,7 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
-    type: DestinationContentResponseType
+    type: PageResponseTypeDto.PageContentResponseType
   })
   @HttpCode(HttpStatus.OK)
   async GetLeftSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
@@ -85,7 +86,7 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
-    type: DestinationSideResponseType,
+    type: PageResponseTypeDto.PageSideResponseType,
     isArray:true
   })
   @HttpCode(HttpStatus.OK)
