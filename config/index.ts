@@ -16,7 +16,7 @@ export default (): IConfig => ({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     // url: process.env.DB_URL,
-    logging: false,
+    logging: true,
     autoLoadEntities: true,
     entities: ['./dist/**/*.entity.js'],
     synchronize: true,
