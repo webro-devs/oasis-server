@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class AttractionListType {
+export class EventListType {
   @ApiProperty()
-  readonly type: string;
+  readonly date: string;
 
   @ApiProperty()
   readonly slug: string;
@@ -11,11 +11,12 @@ export class AttractionListType {
   readonly photo: string;
 
   @ApiProperty()
-  readonly region: string;
+  readonly description: string;
 
   @ApiProperty()
   readonly title: string;
 }
+
 
 class MetaDto{
   @ApiProperty()
@@ -34,12 +35,12 @@ class MetaDto{
   readonly currentPage: number;
 }
 
-export class AttractionListResponseType {
+export class EventListResponseType {
   @ApiProperty({
-    type:()=>AttractionListType,
+    type:()=>EventListType,
     isArray:true
   })
-  readonly items: AttractionListType[];
+  readonly items: EventListType[];
 
   @ApiProperty({
     type:()=>MetaDto
@@ -47,10 +48,7 @@ export class AttractionListResponseType {
   readonly meta: MetaDto;
 }
 
-export class AttractionSingleResponseType {
-  @ApiProperty()
-  readonly type: string;
-
+export class EventSingleResponseType {
   @ApiProperty()
   readonly slug: string;
 
@@ -61,8 +59,9 @@ export class AttractionSingleResponseType {
   readonly title: string;
 
   @ApiProperty()
-  readonly region: string;
+  readonly date: string;
 
   @ApiProperty()
   readonly description: string;
 }
+

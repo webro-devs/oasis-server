@@ -72,7 +72,16 @@ export class EventService {
         }
       }
     });
-    return {...data,contents: data.contents[0]};
+
+    const res = {
+      slug: data.slug,
+      date: data.date,
+      photo: data.photo,
+      description: data?.contents[0]?.title,
+      title: data?.contents[0]?.description
+    }
+    
+    return res
   }
 
   async getOneForUpdate(id:string,langCode:string){

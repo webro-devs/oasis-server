@@ -20,6 +20,7 @@ import {
 import { CreateEventDto, EventPaginationDto, UpdateEventDto } from './dto';
 import { Event } from './event.entity';
 import { EventService } from './event.service';
+import { EventListResponseType, EventSingleResponseType } from './dto/event-response.dto';
 
 @ApiTags('Event')
 @Controller('event')
@@ -30,6 +31,7 @@ export class EventController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The events were returned successfully',
+    type: EventListResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getData(@Query() query: EventPaginationDto) {
@@ -43,6 +45,7 @@ export class EventController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The event was returned successfully',
+    type: EventSingleResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getByUrl(
