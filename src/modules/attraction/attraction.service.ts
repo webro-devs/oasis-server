@@ -21,10 +21,7 @@ export class AttractionService {
     private readonly configService: ConfigService
   ) {}
 
-  async getAll(langCode:string,type,options: IPaginationOptions,) {
-    console.log(langCode);
-    console.log(options);
-    
+  async getAll(langCode:string,type,options: IPaginationOptions,) {    
     const data = await paginate<Attraction>(this.attractionRepository, options, {
       where:{
         type,
@@ -33,7 +30,7 @@ export class AttractionService {
         }
       },
       order:{
-        index:"ASC"
+        index:"DESC"
       },
       relations:{
         contents:true
