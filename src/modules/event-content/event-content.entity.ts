@@ -10,9 +10,6 @@ export class EventContent {
   @Column({type:"text"})
   title: string;
 
-  @Column({type:"varchar", nullable:true})
-  shortTitle: string;
-
   @Column({type:"text"})
   description: string;
 

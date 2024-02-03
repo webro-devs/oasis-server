@@ -40,14 +40,17 @@ export class EventService {
         contents:{
           title:true,
           description:true,
-          shortTitle:true
         }
       }
     });
     const res = []
     data.forEach(d=>{
       res.push({
-        ...d,contents:d.contents[0]
+        slug: d.slug,
+        date: d.date,
+        photo: d.photo,
+        title: d.contents[0].title,
+        description: d.contents[0].description,
       })
     })
 

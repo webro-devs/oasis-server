@@ -8,7 +8,6 @@ class CreateEventDto {
       {
         langCode: '',
         title: '',
-        shortTitle: '',
         description: '',
         tags: [
           {
@@ -20,7 +19,6 @@ class CreateEventDto {
       {
         langCode: '',
         title: '',
-        shortTitle: '',
         description: '',
         tags: [
           {

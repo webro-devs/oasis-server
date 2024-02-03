@@ -39,8 +39,8 @@ export class AttractionController {
     isArray: true,
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query() query: PaginationDto, @Query('type') type: string) {
-    return await this.attractionService.getAll(query.langCode, type, {
+  async getData(@Query() query: PaginationDto) {
+    return await this.attractionService.getAll(query.langCode, query.type, {
       limit: query.limit,
       page: query.page,
     });
