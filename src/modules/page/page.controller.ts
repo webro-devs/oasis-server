@@ -21,6 +21,7 @@ import { CreatePageDto, PageDto, UpdatePageDto } from './dto';
 import { Page } from './page.entity';
 import { PageService } from './page.service';
 import { Public } from '../auth/decorators/public.decorator';
+import { PageResponseTypeDto } from 'src/infra/shared/dto';
 
 @ApiTags('Page')
 @Controller('page')
@@ -42,6 +43,7 @@ export class PageController {
   @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
+    type: PageResponseTypeDto.PageContentResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getContent(@Query('langCode') langCode:string,@Param('slug') slug:string){
@@ -52,6 +54,7 @@ export class PageController {
   @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
+    type: PageResponseTypeDto.PageSideResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getRightSide(@Query('langCode') langCode:string,@Param('slug') slug:string){
@@ -62,6 +65,7 @@ export class PageController {
   @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The page was returned successfully',
+    type: PageResponseTypeDto.PageSideResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getLeftSide(@Query('langCode') langCode:string,@Param('slug') slug:string){

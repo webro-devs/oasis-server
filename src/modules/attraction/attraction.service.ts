@@ -1,5 +1,10 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 import { UpdateAttractionDto, CreateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
@@ -17,8 +22,8 @@ export class AttractionService {
     private readonly configService: ConfigService
   ) {}
 
-  async getAll(langCode:string,type) {
-    const data = await this.attractionRepository.find({
+  async getAll(langCode:string,type,options: IPaginationOptions,) {
+    const data = await paginate<Attraction>(this.attractionRepository, options, {
       where:{
         type,
         contents:{
@@ -47,7 +52,7 @@ export class AttractionService {
 
     const res = []
 
-    data.forEach(d=>{
+    data.items.forEach(d=>{
       res.push({
         slug: d.slug,
         type:d.type,

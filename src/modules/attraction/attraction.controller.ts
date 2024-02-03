@@ -20,36 +20,44 @@ import {
 import { CreateAttractionDto, UpdateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { AttractionService } from './attraction.service';
-import { AttractionListResponseType, AttractionSingleResponseType } from './dto/response-attraction.dto';
+import {
+  AttractionListResponseType,
+  AttractionSingleResponseType,
+} from './dto/response-attraction.dto';
+import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Attraction')
 @Controller('attraction')
 export class AttractionController {
-  constructor(
-    private readonly attractionService: AttractionService,
-  ) {}
+  constructor(private readonly attractionService: AttractionService) {}
 
   @Get('/')
   @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({
     description: 'The attractions were returned successfully',
     type: AttractionListResponseType,
-    isArray:true
+    isArray: true,
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query('langCode') langCode:string,@Query('type') type:string) {
-    return await this.attractionService.getAll(langCode,type);
+  async getData(@Query() query: PaginationDto, @Query('type') type: string) {
+    return await this.attractionService.getAll(query.langCode, type, {
+      limit: query.limit,
+      page: query.page,
+    });
   }
 
   @Get('/:slug')
   @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({
     description: 'The attraction was returned successfully',
-    type: AttractionSingleResponseType
+    type: AttractionSingleResponseType,
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('slug') slug: string,@Query('langCode') langCode:string){
-    return this.attractionService.getOne(slug,langCode);
+  async getMe(
+    @Param('slug') slug: string,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.attractionService.getOne(slug, langCode);
   }
 
   @Get('/single-for-update/:id')
@@ -58,8 +66,11 @@ export class AttractionController {
     description: 'The attraction was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getOneForUpdate(@Param('id') id: string,@Query('langCode') langCode:string){
-    return this.attractionService.getOneForUpdate(id,langCode);
+  async getOneForUpdate(
+    @Param('id') id: string,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.attractionService.getOneForUpdate(id, langCode);
   }
 
   @Post('/')
@@ -78,10 +89,7 @@ export class AttractionController {
     description: 'Attraction was changed',
   })
   @HttpCode(HttpStatus.OK)
-  async changeData(
-    @Body() data: UpdateAttractionDto,
-    @Param('id') id: string,
-  ) {
+  async changeData(@Body() data: UpdateAttractionDto, @Param('id') id: string) {
     return await this.attractionService.change(data, id);
   }
 

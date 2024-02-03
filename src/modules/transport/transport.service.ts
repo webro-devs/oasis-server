@@ -155,6 +155,7 @@ export class TransportService {
         page: {
           id: true,
           contents: {
+            id:true,
             title: true,
             descriptionPage: true,
           },
@@ -192,10 +193,11 @@ export class TransportService {
 
 
     const page:any = data.page.contents[0]
+    delete page.id
 
     data?.roadTransports?.length ? page.roadTransport = data.roadTransports : null
 
-    return {data:page,content};
+    return {...page,content};
   }
 
   async getOneByType(type: TransportType) {

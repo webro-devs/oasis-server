@@ -292,8 +292,9 @@ export class PageService {
     });
 
     const page = data.contents[0];
-
-    return { title: page.title,descriptionPage:page.descriptionPage, content };
+    delete page.id
+    
+    return { ...page, content };
   }
 
   async getById(id: string) {

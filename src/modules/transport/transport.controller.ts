@@ -18,9 +18,9 @@ import {
 } from '@nestjs/swagger';
 
 import { CreateTransportDto, UpdateTransportDto } from './dto';
-import { Transport } from './transport.entity';
 import { TransportService } from './transport.service';
 import { TransportType } from 'src/infra/shared/type';
+import { PageResponseTypeDto } from 'src/infra/shared/dto';
 
 @ApiTags('NavBar')
 @Controller('')
@@ -31,6 +31,7 @@ export class TransportController {
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
+    type: PageResponseTypeDto.PageContentResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getContent(
@@ -44,6 +45,7 @@ export class TransportController {
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
+    type: PageResponseTypeDto.PageSideResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getRightSide(
@@ -57,6 +59,7 @@ export class TransportController {
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
+    type: PageResponseTypeDto.PageSideResponseType
   })
   @HttpCode(HttpStatus.OK)
   async getLeftSide(

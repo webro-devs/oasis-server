@@ -1,4 +1,4 @@
-import { isNumber, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, isNumber, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { BadRequestException } from '@nestjs/common';
@@ -31,6 +31,14 @@ class PaginationDto {
   @IsNumber()
   @Transform(parsePaginationQuery)
   readonly page: number = 1;
+
+  @ApiProperty({
+    description: `langCode`,
+    example: 'uz',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly langCode: string
 
   constructor() {
     this.limit = this.limit ? this.limit : 100;

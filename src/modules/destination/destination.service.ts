@@ -343,6 +343,7 @@ export class DestinationService {
           page: {
             id: true,
             contents: {
+              id:true,
               title: true,
               descriptionPage: true,
             },
@@ -379,8 +380,9 @@ export class DestinationService {
     });
 
     const page = data.page.contents[0];
+    delete page.id
 
-    return { title: page.title, descriptionPage:page.descriptionPage, content };
+    return { ...page, content };
   }
 
   async deleteOne(id: string) {
