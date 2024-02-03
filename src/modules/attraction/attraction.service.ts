@@ -29,9 +29,6 @@ export class AttractionService {
           langCode
         }
       },
-      // order:{
-      //   index:"DESC"
-      // },
       relations:{
         contents:true
       },
@@ -61,7 +58,7 @@ export class AttractionService {
       })
     })
   
-    return res
+    return {...data,items:res}
   }
 
   async getOne(slug: string,langCode:string) {

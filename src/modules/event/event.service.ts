@@ -28,9 +28,6 @@ export class EventService {
           langCode
         }
       },
-      order:{
-        index:"ASC"
-      },
       relations:{
         contents:true
       },
@@ -58,7 +55,7 @@ export class EventService {
       })
     })
 
-    return res
+    return {...data,items:res}
   }
 
   async getOne(slug: string, langCode: string) {
