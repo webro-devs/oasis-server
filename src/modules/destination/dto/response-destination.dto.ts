@@ -27,11 +27,23 @@ export class DestinationContentResponseType {
   readonly descriptionPage: string;
 
   @ApiProperty({
-    // type: { slug: '', title: '', description: '' },
+    isArray:true,
+    type: ()=>ContentPageDto,
   })
   readonly content: {
     slug: string;
     title: string;
     description: string;
   }[];
+}
+
+class ContentPageDto{
+  @ApiProperty()
+  readonly slug: string;
+
+  @ApiProperty()
+  readonly title: string;
+
+  @ApiProperty()
+  readonly description: string;
 }
