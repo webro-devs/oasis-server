@@ -291,9 +291,9 @@ export class PageService {
       });
     });
 
-    const page: {} = data.contents[0];
+    const page = data.contents[0];
 
-    return { data: page, content };
+    return { title: page.title,descriptionPage:page.descriptionPage, content };
   }
 
   async getById(id: string) {

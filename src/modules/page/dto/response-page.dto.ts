@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class DestinationListWebsiteResponseType {
+export class PageListWebsiteResponseType {
   @ApiProperty()
   readonly slug: string;
 
@@ -11,7 +11,7 @@ export class DestinationListWebsiteResponseType {
   readonly shortTitle: string;
 }
 
-export class DestinationSideResponseType {
+export class PageSideResponseType {
   @ApiProperty()
   readonly slug: string;
 
@@ -19,7 +19,7 @@ export class DestinationSideResponseType {
   readonly shortTitle: string;
 }
 
-export class DestinationContentResponseType {
+export class PageContentResponseType {
   @ApiProperty()
   readonly title: string;
 
@@ -27,7 +27,8 @@ export class DestinationContentResponseType {
   readonly descriptionPage: string;
 
   @ApiProperty({
-    // type: { slug: '', title: '', description: '' },
+    isArray: true,
+    type: { slug: '', title: '', description: '' },
   })
   readonly content: {
     slug: string;
