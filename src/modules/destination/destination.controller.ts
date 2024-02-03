@@ -19,7 +19,7 @@ import {
 
 import { CreateDestinationDto, UpdateDestinationDto } from './dto';
 import { DestinationService } from './destination.service';
-import { DestinationListWebsiteResponseType, DestinationSideResponseType } from './dto/response-destination.dto';
+import { DestinationContentResponseType, DestinationListWebsiteResponseType, DestinationSideResponseType } from './dto/response-destination.dto';
 
 @ApiTags('Destination')
 @Controller('destination')
@@ -74,6 +74,7 @@ export class DestinationController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The destination was returned successfully',
+    type: DestinationContentResponseType
   })
   @HttpCode(HttpStatus.OK)
   async GetLeftSide(@Query('langCode') langCode:string,@Param('slug') slug:string){

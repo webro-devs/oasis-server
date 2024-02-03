@@ -5,7 +5,6 @@ import { UpdateDestinationDto, CreateDestinationDto } from './dto';
 import { Destination } from './destination.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageService } from '../page/page.service';
-import { ConfigService } from '@nestjs/config';
 import slugify from 'slugify';
 
 @Injectable()
@@ -14,7 +13,6 @@ export class DestinationService {
     @InjectRepository(Destination)
     private readonly destinationRepository: Repository<Destination>,
     private readonly pageService: PageService,
-    private readonly configService: ConfigService,
   ) {}
 
   async getAll(langCode: string) {
@@ -262,6 +260,7 @@ export class DestinationService {
 
     return pagesOnRight;
   }
+
   async getLeftSide(slug: string, langCode: string) {
     const data = await this.destinationRepository
       .findOne({
@@ -316,6 +315,7 @@ export class DestinationService {
 
     return pagesOnLeft;
   }
+
   async getContent(slug: string, langCode: string) {
     const data = await this.destinationRepository
       .findOne({
@@ -378,9 +378,9 @@ export class DestinationService {
       });
     });
 
-    const page: {} = data.page.contents[0];
+    const page = data.page.contents[0];
 
-    return { data: page, content };
+    return { title: page.title, descriptionPage:page.descriptionPage, content };
   }
 
   async deleteOne(id: string) {
