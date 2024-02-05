@@ -170,6 +170,24 @@ class UpdateTourDto {
   @IsOptional()
   @IsArray()
   readonly book: UpdateTourContentDto[];
+
+  @ApiProperty({
+    description: `name`,
+    example: [
+      {
+        id:'',
+        langCode: '',
+        title: '',
+      },
+      {
+        langCode: '',
+        title: '',
+      }
+    ],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly name: UpdateTourContentDto[];
 }
 
 export default UpdateTourDto;

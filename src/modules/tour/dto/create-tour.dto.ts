@@ -204,6 +204,19 @@ class CreateTourDto {
   @IsOptional()
   @IsArray()
   readonly book: CreateTourContentDto[];
+
+  @ApiProperty({
+    description: `name`,
+    example: [
+      {
+        langCode: '',
+        title: '',
+      }
+    ],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly name: CreateTourContentDto[];
 }
 
 export default CreateTourDto;

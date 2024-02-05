@@ -28,6 +28,9 @@ export class Tour {
   @Column({type:'varchar',nullable:true})
   photo: string;
 
+  @Column({type:'varchar',nullable:true})
+  tourPrice: string;
+
   @Column({type:'int', default:0})
   views: number;
 
@@ -39,6 +42,9 @@ export class Tour {
 
   @OneToOne(()=>TourContent, tourCon=>tourCon.tourSpecification)
   specification: TourContent
+
+  @OneToOne(()=>TourContent, tourCon=>tourCon.tourName)
+  name: TourContent
   
   @OneToOne(()=>TourContent, tourCon=>tourCon.tourBook)
   book: TourContent

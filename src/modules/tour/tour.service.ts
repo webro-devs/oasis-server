@@ -90,6 +90,10 @@ export class TourService {
       await this.tourContService.create(value.about, tour,'tourAbout');
     }
 
+    if (value?.name?.length) {
+      await this.tourContService.create(value.name, tour,'tourName');
+    }
+
     if (value?.book?.length) {
       await this.tourContService.create(value.book, tour,'tourBook');
     }

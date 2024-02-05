@@ -8,10 +8,10 @@ export class TourContent {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type:"text"})
+  @Column({type:"text", nullable:true})
   title: string;
 
-  @Column({type:"text"})
+  @Column({type:"text", nullable:true})
   description: string;
 
   @Column({type:"varchar", nullable:true})
@@ -51,4 +51,11 @@ export class TourContent {
   })
   @JoinColumn()
   tourBook:Tour
+
+  @OneToOne(()=> Tour, tour=>tour.name,{
+    onDelete:"CASCADE",
+    cascade:true
+  })
+  @JoinColumn()
+  tourName:Tour
 }
