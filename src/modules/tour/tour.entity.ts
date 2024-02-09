@@ -34,22 +34,22 @@ export class Tour {
   @Column({type:'int', default:0})
   views: number;
 
-  @OneToOne(()=>TourContent, tourCon=>tourCon.tourAbout)
-  about: TourContent
+  @OneToMany(()=>TourContent, tourCon=>tourCon.tourAbout)
+  about: TourContent[]
 
-  @OneToOne(()=>TourItinerary, tourCon=>tourCon.tour)
-  itinerary: TourItinerary
+  @OneToMany(()=>TourItinerary, tourCon=>tourCon.tour)
+  itinerary: TourItinerary[]
 
-  @OneToOne(()=>TourContent, tourCon=>tourCon.tourSpecification)
-  specification: TourContent
+  @OneToMany(()=>TourContent, tourCon=>tourCon.tourSpecification)
+  specification: TourContent[]
 
-  @OneToOne(()=>TourContent, tourCon=>tourCon.tourName)
-  name: TourContent
+  @OneToMany(()=>TourContent, tourCon=>tourCon.tourName)
+  name: TourContent[]
   
-  @OneToOne(()=>TourContent, tourCon=>tourCon.tourBook)
-  book: TourContent
+  @OneToMany(()=>TourContent, tourCon=>tourCon.tourBook)
+  book: TourContent[]
 
-  @ManyToOne(()=>TourCategory, tourCat=> tourCat.tour)
+  @ManyToOne(()=>TourCategory, tourCat=> tourCat.tours)
   @JoinColumn()
   tourCategory:TourCategory
 

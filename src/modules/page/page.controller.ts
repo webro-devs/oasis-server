@@ -21,7 +21,7 @@ import { CreatePageDto, PageDto, UpdatePageDto } from './dto';
 import { Page } from './page.entity';
 import { PageService } from './page.service';
 import { Public } from '../auth/decorators/public.decorator';
-import { PageResponseTypeDto } from 'src/infra/shared/dto';
+import { PageResponseTypeDto, PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Page')
 @Controller('page')
@@ -35,8 +35,8 @@ export class PageController {
     description: 'The page were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query('langCode') langCode:string) {
-    return await this.pageService.getAll(langCode);
+  async getData(@Query() query:PaginationDto) {
+    return await this.pageService.getAll(query.langCode,{limit:query.limit,page:query.page});
   }
 
   @Get('/content/:slug')

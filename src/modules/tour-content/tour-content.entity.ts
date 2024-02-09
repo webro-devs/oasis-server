@@ -24,35 +24,35 @@ export class TourContent {
   @JoinTable()
   tags: Tag[]
 
-  @OneToOne(()=> Tour, event=>event.about,{
+  @ManyToOne(()=> Tour, event=>event.about,{
     onDelete:"CASCADE",
     cascade:true
   })
   @JoinColumn()
   tourAbout:Tour
 
-  @OneToOne(()=> Tour, event=>event.itinerary,{
+  @ManyToOne(()=> Tour, event=>event.itinerary,{
     onDelete:"CASCADE",
     cascade:true
   })
   @JoinColumn()
   tourItineary:Tour
 
-  @OneToOne(()=> Tour, event=>event.specification,{
+  @ManyToOne(()=> Tour, event=>event.specification,{
     onDelete:"CASCADE",
     cascade:true
   })
   @JoinColumn()
   tourSpecification:Tour
 
-  @OneToOne(()=> Tour, event=>event.book,{
+  @ManyToOne(()=> Tour, event=>event.book,{
     onDelete:"CASCADE",
     cascade:true
   })
   @JoinColumn()
   tourBook:Tour
 
-  @OneToOne(()=> Tour, tour=>tour.name,{
+  @ManyToOne(()=> Tour, tour=>tour.name,{
     onDelete:"CASCADE",
     cascade:true
   })

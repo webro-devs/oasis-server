@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CreatePageContentDto } from 'src/modules/page-content/dto';
 class CreateDestinationDto {
@@ -36,6 +36,14 @@ class CreateDestinationDto {
   @IsNotEmpty()
   @IsArray()
   readonly contents: CreatePageContentDto[];
+
+  @ApiProperty({
+    description: `photo`,
+    example: 'url',
+  })
+  @IsOptional()
+  @IsString()
+  readonly photo: string;
 }
 
 export default CreateDestinationDto;

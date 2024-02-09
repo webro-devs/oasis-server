@@ -47,7 +47,7 @@ export class DestinationService {
           id: true,
           url: true,
           contents: {
-            shortTitle: true,
+            title: true,
           },
           pagesOnLeft: {
             slug: true,
@@ -69,15 +69,38 @@ export class DestinationService {
       },
     });
 
+    const res = []
+
     data.forEach((d) => {
+      const pagesOnLeft = [], pagesOnRight = []
       d.page.pagesOnLeft.forEach((pl) => {
-        pl.contents = pl.contents.filter((c) => c.langCode == langCode);
+        const data = pl.contents.find((c) => c.langCode == langCode);
+        pagesOnLeft.push({
+          title: data?.shortTitle,
+          slug: pl?.slug
+        })
       });
       d.page.pagesOnRight.forEach((pl) => {
-        pl.contents = pl.contents.filter((c) => c.langCode == langCode);
+        const data = pl.contents.find((c) => c.langCode == langCode);
+        pagesOnRight.push({
+          title: data?.shortTitle,
+          slug: pl?.slug
+        })
       });
+      res.push({
+        id:d.id,
+        slug: d.slug,
+        pageId: d.page.id,
+        title: d.page.contents[0].title,
+        url: d.page.url,
+        pagesOnLeft,
+        pagesOnRight,
+        views: d.views
+      })
     });
-    return data;
+
+
+    return res;
   }
 
   async getAllForSite(langCode: string) {
@@ -151,7 +174,7 @@ export class DestinationService {
 
     const ids = data?.page?.pagesOnLeft?.map((p) => p.id);
 
-    if (!ids?.length) return {};
+    if (!ids?.length) return [];
 
     return await this.pageService.getMoreByIds(ids, langCode);
   }
@@ -179,7 +202,7 @@ export class DestinationService {
 
     const ids = data?.page?.pagesOnRight?.map((p) => p.id);
 
-    if (!ids?.length) return {};
+    if (!ids?.length) return [];
 
     return await this.pageService.getMoreByIds(ids, langCode);
   }
@@ -340,6 +363,7 @@ export class DestinationService {
         select: {
           id: true,
           slug: true,
+          photo:true,
           page: {
             id: true,
             contents: {
@@ -379,7 +403,8 @@ export class DestinationService {
       });
     });
 
-    const page = data.page.contents[0];
+    const page:any = data.page.contents[0];
+    page.photo = data.photo
     delete page.id
 
     return { ...page, content };
@@ -411,6 +436,7 @@ export class DestinationService {
 
     const destination = new Destination();
     destination.slug = await this.makeSlug(title);
+    destination.photo
     await this.destinationRepository.save(destination);
 
     await this.pageService.create(

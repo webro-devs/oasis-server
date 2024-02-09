@@ -1,6 +1,10 @@
 import { NotFoundException, Injectable, HttpException } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import slugify from 'slugify';
+import {
+  IPaginationOptions,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 import { UpdatePageDto, CreatePageDto, PageDto } from './dto';
 import { Page } from './page.entity';
@@ -17,8 +21,8 @@ export class PageService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getAll(langCode: string) {
-    return await this.pageRepository.find({
+  async getAll(langCode: string,options: IPaginationOptions) {
+    const data = await paginate<Page>(this.pageRepository, options, {
       where: {
         isTopic: true,
         contents: {
@@ -36,14 +40,28 @@ export class PageService {
       select: {
         id: true,
         url: true,
+        slug:true,
         index: true,
         views: true,
         contents: {
-          shortTitle: true,
           title: true,
         },
       },
     });
+
+    const res = []    
+
+    data?.items.forEach(d=>{
+      res.push({
+        id:d.id,
+        slug: d.slug,
+        url: d.url,
+        click: d.views,
+        title: d.contents[0].title
+      })
+    })
+
+    return {...data,items:res}
   }
 
   async getMenu(id: string, langCode: string, menu: string) {
@@ -115,7 +133,7 @@ export class PageService {
       },
     });
 
-    return data.contents[0];
+    return data?.contents[0];
   }
 
   async getMoreByIds(ids: string[], langCode: string) {
@@ -125,8 +143,12 @@ export class PageService {
         contents: { langCode },
       },
       relations: {
-        pagesOnLeft: true,
-        pagesOnRight: true,
+        pagesOnLeft: {
+          contents:true
+        },
+        pagesOnRight: {
+          contents:true
+        },
         contents: true,
       },
       select: {
@@ -135,18 +157,58 @@ export class PageService {
         url: true,
         views: true,
         pagesOnLeft: {
+          id:true,
           slug: true,
+          contents:{
+            shortTitle:true,
+            langCode:true
+          }
         },
         pagesOnRight: {
+          id:true,
           slug: true,
+          contents:{
+            shortTitle:true,
+            langCode:true
+          }
         },
         contents: {
-          shortTitle: true,
+          title: true,
         },
       },
     });
 
-    return data;
+    const res = []
+
+    data.forEach(d=>{
+      const pagesOnLeft = [], pagesOnRight = []
+
+      d.pagesOnLeft.forEach(p=>{        
+        const data = p.contents.find(c=>c.langCode == langCode)
+        pagesOnLeft.push({
+          title: data.shortTitle,
+        })
+      })
+
+      d.pagesOnRight.forEach(p=>{
+        const data = p.contents.find(c=>c.langCode == langCode)
+        pagesOnRight.push({
+          title: data.shortTitle,
+        })
+      })
+
+      res.push({
+        id: d.id,
+        slug: d.slug,
+        url: d.url,
+        title: d.contents[0].title,
+        views: d.views,
+        pagesOnLeft,
+        pagesOnRight
+      })
+    })
+
+    return res;
   }
 
   async getRightSide(slug: string, langCode: string) {

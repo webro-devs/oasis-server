@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, isNumber, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { BadRequestException } from '@nestjs/common';
@@ -13,7 +13,7 @@ function parsePaginationQuery({ key, value }: TransformFnParams) {
   return int;
 }
 
-class EventPaginationDto {
+class AttractionPaginationDto {
   @ApiProperty({
     description: `Limit`,
     example: 20,
@@ -40,10 +40,18 @@ class EventPaginationDto {
   @IsString()
   readonly langCode: string
 
+  @ApiProperty({
+    description: `type`,
+    example: 'attraction',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly type: string
+
   constructor() {
     this.limit = this.limit ? this.limit : 100;
     this.page = this.page ? this.page : 1;
   }
 }
 
-export default EventPaginationDto;
+export default AttractionPaginationDto;

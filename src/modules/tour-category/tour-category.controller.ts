@@ -58,7 +58,19 @@ export class TourCategoryController {
   async getAllForAdminPage(
     @Query('langCode') langCode: string,
   ) {
-    return this.tourCategoryService.getAllForAdmin(langCode);
+    // return this.tourCategoryService.getAllForAdmin(langCode);
+  }
+
+  @Get('/left-side')
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
+  @ApiOkResponse({
+    description: 'The tour category left side was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getLeftSide(
+    @Query('langCode') langCode: string,
+  ) {
+    return this.tourCategoryService.getLeftSide(langCode);
   }
 
   @Get('/:slug')

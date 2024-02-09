@@ -40,14 +40,6 @@ class PaginationDto {
   @IsString()
   readonly langCode: string
 
-  @ApiProperty({
-    description: `type`,
-    example: 'attraction',
-  })
-  @IsNotEmpty()
-  @IsString()
-  readonly type: string
-
   constructor() {
     this.limit = this.limit ? this.limit : 100;
     this.page = this.page ? this.page : 1;

@@ -28,5 +28,5 @@ export class TourCategory {
   page: Page
 
   @OneToMany(()=>Tour, tour=>tour.tourCategory)
-  tour: Tour
+  tours: Tour[]
 }

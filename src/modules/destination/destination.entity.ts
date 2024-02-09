@@ -15,6 +15,9 @@ export class Destination {
   @Column({type:'varchar', nullable:true})
   slug: string;
 
+  @Column({type:'varchar', nullable:true})
+  photo: string;
+
   @Column({type:'int', default:0})
   views: number;
 

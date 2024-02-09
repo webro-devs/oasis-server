@@ -17,14 +17,13 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { CreateAttractionDto, UpdateAttractionDto } from './dto';
+import { AttractionPaginationDto, CreateAttractionDto, UpdateAttractionDto } from './dto';
 import { Attraction } from './attraction.entity';
 import { AttractionService } from './attraction.service';
 import {
   AttractionListResponseType,
   AttractionSingleResponseType,
 } from './dto/response-attraction.dto';
-import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Attraction')
 @Controller('attraction')
@@ -39,7 +38,7 @@ export class AttractionController {
     isArray: true,
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query() query: PaginationDto) {
+  async getData(@Query() query: AttractionPaginationDto) {
     return await this.attractionService.getAll(query.langCode, query.type, {
       limit: query.limit,
       page: query.page,

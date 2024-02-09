@@ -237,7 +237,7 @@ export class TransportService {
       }
     })
 
-    if(!data) return {}
+    if(!data) return []
 
     const ids = data?.page?.pagesOnLeft?.map(p=> p.id)
 
@@ -265,7 +265,7 @@ export class TransportService {
       }
     })
 
-    if(!data) return {}
+    if(!data) return []
 
     const ids = data?.page?.pagesOnRight?.map(p=> p.id)
 

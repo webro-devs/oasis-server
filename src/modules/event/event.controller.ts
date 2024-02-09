@@ -17,10 +17,11 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { CreateEventDto, EventPaginationDto, UpdateEventDto } from './dto';
+import { CreateEventDto, UpdateEventDto } from './dto';
 import { Event } from './event.entity';
 import { EventService } from './event.service';
 import { EventListResponseType, EventSingleResponseType } from './dto/event-response.dto';
+import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Event')
 @Controller('event')
@@ -34,7 +35,7 @@ export class EventController {
     type: EventListResponseType
   })
   @HttpCode(HttpStatus.OK)
-  async getData(@Query() query: EventPaginationDto) {
+  async getData(@Query() query: PaginationDto) {
     return await this.eventService.getAll(query.langCode, {
       limit: query.limit,
       page: query.page,

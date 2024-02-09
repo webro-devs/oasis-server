@@ -21,7 +21,7 @@ export class AttractionService {
     private readonly configService: ConfigService
   ) {}
 
-  async getAll(langCode:string,type,options: IPaginationOptions,) {    
+  async getAll(langCode:string,type,options: IPaginationOptions) {    
     const data = await paginate<Attraction>(this.attractionRepository, options, {
       where:{
         type,
