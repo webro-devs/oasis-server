@@ -21,6 +21,7 @@ import { TourCategoryModule } from './modules/tour-category/tour-category.module
 import { TourPriceModule } from './modules/tour-price/tour-price.module';
 import { TourItineraryModule } from './modules/tour-itinerary/tour-itinerary.module';
 import { LanguageModule } from './modules/language/language.module';
+import { StaticModule } from './modules/static/static.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { LanguageModule } from './modules/language/language.module';
     PageModule,
     PageContentModule,
     RoadTransport,
+    StaticModule,
     TagModule,
     TourCategoryModule,
     TourItineraryModule,
