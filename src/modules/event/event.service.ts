@@ -47,6 +47,7 @@ export class EventService {
     const res = []
     data.items.forEach(d=>{
       res.push({
+        id: d.id,
         slug: d.slug,
         date: d.date,
         photo: d.photo,

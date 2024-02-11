@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class EventListType {
   @ApiProperty()
+  readonly id: string;
+
+  @ApiProperty()
   readonly date: string;
 
   @ApiProperty()
