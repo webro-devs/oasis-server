@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Put,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -56,7 +57,7 @@ export class TourController {
     return await this.tourService.create(data);
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @ApiOperation({ summary: 'Method: updating tour' })
   @ApiOkResponse({
     description: 'Tour was changed',

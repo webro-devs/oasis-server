@@ -5,10 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
   Query,
+  Put,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -114,7 +114,7 @@ export class DestinationController {
     return await this.destinationService.create(data);
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
     description: 'Destination was changed',

@@ -8,6 +8,7 @@ import {
   Patch,
   Param,
   Get,
+  Put,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -47,7 +48,7 @@ export class LanguageController {
     return await this.languageService.create(data);
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @ApiOperation({ summary: 'Method: updating language' })
   @ApiOkResponse({
     description: 'Language was changed',
