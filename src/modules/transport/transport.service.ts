@@ -217,7 +217,7 @@ export class TransportService {
       },
     }) 
     
-    return data ? true : false;
+    return data ? data.id : false;
   }
 
   async getMenu(type:TransportType,langCode:string, menu:string){
