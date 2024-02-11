@@ -210,6 +210,16 @@ export class TransportService {
     return data;
   }
 
+  async getForAdmin(type: TransportType) {
+    const data = await this.transportRepository.findOne({
+      where: {
+        type,
+      },
+    }) 
+    
+    return data ? true : false;
+  }
+
   async getMenu(type:TransportType,langCode:string, menu:string){
     if(menu == 'left'){
       return await this.getLeftMenu(type, langCode)

@@ -41,6 +41,19 @@ export class TransportController {
     return this.transportService.getContent(type, langCode);
   }
 
+  @Get('/for-admin/:type')
+  @ApiOperation({ summary: 'Admin -----------------' })
+  @ApiOkResponse({
+    description: 'The transport was returned successfully',
+    type: PageResponseTypeDto.PageContentResponseType
+  })
+  @HttpCode(HttpStatus.OK)
+  async getForAdmin(
+    @Param('type') type: TransportType
+  ) {
+    return this.transportService.getForAdmin(type);
+  }
+
   @Get('/right/:slug')
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
