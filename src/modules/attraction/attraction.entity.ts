@@ -27,6 +27,9 @@ export class Attraction {
   @Column({type:"varchar",nullable:true})
   photo: string;
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date: string;
+
   @OneToMany(()=>AttractionContent, attr=>attr.attraction)
   contents: AttractionContent[]
 }

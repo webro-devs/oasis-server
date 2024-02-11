@@ -14,5 +14,5 @@ export class Static extends BaseEntity {
   key: string;
 
   @Column({type: 'varchar', nullable:true})
-  title: string;
+  value: any;
 }

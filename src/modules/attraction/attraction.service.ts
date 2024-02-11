@@ -36,9 +36,7 @@ export class AttractionService {
         id:true,
         photo:true,
         type:true,
-        url:true,
         slug:true,
-        views:true,
         contents:{
           region:true,
           title:true,
@@ -51,8 +49,51 @@ export class AttractionService {
     data.items.forEach(d=>{
       res.push({
         slug: d.slug,
-        type:d.type,
         photo: d.photo,
+        region: d?.contents[0]?.region,
+        title: d?.contents[0]?.title
+      })
+    })
+  
+    return {...data,items:res}
+  }
+
+  async getAllForAdmin(langCode:string,type,options: IPaginationOptions) {    
+    const data = await paginate<Attraction>(this.attractionRepository, options, {
+      where:{
+        type,
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:true
+      },
+      select:{
+        id:true,
+        photo:true,
+        type:true,
+        url:true,
+        slug:true,
+        date:true,
+        views:true,
+        contents:{
+          region:true,
+          title:true,
+        }
+      }
+    });
+
+    const res = []
+
+    data.items.forEach(d=>{
+      res.push({
+        id: d.id,
+        slug: d.slug,
+        url:d.url,
+        photo: d.photo,
+        date: d.date,
+        views: d.views,
         region: d?.contents[0]?.region,
         title: d?.contents[0]?.title
       })

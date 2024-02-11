@@ -45,6 +45,21 @@ export class AttractionController {
     });
   }
 
+  @Get('/for-admin')
+  @ApiOperation({ summary: 'Admin --------------' })
+  @ApiOkResponse({
+    description: 'The attractions were returned successfully',
+    type: AttractionListResponseType,
+    isArray: true,
+  })
+  @HttpCode(HttpStatus.OK)
+  async getDataForAdmin(@Query() query: AttractionPaginationDto) {
+    return await this.attractionService.getAllForAdmin(query.langCode, query.type, {
+      limit: query.limit,
+      page: query.page,
+    });
+  }
+
   @Get('/:slug')
   @ApiOperation({ summary: 'Website +++++++++++++' })
   @ApiOkResponse({

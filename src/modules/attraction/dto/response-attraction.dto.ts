@@ -2,9 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class AttractionListType {
   @ApiProperty()
-  readonly type: string;
-
-  @ApiProperty()
   readonly slug: string;
 
   @ApiProperty()
