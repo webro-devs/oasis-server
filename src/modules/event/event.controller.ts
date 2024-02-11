@@ -32,11 +32,25 @@ export class EventController {
   @ApiOperation({ summary: 'Website +++++++++++++++++' })
   @ApiOkResponse({
     description: 'The events were returned successfully',
-    type: EventListResponseType
+    type: EventListResponseType,
+    isArray:true
   })
   @HttpCode(HttpStatus.OK)
   async getData(@Query() query: PaginationDto) {
     return await this.eventService.getAll(query.langCode, {
+      limit: query.limit,
+      page: query.page,
+    });
+  }
+
+  @Get('/for-admin')
+  @ApiOperation({ summary: 'Admin ------------------' })
+  @ApiOkResponse({
+    description: 'The events were returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getDataForAdmin(@Query() query: PaginationDto) {
+    return await this.eventService.getAllForAdmin(query.langCode, {
       limit: query.limit,
       page: query.page,
     });

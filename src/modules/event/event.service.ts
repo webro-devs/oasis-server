@@ -37,7 +37,6 @@ export class EventService {
         date: true,
         photo:true,
         slug:true,
-        views:true,
         contents:{
           title:true,
           description:true,
@@ -53,6 +52,42 @@ export class EventService {
         photo: d.photo,
         title: d.contents[0].title,
         description: d.contents[0].description,
+      })
+    })
+
+    return {...data,items:res}
+  }
+
+  async getAllForAdmin(langCode: string,options: IPaginationOptions) {
+    const data = await paginate<Event>(this.eventRepository, options, {
+      where:{
+        contents:{
+          langCode
+        }
+      },
+      relations:{
+        contents:true
+      },
+      select:{
+        id:true,
+        url:true,
+        date: true,
+        slug:true,
+        views:true,
+        contents:{
+          title:true,
+        }
+      }
+    });
+    const res = []
+    data.items.forEach(d=>{
+      res.push({
+        id: d.id,
+        slug: d.slug,
+        date: d.date,
+        title: d.contents[0].title,
+        url: d.url,
+        views: d.views
       })
     })
 

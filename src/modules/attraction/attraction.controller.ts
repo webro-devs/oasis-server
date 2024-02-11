@@ -49,8 +49,6 @@ export class AttractionController {
   @ApiOperation({ summary: 'Admin --------------' })
   @ApiOkResponse({
     description: 'The attractions were returned successfully',
-    type: AttractionListResponseType,
-    isArray: true,
   })
   @HttpCode(HttpStatus.OK)
   async getDataForAdmin(@Query() query: AttractionPaginationDto) {
