@@ -215,9 +215,12 @@ export class TransportService {
       where: {
         type,
       },
+      relations:{
+        page:true
+      }
     }) 
     
-    return data ? data.id : false;
+    return data ? {id:data.id, pageId:data.page.id} : false;
   }
 
   async getMenu(type:TransportType,langCode:string, menu:string){
