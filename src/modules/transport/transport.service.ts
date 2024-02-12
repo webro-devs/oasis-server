@@ -254,7 +254,7 @@ export class TransportService {
 
     const ids = data?.page?.pagesOnLeft?.map(p=> p.id)
 
-    if(!ids?.length) return {}
+    if(!ids?.length) return []
 
     return await this.pageService.getMoreByIds(ids,langCode)
   }
@@ -282,7 +282,7 @@ export class TransportService {
 
     const ids = data?.page?.pagesOnRight?.map(p=> p.id)
 
-    if(!ids?.length) return {}
+    if(!ids?.length) return []
 
     return await this.pageService.getMoreByIds(ids,langCode)
   }

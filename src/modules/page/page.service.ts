@@ -86,11 +86,11 @@ export class PageService {
       },
     });
 
-    if (!data) return {};
+    if (!data) return [];
 
     const ids = data?.pagesOnLeft?.map((p) => p.id);
 
-    if (!ids?.length) return {};
+    if (!ids?.length) return [];
 
     return await this.getMoreByIds(ids, langCode);
   }
@@ -109,11 +109,11 @@ export class PageService {
       },
     });
 
-    if (!data) return {};
+    if (!data) return [];
 
     const ids = data?.pagesOnRight?.map((p) => p.id);
 
-    if (!ids?.length) return {};
+    if (!ids?.length) return [];
 
     return await this.getMoreByIds(ids, langCode);
   }

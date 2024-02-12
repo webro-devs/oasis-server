@@ -170,7 +170,7 @@ export class DestinationService {
       },
     });
 
-    if (!data) return {};
+    if (!data) return [];
 
     const ids = data?.page?.pagesOnLeft?.map((p) => p.id);
 
@@ -198,7 +198,7 @@ export class DestinationService {
       },
     });
 
-    if (!data) return {};
+    if (!data) return [];
 
     const ids = data?.page?.pagesOnRight?.map((p) => p.id);
 
