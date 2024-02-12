@@ -442,7 +442,7 @@ export class PageService {
 
     const newPage = await this.getById(page.raw[0].id);
     await this.pageContService.create(value.contents, newPage);
-    return page;
+    return url;
   }
 
   async makeUrl(path: string, shortTitle: string) {
