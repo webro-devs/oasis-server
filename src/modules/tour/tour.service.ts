@@ -21,10 +21,19 @@ export class TourService {
     private readonly tourItineraryService: TourItineraryService
   ) {}
 
-  async getOne(id: string) {
+  async getOne(slug: string) {
     const data = await this.tourRepository
       .findOne({
-        where: { id },
+        where: { slug },
+        relations:{
+          about:true,
+          book:true,
+          itinerary:true,
+          name:true,
+          price:true,
+          routes:true,
+          specification:true
+        }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
@@ -32,6 +41,8 @@ export class TourService {
 
     return data;
   }
+
+  async getAllForAdmin(){}
 
   async deleteOne(id: string) {
     const response = await this.tourRepository.delete(id).catch(() => {

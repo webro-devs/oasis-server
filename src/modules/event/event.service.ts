@@ -113,8 +113,8 @@ export class EventService {
       slug: data.slug,
       date: data.date,
       photo: data.photo,
-      description: data?.contents[0]?.title,
-      title: data?.contents[0]?.description
+      description: data?.contents[0]?.description,
+      title: data?.contents[0]?.title
     }
     
     return res

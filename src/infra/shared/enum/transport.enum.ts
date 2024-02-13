@@ -5,7 +5,7 @@ enum TransportEnum {
     Guide = 'guide',
     Visa = 'visa',
     AboutUs = 'about-us',
-    CitiesSights = 'cities & sights'
+    City = 'city'
 }
 
 export default TransportEnum
