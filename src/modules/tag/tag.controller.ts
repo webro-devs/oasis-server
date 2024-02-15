@@ -5,9 +5,9 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
+  Put,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -59,7 +59,7 @@ export class TagController {
     return await this.tagService.create(data);
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @ApiOperation({ summary: 'Method: updating tag' })
   @ApiOkResponse({
     description: 'Tag was changed',

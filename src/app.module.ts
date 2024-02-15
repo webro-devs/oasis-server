@@ -22,6 +22,7 @@ import { TourPriceModule } from './modules/tour-price/tour-price.module';
 import { TourItineraryModule } from './modules/tour-itinerary/tour-itinerary.module';
 import { LanguageModule } from './modules/language/language.module';
 import { StaticModule } from './modules/static/static.module';
+import { ContactModule } from './modules/contact/contact.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { StaticModule } from './modules/static/static.module';
     AttractionModule,
     AttractionContentModule,
     AuthModule,
+    ContactModule,
     DestinationModule,
     EventContentModule,
     EventModule,
