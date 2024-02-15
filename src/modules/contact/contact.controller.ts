@@ -40,7 +40,7 @@ export class ContactController {
 
   @Public()
   @Get('/:langCode')
-  @ApiOperation({ summary: 'Method: returns single contact by langCode' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The contact was returned successfully',
   })
