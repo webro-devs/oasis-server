@@ -10,6 +10,9 @@ export class Contact extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({type: 'varchar', nullable:true})
+  title:string
+
   @Column({type: 'varchar'})
   address:string
 

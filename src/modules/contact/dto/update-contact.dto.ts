@@ -2,6 +2,14 @@ import { IsString, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 class UpdateContactDto {
   @ApiProperty({
+    description: `title`,
+    example: '',
+  })
+  @IsOptional()
+  @IsString()
+  title:string
+
+  @ApiProperty({
     description: `address`,
     example: '',
   })
