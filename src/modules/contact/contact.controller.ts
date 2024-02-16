@@ -17,7 +17,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { CreateContactDto, UpdateContactDto } from './dto';
+import { CreateContactList, UpdateContactDto } from './dto';
 import { Contact } from './contact.entity';
 import { ContactService } from './contact.service';
 import { Public } from '../auth/decorators/public.decorator';
@@ -55,8 +55,8 @@ export class ContactController {
     description: 'The contact was created successfully',
   })
   @HttpCode(HttpStatus.CREATED)
-  async saveData(@Body() data: CreateContactDto) {
-    return await this.contactService.create(data);
+  async saveData(@Body() data: CreateContactList) {
+    return await this.contactService.createMore(data);
   }
 
   @Put('/:id')
