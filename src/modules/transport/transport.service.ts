@@ -195,7 +195,18 @@ export class TransportService {
     const page:any = data.page.contents[0]
     delete page.id
 
-    data?.roadTransports?.length ? page.roadTransport = data.roadTransports : null
+    if(data?.roadTransports?.length){
+      const transport = []
+      data.roadTransports.forEach(r=>{
+        transport.push({
+          bag: r.bag,
+          photo: r.photo,
+          seat: r.seat,
+          name: r.type.find(t=> t.langCode == langCode).type
+        })
+      })
+      page.roadTransport = transport
+    }
 
     return {...page,content};
   }
