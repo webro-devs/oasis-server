@@ -191,18 +191,20 @@ export class TransportService {
     });
   });
 
+  console.log(data);
+
 
     const page:any = data.page.contents[0]
     delete page.id
 
     if(data?.roadTransports?.length){
       const transport = []
-      data.roadTransports.forEach(r=>{
+      data?.roadTransports?.forEach(r=>{
         transport.push({
           bag: r.bag,
           photo: r.photo,
           seat: r.seat,
-          name: r.type.find(t=> t.langCode == langCode).type
+          name: r?.type?.find(t=> t.langCode == langCode).type
         })
       })
       page.roadTransport = transport
