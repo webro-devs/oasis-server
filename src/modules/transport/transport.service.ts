@@ -191,9 +191,6 @@ export class TransportService {
     });
   });
 
-  console.log(data);
-
-
     const page:any = data.page.contents[0]
     delete page.id
 
@@ -201,10 +198,10 @@ export class TransportService {
       const transport = []
       data?.roadTransports?.forEach(r=>{
         transport.push({
-          bag: r.bag,
-          photo: r.photo,
-          seat: r.seat,
-          name: r?.type?.find(t=> t.langCode == langCode).type
+          bag: r?.bag || '',
+          photo: r?.photo || '',
+          seat: r?.seat || '',
+          name: r?.type?.find(t=> t.langCode == langCode)?.type || ''
         })
       })
       page.roadTransport = transport
