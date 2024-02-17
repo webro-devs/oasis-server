@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
-import { UpdateContactDto, CreateContactList, CreateContactDto } from './dto';
+import { UpdateContactDto, CreateContactList, CreateContactDto, UpdateContactList } from './dto';
 import { Contact } from './contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -39,9 +39,10 @@ export class ContactService {
     return response;
   }
 
-  async change(value: UpdateContactDto, id: string) {
-    const response = await this.contactRepository.update({ id }, value);
-    return response;
+  async change(value: UpdateContactList) {
+    Promise.all(value.contents.map(async(v)=>{
+      await this.contactRepository.update({ id:v.id }, v);
+    }))
   }
 
   async createMore(value: CreateContactList){

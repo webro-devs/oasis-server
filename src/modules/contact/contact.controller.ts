@@ -17,7 +17,7 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { CreateContactList, UpdateContactDto } from './dto';
+import { CreateContactList, UpdateContactDto, UpdateContactList } from './dto';
 import { Contact } from './contact.entity';
 import { ContactService } from './contact.service';
 import { Public } from '../auth/decorators/public.decorator';
@@ -59,17 +59,16 @@ export class ContactController {
     return await this.contactService.createMore(data);
   }
 
-  @Put('/:id')
+  @Put('/')
   @ApiOperation({ summary: 'Method: updating contact' })
   @ApiOkResponse({
     description: 'Contact was changed',
   })
   @HttpCode(HttpStatus.OK)
   async changeData(
-    @Body() data: UpdateContactDto,
-    @Param('id') id: string,
-  ): Promise<UpdateResult> {
-    return await this.contactService.change(data, id);
+    @Body() data: UpdateContactList,
+  ) {
+    return await this.contactService.change(data);
   }
 
   @Delete('/:id')
