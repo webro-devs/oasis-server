@@ -40,6 +40,8 @@ export class TourService {
         throw new NotFoundException('data not found');
     });
 
+    if(!data) return {}
+
     const res = {
       price: data?.tourPrice,
       photoGallery: data?.photoGallery,
@@ -63,7 +65,9 @@ export class TourService {
       relations
     })
 
-    const res = data?.[type]?.find(d=> d.langCode == langCode)
+    if(!data) return {}
+
+    const res = data?.[type]?.find(d=> d.langCode == langCode) || {}
 
     return res
   }
