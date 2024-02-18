@@ -73,9 +73,6 @@ export class TourCategoryService {
           },
         },
       },
-      order: {
-        order: 'ASC',
-      },
       relations: {
         page: {
           contents: true,
