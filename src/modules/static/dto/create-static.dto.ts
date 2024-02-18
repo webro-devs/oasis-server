@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 class CreateStaticDto {
   @ApiProperty({
@@ -10,12 +10,16 @@ class CreateStaticDto {
   readonly key: string;
 
   @ApiProperty({
-    description: `title`,
-    example: 'Uzbek',
+    description: `value`,
+    example: {
+      uz:'',
+      en:'',
+      ru:''
+    },
   })
   @IsNotEmpty()
-  @IsString()
-  readonly title: string;
+  @IsObject()
+  readonly value: any;
 }
 
 export default CreateStaticDto;
