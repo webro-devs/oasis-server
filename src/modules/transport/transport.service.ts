@@ -312,11 +312,16 @@ export class TransportService {
           contents:{
             tags:true
           }
-        }
+        },
+        roadTransports:true
       }
     })
 
-    return data.page.contents[0]
+    if(type == 'transfer'){
+      return {...data?.page?.contents[0],roadTransport: data?.roadTransports}
+    }
+
+    return data?.page?.contents[0]
   }
 
   async deleteOne(id: string) {

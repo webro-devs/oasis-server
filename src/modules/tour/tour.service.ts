@@ -72,7 +72,15 @@ export class TourService {
     return res
   }
 
-  async getAllForAdmin(){}
+  async getAllForAdmin(langCode:string,id:string){
+    const data = await this.tourRepository.find({
+      where:{
+        tourCategory:{
+          id
+        }
+      }
+    })
+  }
 
   async deleteOne(id: string) {
     const response = await this.tourRepository.delete(id).catch(() => {
