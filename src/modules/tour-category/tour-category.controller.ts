@@ -19,6 +19,7 @@ import {
 
 import { CreateTourCategoryDto, UpdateTourCategoryDto } from './dto';
 import { TourCategoryService } from './tour-category.service';
+import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Tour-Category')
 @Controller('tour-category')
@@ -44,9 +45,12 @@ export class TourCategoryController {
   })
   @HttpCode(HttpStatus.OK)
   async getAllForAdminPage(
-    @Query('langCode') langCode: string,
+    @Query() query: PaginationDto,
   ) {
-    // return this.tourCategoryService.getAllForAdmin(langCode);
+    return this.tourCategoryService.getAllForAdmin(query.langCode, {
+      limit: query.limit,
+      page: query.page
+    });
   }
 
   @Get('/left-side')
