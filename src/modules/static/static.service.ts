@@ -12,9 +12,20 @@ export class StaticService {
     private readonly staticRepository: Repository<Static>,
   ) {}
 
-  async getAll() {
+  async getAll(langCode:string) {
     const data = await this.staticRepository.find();
-    return data;
+    const res = []
+    data.forEach(d=>{
+      res.push({
+        key: d?.key,
+        value: d?.value?.[langCode] || ''
+      })
+    })
+    return res;
+  }
+
+  async getAllForAdmin(){
+    return await this.staticRepository.find()
   }
 
   async deleteOne(id: string) {

@@ -5,9 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
+  Put,
   Param,
   Get,
+  Query,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -28,13 +29,23 @@ export class StaticController {
 
   @Public()
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all statics' })
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The statics were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData() {
-    return await this.staticService.getAll();
+  async getData(@Query('langCode') langCode: string) {
+    return await this.staticService.getAll(langCode);
+  }
+
+  @Get('/admin')
+  @ApiOperation({ summary: 'Admin --------------------' })
+  @ApiOkResponse({
+    description: 'The statics were returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getDataForAdmin() {
+    return await this.staticService.getAllForAdmin();
   }
 
   @Post('/')
@@ -47,7 +58,7 @@ export class StaticController {
     return await this.staticService.create(data);
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @ApiOperation({ summary: 'Method: updating static' })
   @ApiOkResponse({
     description: 'Static was changed',

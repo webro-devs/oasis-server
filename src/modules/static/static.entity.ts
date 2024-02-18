@@ -1,3 +1,4 @@
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 import {
   Entity,
   Column,
@@ -13,6 +14,6 @@ export class Static extends BaseEntity {
   @Column({type: 'varchar'})
   key: string;
 
-  @Column({type: 'varchar', nullable:true})
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
   value: any;
 }
