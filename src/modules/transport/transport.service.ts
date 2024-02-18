@@ -318,7 +318,7 @@ export class TransportService {
     })
 
     if(type == 'transfer'){
-      return {...data?.page?.contents[0],roadTransport: data?.roadTransports}
+      return {...data?.page?.contents[0],roadTransports: data?.roadTransports}
     }
 
     return data?.page?.contents[0]
