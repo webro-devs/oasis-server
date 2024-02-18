@@ -109,7 +109,8 @@ export class TourCategoryService {
         shortTitle: d.page.contents[0].shortTitle,
         title: d.page.contents[0].title,
         views: d.views,
-        url: d.url
+        url: d.url,
+        tours: d.tours
       })
     })
 
