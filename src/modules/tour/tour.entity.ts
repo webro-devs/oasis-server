@@ -49,6 +49,9 @@ export class Tour {
   @OneToMany(()=>TourContent, tourCon=>tourCon.tourBook)
   book: TourContent[]
 
+  @OneToMany(()=>TourPrice,tourPrice=>tourPrice.tour)
+  price: TourPrice[]
+
   @ManyToOne(()=>TourCategory, tourCat=> tourCat.tours)
   @JoinColumn()
   tourCategory:TourCategory
@@ -66,7 +69,4 @@ export class Tour {
   })
   @JoinTable()
   routes: Tag[]
-
-  @OneToMany(()=>TourPrice,tourPrice=>tourPrice.tour)
-  price: TourPrice[]
 }

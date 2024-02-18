@@ -21,25 +21,51 @@ export class TourService {
     private readonly tourItineraryService: TourItineraryService
   ) {}
 
-  async getOne(slug: string) {
+  async getOne(slug: string, langCode:string) {
     const data = await this.tourRepository
       .findOne({
-        where: { slug },
+        where: {
+           slug,
+           name:{
+            langCode
+           }
+        },
         relations:{
-          about:true,
-          book:true,
-          itinerary:true,
           name:true,
-          price:true,
           routes:true,
-          specification:true
+          price:true
         }
       })
       .catch(() => {
         throw new NotFoundException('data not found');
-      });
+    });
 
-    return data;
+    const res = {
+      price: data?.tourPrice,
+      photoGallery: data?.photoGallery,
+      photo: data.photo,
+      name: data?.name[0] || '',
+      slug: data?.slug,
+      paxPrice: data?.price,
+      routes: data?.routes
+    }
+
+    return res;
+  }
+
+  async getOneFields(slug:string,langCode:string,type:string){
+    const relations = {}
+    relations[type] = true
+    const data = await this.tourRepository.findOne({
+      where:{
+        slug
+      },
+      relations
+    })
+
+    const res = data?.[type]?.find(d=> d.langCode == langCode)
+
+    return res
   }
 
   async getAllForAdmin(){}

@@ -9,6 +9,8 @@ import {
   Param,
   Get,
   Put,
+  Query,
+  Req,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -37,14 +39,24 @@ export class TourController {
    
   }
   
-  @Get('/:id')
-  @ApiOperation({ summary: 'Method: returns single tour by id' })
+  @Get('/:slug')
+  @ApiOperation({ summary: 'Website  ++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The tour was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<Tour> {
-    return this.tourService.getOne(id);
+  async getMe(@Param('slug') slug: string, @Query('langCode') langCode: string) {
+    return this.tourService.getOne(slug, langCode);
+  }
+
+  @Get('/:slug/:type')
+  @ApiOperation({ summary: 'Website  ++++++++++++++++++++' })
+  @ApiOkResponse({
+    description: 'The tour was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getTourFields(@Param('slug') slug: string, @Query('langCode') langCode: string, @Param('type') type: string) {
+    return this.tourService.getOneFields(slug, langCode, type);
   }
 
   @Post('/')
