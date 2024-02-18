@@ -4,14 +4,6 @@ import { CreatePageContentDto } from 'src/modules/page-content/dto';
 
 class CreateTourCategoryDto {
   @ApiProperty({
-    description: `type`,
-    example: 'cultural tour',
-  })
-  @IsNotEmpty()
-  @IsString()
-  type: string;
-
-  @ApiProperty({
     description: `photo`,
     example: 'url',
   })

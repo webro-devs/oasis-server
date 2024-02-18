@@ -37,7 +37,7 @@ export class TourCategoryService {
       },
       select: {
         id: true,
-        type: true,
+        slug: true,
         photo: true,
         url: true,
         views: true,
@@ -54,7 +54,7 @@ export class TourCategoryService {
 
     data.forEach((d) => {
       res.push({
-        slug: d.type,
+        slug: d.slug,
         photo: d.photo,
         title: d.page.contents[0].title,
         shortTitle: d.page.contents[0].shortTitle,
@@ -84,7 +84,7 @@ export class TourCategoryService {
       },
       select: {
         id: true,
-        type: true,
+        slug: true,
         photo: true,
         url: true,
         views: true,
@@ -107,7 +107,7 @@ export class TourCategoryService {
     data.items.forEach(d=>{
       res.push({
         id: d.id,
-        slug: d.type,
+        slug: d.slug,
         photo: d.photo,
         shortTitle: d.page.contents[0].shortTitle,
         title: d.page.contents[0].title,
@@ -119,60 +119,11 @@ export class TourCategoryService {
     return {...data,items:res};
   }
 
-  async getAllForTourPage(langCode: string) {
-    const data = await this.tourCategoryRepository.find({
-      where: {
-        page: {
-          contents: {
-            langCode,
-          },
-        },
-      },
-      order: {
-        index: 'ASC',
-      },
-      relations: {
-        page: {
-          contents: true,
-        },
-        tours: {
-          about: true,
-        },
-      },
-      select: {
-        id: true,
-        type: true,
-        photo: true,
-        page: {
-          id: true,
-          contents: {
-            shortTitle: true,
-            description: true,
-            langCode: true,
-            title: true,
-          },
-        },
-      },
-    });
-
-    const res = [];
-
-    data.forEach((d) => {
-      res.push({
-        slug: d.type,
-        photo: d.photo,
-        contents: d.page.contents[0],
-      });
-    });
-
-    return data;
-  }
-
-  async getOne(type: string, langCode: string) {
+  async getOne(slug: string, langCode: string) {
     const data = await this.tourCategoryRepository
       .findOne({
         where: {
-          type,
+          slug,
           page: {
             contents: {
               langCode,
@@ -191,7 +142,7 @@ export class TourCategoryService {
         },
         select: {
           id: true,
-          type: true,
+          slug: true,
           photo: true,
           url: true,
           views: true,
@@ -215,16 +166,6 @@ export class TourCategoryService {
     return { ...data, page };
   }
 
-  async getOneByType(type: string) {
-    const data = await this.tourCategoryRepository.findOne({
-      where: {
-        type,
-      },
-    });
-
-    return data;
-  }
-
   async getLeftSide(langCode: string) {
     const data = await this.tourCategoryRepository.find({
       where: {
@@ -242,7 +183,7 @@ export class TourCategoryService {
       },
       select: {
         id: true,
-        type: true,
+        slug: true,
         page: {
           id: true,
           contents: {
@@ -261,7 +202,7 @@ export class TourCategoryService {
     const res = [];
     data.forEach((d) => {
       res.push({
-        slug: d.type,
+        slug: d.slug,
         title: d.page.contents[0].shortTitle,
         tourCount: d.tours.length,
       });
@@ -286,7 +227,7 @@ export class TourCategoryService {
         },
         select: {
           id: true,
-          type: true,
+          slug: true,
           photo: true,
           tours: {
             id: true,
@@ -333,7 +274,7 @@ export class TourCategoryService {
 
       const title = d?.page?.contents?.find(c=>c.langCode == langCode)?.title
       res.push({
-        slug: d?.type,
+        slug: d?.slug,
         title,
         tours
       })
@@ -385,22 +326,21 @@ export class TourCategoryService {
   }
 
   async create(value: CreateTourCategoryDto) {
-    const isExist = await this.getOneByType(value.type);
-
-    if (isExist) {
-      return new HttpException(`${value.type} already exist`, 400);
+    const title = value.contents.find((c) => c.langCode == 'en')?.title;
+    if (!title) {
+      throw new HttpException('title in english should be exist', 400);
     }
 
     const tourCategory = new TourCategory();
-    tourCategory.type = slugify(value.type);
     tourCategory.photo = value.photo;
-    tourCategory.url = await this.makeUrl('tour-category/', value.type);
+    tourCategory.slug = await this.makeSlug(title)
+    tourCategory.url = await this.makeUrl('tour-category/', title);
     await this.tourCategoryRepository.save(tourCategory);
 
     await this.pageService.create(
       value,
       { tourCategory, isTopic: false },
-      { path: `tour-category/${value.type}`, short: false },
+      { path: `tour-category/${title}`, short: false },
     );
     return tourCategory;
   }
@@ -420,5 +360,19 @@ export class TourCategoryService {
     }
 
     return url;
+  }
+
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
+
+    const isExist = await this.tourCategoryRepository.findOne({
+      where: { slug },
+    });
+
+    if (isExist) {
+      return await this.makeSlug(slug + '_');
+    }
+
+    return slug;
   }
 }

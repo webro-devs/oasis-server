@@ -3,7 +3,7 @@ import { Page } from '../page/page.entity';
 import { Tour } from '../tour/tour.entity';
 
 @Entity('tour_category')
-@Index(["type"], { unique: true })
+@Index(["slug"], { unique: true })
 export class TourCategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -12,8 +12,8 @@ export class TourCategory {
   @Column({type:"int",nullable:true })
   index:number
 
-  @Column({type:'varchar'})
-  type:string
+  @Column({type:'varchar', nullable:true})
+  slug: string;
 
   @Column({type:'varchar',nullable:true})
   photo:string

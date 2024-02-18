@@ -3,14 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UpdatePageContentDto } from 'src/modules/page-content/dto'
 class UpdateTourCategoryDto {
   @ApiProperty({
-    description: `type`,
-    example: 'cultural tour'
-  })
-  @IsOptional()
-  @IsString()
-  type:string
-
-  @ApiProperty({
     description: `photo`,
     example: 'url',
   })
