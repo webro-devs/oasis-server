@@ -10,7 +10,7 @@ export class TourCategory {
 
   @Generated('increment')
   @Column({type:"int",nullable:true })
-  index:number
+  order:number
 
   @Column({type:'varchar', nullable:true})
   slug: string;

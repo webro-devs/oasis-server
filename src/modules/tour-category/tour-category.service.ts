@@ -28,7 +28,7 @@ export class TourCategoryService {
         },
       },
       order: {
-        index: 'ASC',
+        order: 'ASC',
       },
       relations: {
         page: {
@@ -74,7 +74,7 @@ export class TourCategoryService {
         },
       },
       order: {
-        index: 'ASC',
+        order: 'ASC',
       },
       relations: {
         page: {
