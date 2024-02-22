@@ -4,7 +4,7 @@ import UpdateContactDto from './update-contact.dto';
 
 class UpdateContactList {
   @ApiProperty({
-    description: `title`,
+    description: `contents`,
     isArray: true,
     example: [
       {

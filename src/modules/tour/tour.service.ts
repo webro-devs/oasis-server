@@ -130,7 +130,7 @@ export class TourService {
     const tour = await this.createTour(url, {
       tourCategory: value.tourCategory,
       photoGallery: value?.photoGallery || [],
-      routes,
+      // routes,
       destination: value?.destination,
       photo: value?.photo || null,
       tourPrice: value.price[0].econome

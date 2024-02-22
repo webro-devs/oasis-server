@@ -1,7 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
-import { UpdateContactDto, CreateContactList, CreateContactDto, UpdateContactList } from './dto';
+import {
+  UpdateContactDto,
+  CreateContactList,
+  CreateContactDto,
+  UpdateContactList,
+} from './dto';
 import { Contact } from './contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -40,24 +45,37 @@ export class ContactService {
   }
 
   async change(value: UpdateContactList) {
-    Promise.all(value.contents.map(async(v)=>{
-      await this.contactRepository.update({ id:v.id }, v);
-    }))
+    const updatedData = value.contents.filter((c) => c.id);
+
+    const createdData = value.contents.filter((c) => !c.id);
+
+    await Promise.all(
+      updatedData.map(async (v) => {
+        await this.contactRepository.update({ id: v.id }, v);
+      }),
+    );
+
+    await Promise.all(
+      createdData.map(async (v) => {
+        await this.create(v);
+      }),
+    );
   }
 
-  async createMore(value: CreateContactList){
-    Promise.all(value.contents.map(async(v)=>{
-        await this.create(v)
-    }))
+  async createMore(value: CreateContactList) {
+    await Promise.all(
+      value.contents.map(async (v) => {
+        await this.create(v);
+      }),
+    );
   }
 
   async create(value: CreateContactDto) {
     const contact = await this.getByLangCode(value.langCode);
     if (contact) {
-      return contact;
+      return 
     }
     const data = this.contactRepository.create(value);
     await this.contactRepository.save(data);
-    return await this.contactRepository.save(data);
   }
 }

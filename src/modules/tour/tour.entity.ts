@@ -5,6 +5,7 @@ import { Destination } from '../destination/destination.entity';
 import { Tag } from '../tag/tag.entity';
 import { TourPrice } from '../tour-price/tour-price.entity';
 import { TourItinerary } from '../tour-itinerary/tour-itinerary.entity';
+import { TourRoute } from '../tur-route/tur-route.entity';
 
 @Entity('tour')
 @Index(["slug"], { unique: true })
@@ -18,6 +19,9 @@ export class Tour {
 
   @Column({type:'varchar', nullable:true})
   slug: string;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date: string;
 
   @Column({type:'text',array:true,nullable:true})
   photoGallery: string[];
@@ -63,7 +67,7 @@ export class Tour {
   @JoinColumn()
   destination: Destination
 
-  @ManyToMany(()=>Tag, tag=>tag.tours,{
+  @ManyToMany(()=>TourRoute, tourRoute=>tourRoute.tours,{
     onDelete:"CASCADE",
     cascade:true
   })

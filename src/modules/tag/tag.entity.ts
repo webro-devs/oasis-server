@@ -10,7 +10,6 @@ import { PageContent } from '../page-content/page-content.entity';
 import { AttractionContent } from '../attraction-content/attraction-content.entity';
 import { EventContent } from '../event-content/event-content.entity';
 import { TourContent } from '../tour-content/tour-content.entity';
-import { Tour } from '../tour/tour.entity';
 
 @Entity({ name: 'tag' })
 @Index(["title"], { unique: true })
@@ -40,9 +39,4 @@ export class Tag extends BaseEntity {
     onDelete:"CASCADE"
   })
   tourContents: TourContent[]
-
-  @ManyToMany(()=>Tour, event=> event.routes, {
-    onDelete:"CASCADE"
-  })
-  tours: Tour[]
 }

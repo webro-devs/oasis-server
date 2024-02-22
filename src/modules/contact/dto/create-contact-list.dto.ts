@@ -4,7 +4,7 @@ import CreateContactDto from './create-contact.dto';
 
 class CreateContactList {
   @ApiProperty({
-    description: `title`,
+    description: `contents`,
     isArray: true,
     example: [
       {
