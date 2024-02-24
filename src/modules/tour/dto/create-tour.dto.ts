@@ -88,7 +88,6 @@ class CreateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -174,7 +173,6 @@ class CreateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -195,7 +193,6 @@ class CreateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',

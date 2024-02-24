@@ -80,7 +80,6 @@ class UpdateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -93,7 +92,6 @@ class UpdateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -114,7 +112,6 @@ class UpdateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -127,7 +124,6 @@ class UpdateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -148,7 +144,6 @@ class UpdateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
@@ -161,7 +156,6 @@ class UpdateTourDto {
         langCode: '',
         title: '',
         description: '',
-        descriptionPage: '',
         tags: [
           {
             id:'',
