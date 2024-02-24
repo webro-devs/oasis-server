@@ -23,29 +23,49 @@ import {
 import { CreateTourDto, UpdateTourDto } from './dto';
 import { Tour } from './tour.entity';
 import { TourService } from './tour.service';
+import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Tour')
 @Controller('tour')
 export class TourController {
   constructor(private readonly tourService: TourService) {}
 
-  @Get('/')
+  @Get('/for-site')
   @ApiOperation({ summary: 'Method: returns all tours' })
   @ApiOkResponse({
     description: 'The tours were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getData() {
-   
+  async getDataForSite(@Query() query: PaginationDto) {
+    return await this.tourService.getAllForSite(
+      { limit: query.limit, page: query.page },
+      query.langCode,
+    );
   }
-  
+
+  @Get('/for-admin')
+  @ApiOperation({ summary: 'Method: returns all tours' })
+  @ApiOkResponse({
+    description: 'The tours were returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getAllForAdmin(@Query() query: PaginationDto) {
+    return await this.tourService.getAllForSite(
+      { limit: query.limit, page: query.page },
+      query.langCode,
+    );
+  }
+
   @Get('/:slug')
   @ApiOperation({ summary: 'Website  ++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The tour was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMe(@Param('slug') slug: string, @Query('langCode') langCode: string) {
+  async getMe(
+    @Param('slug') slug: string,
+    @Query('langCode') langCode: string,
+  ) {
     return this.tourService.getOne(slug, langCode);
   }
 
@@ -55,7 +75,11 @@ export class TourController {
     description: 'The tour was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getTourFields(@Param('slug') slug: string, @Query('langCode') langCode: string, @Param('type') type: string) {
+  async getTourFields(
+    @Param('slug') slug: string,
+    @Query('langCode') langCode: string,
+    @Param('type') type: string,
+  ) {
     return this.tourService.getOneFields(slug, langCode, type);
   }
 
@@ -75,10 +99,7 @@ export class TourController {
     description: 'Tour was changed',
   })
   @HttpCode(HttpStatus.OK)
-  async changeData(
-    @Body() data: UpdateTourDto,
-    @Param('id') id: string,
-  ){
+  async changeData(@Body() data: UpdateTourDto, @Param('id') id: string) {
     return await this.tourService.change(data, id);
   }
 

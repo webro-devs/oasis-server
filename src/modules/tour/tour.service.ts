@@ -1,5 +1,9 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import {
+  IPaginationOptions,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 import { UpdateTourDto, CreateTourDto } from './dto';
 import { Tour } from './tour.entity';
@@ -55,6 +59,41 @@ export class TourService {
     return res;
   }
 
+  async getAllForSite(options: IPaginationOptions ,langCode:string, where:any = {}){
+    where.name = {
+      langCode
+    }
+    const data = await paginate<Tour>(this.tourRepository, options, {
+      where,
+      relations:{
+        name:true
+      },
+      select:{
+        id:true,
+        photo:true,
+        tourPrice:true,
+        slug:true,
+        name:{
+          id:true,
+          title:true
+        }
+      }
+    })
+ 
+    const res = []
+    data?.items?.forEach(d=>{
+      const title = d?.name?.find(n=> n.langCode == langCode)?.title
+      res.push({
+        slug: d.slug,
+        photo: d.photo,
+        title,
+        price: d.tourPrice
+      })
+    })
+    
+    return res
+  }
+
   async getOneFields(slug:string,langCode:string,type:string){
     const relations = {}
     relations[type] = true
@@ -72,14 +111,56 @@ export class TourService {
     return res
   }
 
-  async getAllForAdmin(langCode:string,id:string){
-    const data = await this.tourRepository.find({
+  async getAllForAdmin(options: IPaginationOptions , langCode:string,id:string){
+    const data = await paginate<Tour>(this.tourRepository, options, {
       where:{
         tourCategory:{
           id
+        },
+        name:{
+          langCode
         }
+      },
+      relations:{
+        name:true,
+        itinerary:true
+      },
+      select:{
+        id:true,
+        slug:true,
+        date:true,
+        index:true,
+        url:true,
+        views:true,
+        tourPrice:true,
+        name:{
+          id:true,
+          title:true,
+          langCode:true
+        },
+        itinerary:{
+          id:true
+        }
+      },
+      order:{
+        date:"DESC"
       }
     })
+
+    const res = []
+    data.items.forEach(d=>{
+      res.push({
+        id:d.id,
+        slug: d.slug,
+        url: d.url,
+        views: d.views,
+        title: d.name[0]?.title,
+        days: d.itinerary.length,
+        price: d.tourPrice
+      })
+    })
+
+    return res
   }
 
   async deleteOne(id: string) {

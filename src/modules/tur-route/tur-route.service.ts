@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 import {
   UpdateTourRouteDto,
@@ -9,6 +9,7 @@ import {
 } from './dto';
 import { TourRoute } from './tur-route.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import slugify from 'slugify';
 
 @Injectable()
 export class TourRouteService {
@@ -43,8 +44,18 @@ export class TourRouteService {
     return data
   }
 
+  async getByTitleForAdmin(title:string){
+     const data = await this.tourRouteRepository.find({
+      where:{
+        title: ILike(`%${title}%`),
+        langCode:'en'
+      }
+     })
+     return data
+  }
+
   async getByTitle(title: string, langCode: string) {
-    const data = await this.tourRouteRepository.findOne({ where: { title } });
+    const data = await this.tourRouteRepository.findOne({ where: { title, langCode } });
     return data;
   }
 
@@ -68,7 +79,7 @@ export class TourRouteService {
   }
 
   async create(values: CreateTourRouteListDto) {
-    const type = values.contents.find(c=> c.langCode == 'en').title
+    const type = slugify(values.contents.find(c=> c.langCode == 'en')?.title)
     await Promise.all(
       values.contents.map(async (c) => {
         await this.createOne(c,type);

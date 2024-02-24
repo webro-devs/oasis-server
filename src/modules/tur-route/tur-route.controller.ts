@@ -37,7 +37,6 @@ export class TourRouteController {
     return await this.tourRouteService.getAll(langCode);
   }
 
-  @Public()
   @Get('/for-admin')
   @ApiOperation({ summary: 'Method: returns all tour routes' })
   @ApiOkResponse({
@@ -48,7 +47,6 @@ export class TourRouteController {
     return await this.tourRouteService.getAllForAdmin(langCode);
   }
 
-  @Public()
   @Get('/for-update')
   @ApiOperation({ summary: 'Method: returns all tour routes' })
   @ApiOkResponse({
@@ -57,6 +55,16 @@ export class TourRouteController {
   @HttpCode(HttpStatus.OK)
   async getDataForUpdate(@Query('type') type:string) {
     return await this.tourRouteService.getOneForUpdate(type);
+  }
+
+  @Get('/for-tour')
+  @ApiOperation({ summary: 'Method: returns all tour routes' })
+  @ApiOkResponse({
+    description: 'The tour routes were returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByTitleForAdmin(@Query('title') title:string) {
+    return await this.tourRouteService.getByTitleForAdmin(title);
   }
 
   @Post('/')
