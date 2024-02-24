@@ -21,11 +21,6 @@ export class TourRouteService {
   async getAll(langCode:string) {
     const data = await this.tourRouteRepository.find({
       where:{langCode},
-      select:{
-        id:true,
-        title:true,
-        description:true,
-      }
     });
     return data;
   }

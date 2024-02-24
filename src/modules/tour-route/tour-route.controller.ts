@@ -28,7 +28,7 @@ export class TourRouteController {
 
   @Public()
   @Get('/')
-  @ApiOperation({ summary: 'Method: returns all tour routes' })
+  @ApiOperation({ summary: 'Website  +++++++++++' })
   @ApiOkResponse({
     description: 'The tour routes were returned successfully',
   })
