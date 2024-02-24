@@ -10,7 +10,7 @@ import {
 import { Tour } from '../tour/tour.entity';
 
 @Entity({ name: 'tour_route' })
-@Index(["title"], { unique: true })
+@Index(["title"])
 export class TourRoute extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
