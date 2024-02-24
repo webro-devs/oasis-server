@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { TourRoute } from './tur-route.entity';
-import { TourRouteController } from './tur-route.controller';
-import { TourRouteService } from './tur-route.service';
+import { TourRoute } from './tour-route.entity';
+import { TourRouteController } from './tour-route.controller';
+import { TourRouteService } from './tour-route.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TourRoute])],

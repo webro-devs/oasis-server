@@ -2,6 +2,7 @@ import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdateTourContentDto } from 'src/modules/tour-content/dto';
 import { UpdateTourPriceDto } from 'src/modules/tour-price/dto';
+import { TourRoute } from 'src/modules/tour-route/tour-route.entity';
 
 class UpdateTourDto {
   @ApiProperty({
@@ -33,13 +34,16 @@ class UpdateTourDto {
     example: [
       {
         id:'',
-        title:''
+        title:'',
+        description:'',
+        langCode:'',
+        type:''
       }
     ],
   })
   @IsOptional()
   @IsArray()
-  routes: string[];
+  routes: TourRoute[];
 
   @ApiProperty({
     description: `price`,

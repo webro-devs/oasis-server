@@ -23,7 +23,7 @@ import { TourItineraryModule } from './modules/tour-itinerary/tour-itinerary.mod
 import { LanguageModule } from './modules/language/language.module';
 import { StaticModule } from './modules/static/static.module';
 import { ContactModule } from './modules/contact/contact.module';
-import { TourRouteModule } from './modules/tur-route/tur-route.module';
+import { TourRouteModule } from './modules/tour-route/tour-route.module';
 
 @Module({
   imports: [

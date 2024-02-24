@@ -176,10 +176,7 @@ export class TourService {
     });
 
     if (value?.photoGallery?.length) {
-      await this.tourRepository.update(
-        { id: tour.id },
-        { photoGallery: value.photoGallery },
-      );
+      tour.photoGallery = value.photoGallery
     }
 
     if (value?.about?.length) {
@@ -197,6 +194,8 @@ export class TourService {
     if (value?.price?.length) {
       await this.tourPriceService.change(value.price, tour.id);
     }
+
+    await this.tourRepository.save(tour)
   }
 
   async create(value: CreateTourDto) {
@@ -207,11 +206,9 @@ export class TourService {
     }
 
     const url = await this.makeUrl('tour/', title);
-    const routes = value.routes
     const tour = await this.createTour(url, {
       tourCategory: value.tourCategory,
       photoGallery: value?.photoGallery || [],
-      // routes,
       destination: value?.destination,
       photo: value?.photo || null,
       tourPrice: value.price[0].econome
@@ -241,7 +238,9 @@ export class TourService {
       await this.tourPriceService.create(value.price, tour.id);
     }
 
-    return tour;
+    tour.routes = value.routes
+
+    return await this.tourRepository.save(tour);
   }
 
   async createTour(url: string, value) {

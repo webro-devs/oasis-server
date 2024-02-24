@@ -18,7 +18,7 @@ import {
 } from '@nestjs/swagger';
 
 import { CreateTourRouteListDto, UpdateTourRouteListDto } from './dto';
-import { TourRouteService } from './tur-route.service';
+import { TourRouteService } from './tour-route.service';
 import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Tour-Route')

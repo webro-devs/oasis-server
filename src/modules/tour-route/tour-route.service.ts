@@ -7,7 +7,7 @@ import {
   CreateTourRouteListDto,
   UpdateTourRouteListDto,
 } from './dto';
-import { TourRoute } from './tur-route.entity';
+import { TourRoute } from './tour-route.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import slugify from 'slugify';
 

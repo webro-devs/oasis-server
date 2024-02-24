@@ -1,6 +1,6 @@
 import { IsArray, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import UpdateTourRouteDto from './update-tur-route.dto';
+import UpdateTourRouteDto from './update-tour-route.dto';
 
 class UpdateTourRouteListDto {
   @ApiProperty({

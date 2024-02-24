@@ -2,10 +2,9 @@ import { Column, Entity, Generated, Index, JoinColumn, JoinTable, ManyToMany, Ma
 import { TourContent } from '../tour-content/tour-content.entity';
 import { TourCategory } from '../tour-category/tour-category.entity';
 import { Destination } from '../destination/destination.entity';
-import { Tag } from '../tag/tag.entity';
 import { TourPrice } from '../tour-price/tour-price.entity';
 import { TourItinerary } from '../tour-itinerary/tour-itinerary.entity';
-import { TourRoute } from '../tur-route/tur-route.entity';
+import { TourRoute } from '../tour-route/tour-route.entity';
 
 @Entity('tour')
 @Index(["slug"], { unique: true })
@@ -72,5 +71,5 @@ export class Tour {
     cascade:true
   })
   @JoinTable()
-  routes: Tag[]
+  routes: TourRoute[]
 }

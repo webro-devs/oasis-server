@@ -1,6 +1,6 @@
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import CreateTourRouteDto from './create-tur-route.dto';
+import CreateTourRouteDto from './create-tour-route.dto';
 
 class CreateTourRouteListDto {
   @ApiProperty({
