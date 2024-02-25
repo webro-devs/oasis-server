@@ -63,8 +63,8 @@ export class TourRouteController {
     description: 'The tour routes were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByTitleForAdmin(@Query('title') title:string) {
-    return await this.tourRouteService.getByTitleForAdmin(title);
+  async getByTitleForAdmin() {
+    return await this.tourRouteService.getByTitleForAdmin();
   }
 
   @Post('/')

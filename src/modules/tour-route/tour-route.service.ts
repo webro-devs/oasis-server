@@ -39,10 +39,9 @@ export class TourRouteService {
     return data
   }
 
-  async getByTitleForAdmin(title:string){
+  async getByTitleForAdmin(){
      const data = await this.tourRouteRepository.find({
       where:{
-        title: ILike(`%${title}%`),
         langCode:'en'
       }
      })
