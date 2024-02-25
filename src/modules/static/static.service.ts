@@ -25,7 +25,11 @@ export class StaticService {
   }
 
   async getAllForAdmin(){
-    return await this.staticRepository.find()
+    return await this.staticRepository.find({
+      order:{
+        date:"DESC"
+      }
+    })
   }
 
   async deleteOne(id: string) {

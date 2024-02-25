@@ -16,4 +16,7 @@ export class Static extends BaseEntity {
 
   @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
   value: any;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  date: string;
 }
