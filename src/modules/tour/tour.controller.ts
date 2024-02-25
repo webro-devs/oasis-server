@@ -43,16 +43,17 @@ export class TourController {
     );
   }
 
-  @Get('/for-admin')
+  @Get('/for-admin/:id')
   @ApiOperation({ summary: 'Method: returns all tours' })
   @ApiOkResponse({
     description: 'The tours were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAllForAdmin(@Query() query: PaginationDto) {
-    return await this.tourService.getAllForSite(
+  async getAllForAdmin(@Query() query: PaginationDto, @Param('id') id:string) {
+    return await this.tourService.getAllForAdmin(
       { limit: query.limit, page: query.page },
       query.langCode,
+      id
     );
   }
 
