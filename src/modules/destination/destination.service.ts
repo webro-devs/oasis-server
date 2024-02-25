@@ -143,6 +143,44 @@ export class DestinationService {
     return res;
   }
 
+  async getAllForSelect(langCode: string) {
+    const data = await this.destinationRepository.find({
+      where: {
+        page: {
+          contents: {
+            langCode,
+          },
+        },
+      },
+      order: {
+        index: 'ASC',
+      },
+      relations: {
+        page: {
+          contents: true,
+        },
+      },
+      select: {
+        id: true,
+        page: {
+          id: true,
+          contents: {
+            shortTitle: true,
+          },
+        },
+      },
+    });
+
+    const res = [];
+    data.forEach((d) => {
+      res.push({
+        id: d?.id,
+        shortTitle: d?.page?.contents[0]?.shortTitle,
+      });
+    });
+    return res;
+  }
+
   async getMenu(id: string, langCode: string, menu: string) {
     if (menu == 'left') {
       return await this.getLeftMenu(id, langCode);

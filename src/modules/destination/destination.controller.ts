@@ -49,6 +49,18 @@ export class DestinationController {
     return this.destinationService.getAllForSite(langCode);
   }
 
+  @Get('/for-select')
+  @ApiOperation({ summary: 'Admin ----------------' })
+  @ApiOkResponse({
+    description: 'The destinations was returned successfully',
+    type: DestinationListWebsiteResponseType,
+    isArray:true
+  })
+  @HttpCode(HttpStatus.OK)
+  async getAllForSelect(@Query('langCode') langCode:string){
+    return this.destinationService.getAllForSelect(langCode);
+  }
+
   @Get('/single-for-update/:id')
   @ApiOperation({ summary: 'Admin ------------------' })
   @ApiOkResponse({
