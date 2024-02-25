@@ -175,7 +175,7 @@ export class DestinationService {
     data.forEach((d) => {
       res.push({
         id: d?.id,
-        shortTitle: d?.page?.contents[0]?.shortTitle,
+        title: d?.page?.contents[0]?.shortTitle,
       });
     });
     return res;
