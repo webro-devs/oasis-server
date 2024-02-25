@@ -38,6 +38,20 @@ export class TourService {
           name:true,
           routes:true,
           price:true
+        },
+        select:{
+          id:true,
+          slug:true,
+          photo:true,
+          photoGallery:true,
+          tourPrice:true,
+          name:{
+            title:true,
+            langCode:true
+          },
+          routes:{
+            title:true
+          }
         }
       })
       .catch(() => {
