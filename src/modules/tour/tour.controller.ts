@@ -12,7 +12,6 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { UpdateResult } from 'typeorm';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -21,7 +20,6 @@ import {
 } from '@nestjs/swagger';
 
 import { CreateTourDto, UpdateTourDto } from './dto';
-import { Tour } from './tour.entity';
 import { TourService } from './tour.service';
 import { PaginationDto } from 'src/infra/shared/dto';
 

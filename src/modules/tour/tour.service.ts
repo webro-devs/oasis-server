@@ -199,19 +199,23 @@ export class TourService {
   }
 
   async create(value: CreateTourDto) {
-    const title = value.about.find((c) => c.langCode == 'en')?.title;
+    const title = value.name.find((c) => c.langCode == 'en')?.title;
 
     if (!title) {
       throw new HttpException('title in english should be exist in about', 400);
     }
 
     const url = await this.makeUrl('tour/', title);
-    const tour = await this.createTour(url, {
+    const slug = await this.makeSlug(title);
+
+    const tour = await this.createTour({
+      url,
       tourCategory: value.tourCategory,
       photoGallery: value?.photoGallery || [],
       destination: value?.destination,
       photo: value?.photo || null,
-      tourPrice: value.price[0].econome
+      tourPrice: value.price[0].econome,
+      slug
     });
 
     if (value?.about?.length) {
@@ -243,12 +247,12 @@ export class TourService {
     return await this.tourRepository.save(tour);
   }
 
-  async createTour(url: string, value) {
+  async createTour(value) {
     const data = await this.tourRepository
       .createQueryBuilder()
       .insert()
       .into(Tour)
-      .values({ url, ...value } as unknown as Tour)
+      .values( value as unknown as Tour)
       .returning('id')
       .execute();
 
@@ -270,5 +274,19 @@ export class TourService {
     }
 
     return url;
+  }
+
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
+
+    const isExist = await this.tourRepository.findOne({
+      where: { slug },
+    });
+
+    if (isExist) {
+      return await this.makeSlug(slug + '_');
+    }
+
+    return slug;
   }
 }
