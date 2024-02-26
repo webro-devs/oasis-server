@@ -9,10 +9,10 @@ export class TourItineraryContent {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type:"text"})
+  @Column({type:"text",nullable:true})
   title: string;
 
-  @Column({type:"text"})
+  @Column({type:"text",nullable:true})
   description: string;
 
   @Column({type:"varchar", nullable:true})
