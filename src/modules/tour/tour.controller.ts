@@ -34,7 +34,10 @@ export class TourController {
     description: 'The tours were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getDataForSite(@Query() query: PaginationDto) {
+  async getDataForSite(@Query() query: PaginationDto,@Req() req) {
+    console.log(req.protocol);
+    console.log(req.hostname);
+    
     return await this.tourService.getAllForSite(
       { limit: query.limit, page: query.page },
       query.langCode,
