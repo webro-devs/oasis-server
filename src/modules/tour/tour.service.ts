@@ -180,11 +180,9 @@ export class TourService {
   }
 
   async getAllForUpdate(id:string){
-    const data = await this.tourRepository.find({
+    const data = await this.tourRepository.findOne({
       where:{
-        tourCategory:{
-          id
-        }
+        id
       },
       relations:{
         name:true,
