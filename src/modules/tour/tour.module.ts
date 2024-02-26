@@ -7,9 +7,16 @@ import { TourController } from './tour.controller';
 import { TourContentModule } from '../tour-content/tour-content.module';
 import { TourPriceModule } from '../tour-price/tour-price.module';
 import { TourItineraryModule } from '../tour-itinerary/tour-itinerary.module';
+import { TourRouteModule } from '../tour-route/tour-route.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tour]),TourContentModule,TourPriceModule,TourItineraryModule],
+  imports: [
+    TypeOrmModule.forFeature([Tour]),
+    TourContentModule,
+    TourPriceModule,
+    TourItineraryModule,
+    TourRouteModule,
+  ],
   controllers: [TourController],
   providers: [TourService],
   exports: [TourService],

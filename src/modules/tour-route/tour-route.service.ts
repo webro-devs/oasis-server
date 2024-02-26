@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 
 import {
   UpdateTourRouteDto,
@@ -43,6 +43,16 @@ export class TourRouteService {
      const data = await this.tourRouteRepository.find({
       where:{
         langCode:'en'
+      }
+     })
+     return data
+  }
+
+  async getMoreByTitels(titles: string[]){
+     const data = await this.tourRouteRepository.find({
+      where:{
+        langCode:'en',
+        title: In(titles)
       }
      })
      return data

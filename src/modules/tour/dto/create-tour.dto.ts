@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CreateTourContentDto } from 'src/modules/tour-content/dto';
 import { CreateTourPriceDto } from 'src/modules/tour-price/dto';
 import { CreateTourItineraryDto } from 'src/modules/tour-itinerary/dto';
-import { TourRoute } from 'src/modules/tour-route/tour-route.entity';
 
 class CreateTourDto {
   @ApiProperty({
@@ -40,19 +39,11 @@ class CreateTourDto {
 
   @ApiProperty({
     description: `routes`,
-    example: [
-      {
-        id:'',
-        title:'',
-        description:'',
-        langCode:'',
-        type:''
-      }
-    ],
+    example: ['title','title'],
   })
   @IsOptional()
   @IsArray()
-  routes: TourRoute[];
+  routes: string[];
 
   @ApiProperty({
     description: `price`,

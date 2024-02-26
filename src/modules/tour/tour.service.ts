@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 import slugify from 'slugify';
 import { TourPriceService } from '../tour-price/tour-price.service';
 import { TourItineraryService } from '../tour-itinerary/tour-itinerary.service';
+import { TourRouteService } from '../tour-route/tour-route.service';
 
 @Injectable()
 export class TourService {
@@ -22,7 +23,8 @@ export class TourService {
     private readonly tourContService: TourContentService,
     private readonly configService: ConfigService,
     private readonly tourPriceService: TourPriceService,
-    private readonly tourItineraryService: TourItineraryService
+    private readonly tourItineraryService: TourItineraryService,
+    private readonly tourRouteService: TourRouteService
   ) {}
 
   async getOne(slug: string, langCode:string) {
@@ -256,7 +258,7 @@ export class TourService {
       await this.tourPriceService.create(value.price, tour.id);
     }
 
-    tour.routes = value.routes
+    tour.routes = await this.tourRouteService.getMoreByTitels(value.routes)
 
     return await this.tourRepository.save(tour);
   }

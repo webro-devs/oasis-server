@@ -31,19 +31,11 @@ class UpdateTourDto {
 
   @ApiProperty({
     description: `routes`,
-    example: [
-      {
-        id:'',
-        title:'',
-        description:'',
-        langCode:'',
-        type:''
-      }
-    ],
+    example: ['title','title'],
   })
   @IsOptional()
   @IsArray()
-  routes: TourRoute[];
+  routes: string[];
 
   @ApiProperty({
     description: `price`,
