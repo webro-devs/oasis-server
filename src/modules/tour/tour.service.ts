@@ -179,6 +179,29 @@ export class TourService {
     return res
   }
 
+  async getAllForUpdate(id:string){
+    const data = await this.tourRepository.find({
+      where:{
+        tourCategory:{
+          id
+        }
+      },
+      relations:{
+        name:true,
+        itinerary:true,
+        about:true,
+        book:true,
+        destination:true,
+        price:true,
+        routes:true,
+        specification:true,
+        tourCategory:true,
+      },
+    })
+
+    return data
+  }
+
   async deleteOne(id: string) {
     const response = await this.tourRepository.delete(id).catch(() => {
       throw new NotFoundException('data not found');

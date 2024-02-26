@@ -55,6 +55,16 @@ export class TourController {
     );
   }
 
+  @Get('/for-update/:id')
+  @ApiOperation({ summary: 'Method: returns tour for update' })
+  @ApiOkResponse({
+    description: 'The tour were returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getAllForUpdate(@Param('id') id:string) {
+    return await this.tourService.getAllForUpdate(id);
+  }
+
   @Get('/:slug')
   @ApiOperation({ summary: 'Website  ++++++++++++++++++++' })
   @ApiOkResponse({
