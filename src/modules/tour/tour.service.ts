@@ -179,7 +179,7 @@ export class TourService {
     return res
   }
 
-  async getAllForUpdate(id:string){
+  async getAllForUpdate(id:string, langCode:string){
     const data = await this.tourRepository.findOne({
       where:{
         id
@@ -196,8 +196,34 @@ export class TourService {
         tourCategory:true,
       },
     })
+    const res:any = {}
+    for( let i = 0; i < data.name.length; i++){
+      if(data.name[i]?.langCode == langCode){
+        res.name = data.name[i]
+      }
+      if(data.about[i]?.langCode == langCode){
+        res.about = data.about[i]
+      }
+      if(data.book[i].langCode == langCode){
+        res.book = data.book[i]
+      }
+      if(data.specification[i].langCode == langCode){
+        res.specification = data.specification[i]
+      }
+    }
+    if(data.price.length){
+      res.price = data.price.map(p=>{
+        const person = p?.person?.find(p=> p.langCode == langCode)
+        return {...p,person}
+      })
+    }
+    if(data.itinerary.length){
+      res.itinerary = data.itinerary.map(i=>{
+        return i.contents?.find(c => c?.langCode == langCode)
+      })
+    }
 
-    return data
+    return res
   }
 
   async deleteOne(id: string) {

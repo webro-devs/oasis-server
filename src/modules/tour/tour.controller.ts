@@ -61,8 +61,8 @@ export class TourController {
     description: 'The tour were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAllForUpdate(@Param('id') id:string) {
-    return await this.tourService.getAllForUpdate(id);
+  async getAllForUpdate(@Param('id') id:string, @Query('langCode') langCode:string) {
+    return await this.tourService.getAllForUpdate(id, langCode);
   }
 
   @Get('/:slug')
