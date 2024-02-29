@@ -238,8 +238,12 @@ export class TourService {
       where: { id },
     });
 
-    if (value?.photoGallery?.length) {
-      tour.photoGallery = value.photoGallery
+    if (value?.tour) {
+      tour.photoGallery = value?.tour?.photoGallery ? value?.tour?.photoGallery : tour.photoGallery
+      tour.photo = value?.tour?.photo ? value?.tour?.photo : tour.photo
+      if(value.tour?.routes){
+        tour.routes = await this.tourRouteService.getMoreByTitels(value.tour.routes)
+      }
     }
 
     if (value?.about?.length) {

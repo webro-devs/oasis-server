@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UpdateTourContentDto } from 'src/modules/tour-content/dto';
 import { UpdateTourPriceDto } from 'src/modules/tour-price/dto';
@@ -14,28 +14,16 @@ class UpdateTourDto {
   tourCategory: string;
 
   @ApiProperty({
-    description: `photo`,
-    example: 'url',
-  })
-  @IsOptional()
-  @IsString()
-  photo: string;
-
-  @ApiProperty({
-    description: `photoGallery`,
-    example: ['url','url'],
-  })
-  @IsOptional()
-  @IsString()
-  photoGallery: string[];
-
-  @ApiProperty({
     description: `routes`,
-    example: ['title','title'],
+    example: {
+      photo:'url',
+      photoGallery: ['url','url'],
+      routes: ['title','title']
+    }
   })
   @IsOptional()
-  @IsArray()
-  routes: string[];
+  @IsObject()
+  tour: {routes:string[], photoGallery:string[], photo:string}
 
   @ApiProperty({
     description: `price`,
