@@ -32,7 +32,7 @@ async function bootstrap() {
   // app.useGlobalGuards(
   //   new AccessTokenUserGuard(reflector),
   //   new RolesGuard(reflector),
-  // );
+  // )
 
   const config = new DocumentBuilder()
     .setTitle('Oasis')
