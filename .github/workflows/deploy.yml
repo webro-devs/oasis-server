@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /home/user/getter/task-server
+            cd /home/user/getter/oasis-backend
             git stash
             git pull origin main
             npm install 
