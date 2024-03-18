@@ -108,7 +108,7 @@ export class TourService {
       res.push({
         slug: d.slug,
         photo: d.photo,
-        title,
+        title:"title",
         price: d.tourPrice
       })
     })
