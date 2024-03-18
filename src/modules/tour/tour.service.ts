@@ -91,7 +91,8 @@ export class TourService {
         slug:true,
         name:{
           id:true,
-          title:true
+          title:true,
+          langCode:true
         }
       }
     })
