@@ -41,18 +41,18 @@ export class TourController {
     );
   }
 
-  @Get('/by-tour-route/:routeId')
+  @Get('/by-tour-route/:routeType')
   @ApiOperation({ summary: 'Method: returns all tours' })
   @ApiOkResponse({
     description: 'The tours were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getDataByTourRoute(@Query() query: PaginationDto,@Param('routeId') id:string) {
+  async getDataByTourRoute(@Query() query: PaginationDto,@Param('routeType') type:string) {
     return await this.tourService.getAllForSite(
       { limit: query.limit, page: query.page },
       query.langCode,
       {
-        routes:{id}
+        routes:{type}
       }
     );
   }
