@@ -79,7 +79,6 @@ export class TourService {
     where.name = {
       langCode
     }
-    console.log(where);
     
     const data = await paginate<Tour>(this.tourRepository, options, {
       where,
@@ -97,10 +96,7 @@ export class TourService {
           langCode:true
         }
       }
-    })
-
-    console.log(data);
-    
+    })    
  
     const res = []
     data?.items?.forEach(d=>{
