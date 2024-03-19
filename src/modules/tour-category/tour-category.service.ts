@@ -148,6 +148,7 @@ export class TourCategoryService {
             id: true,
             slug: true,
             tourPrice: true,
+            photo:true,
             about: {
               id: true,
               description: true,
@@ -189,6 +190,7 @@ export class TourCategoryService {
           price: t?.tourPrice,
           day: day,
           night: day > 0 ? day - 1 : 0,
+          photo: t.photo
         });
       });
 
@@ -270,6 +272,7 @@ export class TourCategoryService {
             id: true,
             slug: true,
             tourPrice: true,
+            photo:true,
             about: {
               id: true,
               description: true,
@@ -313,6 +316,7 @@ export class TourCategoryService {
           price: t?.tourPrice,
           day: day,
           night: day > 0 ? day - 1 : 0,
+          photo: t.photo
         });
       });
       
