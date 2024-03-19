@@ -218,6 +218,7 @@ export class TourCategoryService {
           tours: {
             about: true,
             itinerary: true,
+            name:true
           },
           page:{
             contents:true
@@ -233,8 +234,11 @@ export class TourCategoryService {
             tourPrice: true,
             about: {
               id: true,
-              title: true,
               description: true,
+            },
+            name: {
+              id: true,
+              title: true,
             },
             itinerary: {
               id: true,
@@ -259,9 +263,10 @@ export class TourCategoryService {
       const tours = [];
       d.tours.forEach((t) => {
         const about = t.about.find((n) => n.langCode == langCode);
+        const title = t.name.find((n) => n.langCode == langCode)?.title;
         const day = t?.itinerary?.length || 0;
         tours.push({
-          title: about?.title,
+          title,
           description: about?.description,
           slug: t?.slug,
           price: t?.tourPrice,

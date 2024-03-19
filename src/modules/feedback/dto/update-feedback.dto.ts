@@ -24,5 +24,13 @@ class UpdateFeedbackDto {
   @IsOptional()
   @IsBoolean()
   readonly isActive: boolean;
+
+  @ApiProperty({
+    description: `name`,
+    example: '...',
+  })
+  @IsOptional()
+  @IsString()
+  readonly name: string;
 }
 export default UpdateFeedbackDto;

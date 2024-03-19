@@ -16,6 +16,14 @@ class CreateFeedbackDto {
   @IsOptional()
   @IsString()
   readonly link: string;
+
+  @ApiProperty({
+    description: `name`,
+    example: '...',
+  })
+  @IsOptional()
+  @IsString()
+  readonly name: string;
 }
 
 export default CreateFeedbackDto;

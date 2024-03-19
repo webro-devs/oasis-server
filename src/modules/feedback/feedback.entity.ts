@@ -13,6 +13,9 @@ export class Feedback {
   description: string;
 
   @Column({type:'varchar',nullable:true})
+  name: string;
+
+  @Column({type:'varchar',nullable:true})
   link: string;
 
   @Column({type:'timestamp', default: () => 'CURRENT_TIMESTAMP'})

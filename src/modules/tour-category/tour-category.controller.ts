@@ -32,9 +32,7 @@ export class TourCategoryController {
     description: 'The tour category was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAll(
-    @Query('langCode') langCode: string,
-  ) {
+  async getAll(@Query('langCode') langCode: string) {
     return this.tourCategoryService.getAll(langCode);
   }
 
@@ -44,12 +42,10 @@ export class TourCategoryController {
     description: 'The tour category was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAllForAdminPage(
-    @Query() query: PaginationDto,
-  ) {
+  async getAllForAdminPage(@Query() query: PaginationDto) {
     return this.tourCategoryService.getAllForAdmin(query.langCode, {
       limit: query.limit,
-      page: query.page
+      page: query.page,
     });
   }
 
@@ -59,10 +55,21 @@ export class TourCategoryController {
     description: 'The tour category left side was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getLeftSide(
-    @Query('langCode') langCode: string,
-  ) {
+  async getLeftSide(@Query('langCode') langCode: string) {
     return this.tourCategoryService.getLeftSide(langCode);
+  }
+
+  @Get('/content')
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
+  @ApiOkResponse({
+    description: 'The tour category content was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getContent(@Query() query: PaginationDto) {
+    return this.tourCategoryService.getContent(query.langCode, {
+      limit: query.limit,
+      page: query.page,
+    });
   }
 
   @Get('/:slug')
@@ -84,7 +91,10 @@ export class TourCategoryController {
     description: 'The tour category was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByIdForUpdate(@Param('id') id:string, @Query('langCode') langCode:string){
+  async getByIdForUpdate(
+    @Param('id') id: string,
+    @Query('langCode') langCode: string,
+  ) {
     return this.tourCategoryService.getOneForUpdate(id, langCode);
   }
 
@@ -104,7 +114,10 @@ export class TourCategoryController {
     description: 'Tour category was changed',
   })
   @HttpCode(HttpStatus.OK)
-  async changeData(@Body() data: UpdateTourCategoryDto, @Param('id') id: string) {
+  async changeData(
+    @Body() data: UpdateTourCategoryDto,
+    @Param('id') id: string,
+  ) {
     return await this.tourCategoryService.change(data, id);
   }
 
