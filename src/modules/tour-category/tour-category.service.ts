@@ -275,7 +275,11 @@ export class TourCategoryService {
         });
       });
 
+      console.log(d.page.contents);
+      
       const title = d?.page?.contents?.find(c=>c.langCode == langCode)?.title
+      console.log(title);
+      
       res.push({
         slug: d?.slug,
         title,
