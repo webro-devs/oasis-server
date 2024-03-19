@@ -136,23 +136,39 @@ export class TourCategoryService {
           },
           tours: {
             about: true,
+            itinerary: true,
+            name:true
           },
         },
         select: {
           id: true,
           slug: true,
           photo: true,
-          url: true,
-          views: true,
-          page: {
+          tours: {
             id: true,
-            contents: {
-              shortTitle: true,
+            slug: true,
+            tourPrice: true,
+            about: {
+              id: true,
               description: true,
-              langCode: true,
+            },
+            name: {
+              id: true,
               title: true,
             },
+            itinerary: {
+              id: true,
+            },
           },
+          page:{
+            id:true,
+            contents:{
+              id:true,
+              title:true,
+              descriptionPage:true,
+              langCode:true
+            }
+          }
         },
       })
       .catch(() => {
@@ -235,10 +251,12 @@ export class TourCategoryService {
             about: {
               id: true,
               description: true,
+              langCode:true
             },
             name: {
               id: true,
               title: true,
+              langCode:true
             },
             itinerary: {
               id: true,
