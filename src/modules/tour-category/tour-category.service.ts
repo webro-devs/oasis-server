@@ -151,10 +151,12 @@ export class TourCategoryService {
             about: {
               id: true,
               description: true,
+              langCode:true
             },
             name: {
               id: true,
               title: true,
+              langCode:true
             },
             itinerary: {
               id: true,
@@ -175,9 +177,29 @@ export class TourCategoryService {
         throw new NotFoundException('data not found');
       });
 
-    const page = { ...data.page, contents: data.page.contents };
+      const tours = [];
+      data.tours.forEach((t) => {
+        const about = t.about.find((n) => n.langCode == langCode);
+        const title = t.name.find((n) => n.langCode == langCode)?.title;
+        const day = t?.itinerary?.length || 0;
+        tours.push({
+          title,
+          description: about?.description,
+          slug: t?.slug,
+          price: t?.tourPrice,
+          day: day,
+          night: day > 0 ? day - 1 : 0,
+        });
+      });
 
-    return { ...data, page };
+    const res = { 
+      slug: data.slug,
+      title: data.page.contents[0]?.title,
+      description: data.page.contents[0]?.descriptionPage,
+      tours
+     };
+
+    return res;
   }
 
   async getLeftSide(langCode: string) {
