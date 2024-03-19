@@ -248,7 +248,8 @@ export class TourCategoryService {
             id:true,
             contents:{
               id:true,
-              title:true
+              title:true,
+              langCode:true
             }
           }
         },
@@ -274,11 +275,8 @@ export class TourCategoryService {
           night: day > 0 ? day - 1 : 0,
         });
       });
-
-      console.log(d.page.contents);
       
       const title = d?.page?.contents?.find(c=>c.langCode == langCode)?.title
-      console.log(title);
       
       res.push({
         slug: d?.slug,
