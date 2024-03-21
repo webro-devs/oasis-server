@@ -39,7 +39,8 @@ export class TourService {
         relations:{
           name:true,
           routes:true,
-          price:true
+          price:true,
+          itinerary:true
         },
         select:{
           id:true,
@@ -53,6 +54,9 @@ export class TourService {
           },
           routes:{
             title:true
+          },
+          itinerary:{
+            id:true
           }
         }
       })
@@ -66,10 +70,11 @@ export class TourService {
       price: data?.tourPrice,
       photoGallery: data?.photoGallery,
       photo: data.photo,
-      name: data?.name[0] || '',
+      title: data?.name[0]?.title || '',
       slug: data?.slug,
       paxPrice: data?.price,
-      routes: data?.routes
+      routes: data?.routes,
+      day: data.itinerary.length
     }
 
     return res;
@@ -79,7 +84,6 @@ export class TourService {
     where.name = {
       langCode
     }
-    console.log(where);
     
     const data = await paginate<Tour>(this.tourRepository, options, {
       where,
