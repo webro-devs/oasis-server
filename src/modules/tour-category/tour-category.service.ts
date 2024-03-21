@@ -197,7 +197,7 @@ export class TourCategoryService {
     const res = { 
       slug: data.slug,
       title: data.page.contents[0]?.title,
-      description: data.page.contents[0]?.descriptionPage,
+      descriptionPage: data.page.contents[0]?.descriptionPage,
       tours
      };
 
