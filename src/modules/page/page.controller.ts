@@ -5,10 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Delete,
-  Patch,
   Param,
   Get,
   Query,
+  Put,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -122,7 +122,7 @@ export class PageController {
     return await this.pageService.addPageToRightSide(data);
   }
 
-  @Patch('/:id')
+  @Put('/:id')
   @ApiOperation({ summary: 'Admin --------------------' })
   @ApiOkResponse({
     description: 'Page was changed',
