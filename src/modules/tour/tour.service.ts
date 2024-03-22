@@ -120,6 +120,11 @@ export class TourService {
   async getOneFields(slug:string,langCode:string,type:string){
     const relations = {}
     relations[type] = true
+
+    if(type == 'price') return await this.getPriceField(slug,langCode,relations)
+
+    if(type == 'itinerary') return await this.getItineraryField(slug,langCode,{})
+
     const data = await this.tourRepository.findOne({
       where:{
         slug
@@ -130,6 +135,58 @@ export class TourService {
     if(!data) return {}
 
     const res = data?.[type]?.find(d=> d.langCode == langCode) || {}
+
+    return res
+  }
+
+  async getPriceField(slug:string,langCode:string,relations){
+    const data = await this.tourRepository.findOne({
+      where:{
+        slug
+      },
+      relations
+    })
+
+
+    if(!data) return {}
+
+    const res = []
+
+    data?.price?.forEach(p=>{
+      const person = p?.person?.find(p=>p.langCode == langCode)?.person
+      res.push({
+        person,
+        comfort: p.comfort,
+        deluxe: p.deluxe,
+        econome: p.econome
+      })
+    })
+
+    return res
+  }
+
+  async getItineraryField(slug:string,langCode:string,relations){
+    relations = {
+      itinerary : {
+         contents: true
+      }
+    }
+    const data = await this.tourRepository.findOne({
+      where:{
+        slug
+      },
+      relations
+    })
+
+
+    if(!data) return {}
+
+    const res = []
+
+    data?.itinerary?.forEach(it=>{
+       const day = it?.contents?.find(c=> c.langCode == langCode)
+       res.push(day)
+    })
 
     return res
   }
