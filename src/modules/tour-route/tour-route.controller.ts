@@ -47,13 +47,13 @@ export class TourRouteController {
     return await this.tourRouteService.getAllForAdmin(langCode);
   }
 
-  @Get('/for-update')
+  @Get('/for-update/:type')
   @ApiOperation({ summary: 'Method: returns all tour routes' })
   @ApiOkResponse({
     description: 'The tour routes were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getDataForUpdate(@Query('type') type:string) {
+  async getDataForUpdate(@Param('type') type:string) {
     return await this.tourRouteService.getOneForUpdate(type);
   }
 
