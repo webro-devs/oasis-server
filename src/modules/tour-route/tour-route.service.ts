@@ -73,7 +73,7 @@ export class TourRouteService {
     return response;
   }
 
-  async change(value: UpdateTourRouteListDto) {
+  async change(value: UpdateTourRouteListDto, type:string) {
     const updatedData = value.contents.filter((c) => c.id);
 
     const createdData = value.contents.filter((c) => !c.id);
@@ -84,11 +84,11 @@ export class TourRouteService {
       }),
     );
 
-    await this.create({contents:createdData})
+    await this.create({contents:createdData},type)
   }
 
-  async create(values: CreateTourRouteListDto) {
-    const type = slugify(values.contents.find(c=> c.langCode == 'en')?.title)
+  async create(values: CreateTourRouteListDto, newType = '') {
+    const type = newType ? newType : slugify(values.contents.find(c=> c.langCode == 'en')?.title)
     await Promise.all(
       values.contents.map(async (c) => {
         await this.createOne(c,type);

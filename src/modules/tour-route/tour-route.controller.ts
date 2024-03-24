@@ -77,7 +77,7 @@ export class TourRouteController {
     return await this.tourRouteService.create(data);
   }
 
-  @Put('/:id')
+  @Put('/:type')
   @ApiOperation({ summary: 'Method: updating tour route' })
   @ApiOkResponse({
     description: 'Tour route was changed',
@@ -85,9 +85,9 @@ export class TourRouteController {
   @HttpCode(HttpStatus.OK)
   async changeData(
     @Body() data: UpdateTourRouteListDto,
-    @Param('id') id: string,
+    @Param('type') type: string,
   ){
-    return await this.tourRouteService.change(data);
+    return await this.tourRouteService.change(data,type);
   }
 
   @Delete('/:id')
