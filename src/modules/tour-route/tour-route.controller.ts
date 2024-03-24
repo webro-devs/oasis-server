@@ -90,13 +90,13 @@ export class TourRouteController {
     return await this.tourRouteService.change(data,type);
   }
 
-  @Delete('/:id')
+  @Delete('/:type')
   @ApiOperation({ summary: 'Method: deleting tour route' })
   @ApiOkResponse({
     description: 'Tour route was deleted',
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteData(@Param('id') id: string) {
-    return await this.tourRouteService.deleteOne(id);
+  async deleteData(@Param('type') type: string) {
+    return await this.tourRouteService.deleteOne(type);
   }
 }

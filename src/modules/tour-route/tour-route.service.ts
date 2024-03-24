@@ -68,8 +68,10 @@ export class TourRouteService {
     return data;
   }
 
-  async deleteOne(id: string) {
-    const response = await this.tourRouteRepository.delete(id);
+  async deleteOne(type: string) {
+    const response = await this.tourRouteRepository.delete({
+      type
+    });
     return response;
   }
 
