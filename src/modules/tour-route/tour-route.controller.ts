@@ -53,8 +53,8 @@ export class TourRouteController {
     description: 'The tour routes were returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getDataForUpdate(@Param('type') type:string) {
-    return await this.tourRouteService.getOneForUpdate(type);
+  async getDataForUpdate(@Param('type') type:string, @Query('langCode') langCode: string) {
+    return await this.tourRouteService.getOneForUpdate(type,langCode);
   }
 
   @Get('/for-tour')

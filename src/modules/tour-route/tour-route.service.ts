@@ -32,9 +32,9 @@ export class TourRouteService {
     return data;
   }
 
-  async getOneForUpdate(type:string){
-    const data = await this.tourRouteRepository.find({
-      where:{type}
+  async getOneForUpdate(type:string, langCode:string){
+    const data = await this.tourRouteRepository.findOne({
+      where:{type,langCode}
     })
     return data
   }
