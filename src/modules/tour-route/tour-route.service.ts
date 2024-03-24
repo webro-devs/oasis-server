@@ -43,6 +43,11 @@ export class TourRouteService {
      const data = await this.tourRouteRepository.find({
       where:{
         langCode:'en'
+      },
+      select:{
+        id:true,
+        title:true,
+        type:true
       }
      })
      return data
@@ -58,8 +63,8 @@ export class TourRouteService {
      return data
   }
 
-  async getByTitle(title: string, langCode: string) {
-    const data = await this.tourRouteRepository.findOne({ where: { title, langCode } });
+  async getByTitle(title: string, langCode: string,type:string) {
+    const data = await this.tourRouteRepository.findOne({ where: { title, langCode,type } });
     return data;
   }
 
@@ -92,7 +97,7 @@ export class TourRouteService {
   }
 
   async createOne(value: CreateTourRouteDto,type:string) {
-    const route = await this.getByTitle(value.title, value.langCode);
+    const route = await this.getByTitle(value.title, value.langCode,type);
     if (route) {
       return;
     }
