@@ -16,6 +16,8 @@ class UpdateTourCategoryDto {
       {
         langCode: '',
         title: '',
+        shortTitle:'',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [{
@@ -27,6 +29,8 @@ class UpdateTourCategoryDto {
         id:"uuid",
         langCode: '',
         title: '',
+        shortTitle:'',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [{

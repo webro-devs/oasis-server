@@ -19,6 +19,8 @@ class UpdateTransportDto {
       {
         langCode: '',
         title: '',
+        shortTitle:'',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [
@@ -32,6 +34,8 @@ class UpdateTransportDto {
         id:"uuid",
         langCode: '',
         title: '',
+        shortTitle:'',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [

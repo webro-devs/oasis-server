@@ -18,6 +18,7 @@ class CreateTourCategoryDto {
         langCode: '',
         title: '',
         shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [
@@ -31,6 +32,7 @@ class CreateTourCategoryDto {
         langCode: '',
         title: '',
         shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [

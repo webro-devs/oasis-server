@@ -331,6 +331,7 @@ export class PageService {
             id: true,
             title: true,
             descriptionPage: true,
+            shortDescription:true
           },
         },
       })
@@ -423,14 +424,14 @@ export class PageService {
     data: any,
     path: { path: string; short: boolean },
   ) {
-    const title = path.short
-      ? value.contents.find((c) => c.langCode == 'en')?.title
+    const shortTitle = path.short
+      ? value.contents.find((c) => c.langCode == 'en')?.shortTitle
       : '';
-    if (!title && title !== '') {
-      throw new HttpException('title in english should be exist', 400);
+    if (!shortTitle && shortTitle !== '') {
+      throw new HttpException('short title in english should be exist', 400);
     }
-    const url = await this.makeUrl(path.path, title);
-    const slug = await this.makeSlug(title);
+    const url = await this.makeUrl(path.path, shortTitle);
+    const slug = await this.makeSlug(shortTitle);
 
     const page = await this.pageRepository
       .createQueryBuilder()

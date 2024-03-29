@@ -8,6 +8,8 @@ class UpdateDestinationDto {
       {
         langCode: '',
         title: '',
+        shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [
@@ -21,6 +23,8 @@ class UpdateDestinationDto {
         id:"uuid",
         langCode: '',
         title: '',
+        shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [

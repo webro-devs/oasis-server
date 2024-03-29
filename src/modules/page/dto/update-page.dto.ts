@@ -10,6 +10,7 @@ class UpdatePageDto {
           langCode: '',
           title: '',
           shortTitle: '',
+          shortDescription: '',
           description: '',
           descriptionPage: '',
           tags: [
@@ -23,6 +24,7 @@ class UpdatePageDto {
           langCode: '',
           title: '',
           shortTitle: '',
+          shortDescription: '',
           description: '',
           descriptionPage: '',
           tags: [

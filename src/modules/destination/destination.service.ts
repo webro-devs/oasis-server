@@ -467,13 +467,13 @@ export class DestinationService {
   }
 
   async create(value: CreateDestinationDto) {
-    const title = value.contents.find((c) => c.langCode == 'en')?.title;
-    if (!title) {
-      throw new HttpException('title in english should be exist', 400);
+    const shortTitle = value.contents.find((c) => c.langCode == 'en')?.shortTitle;
+    if (!shortTitle) {
+      throw new HttpException('short title in english should be exist', 400);
     }
 
     const destination = new Destination();
-    destination.slug = await this.makeSlug(title);
+    destination.slug = await this.makeSlug(shortTitle);
     destination.photo
     await this.destinationRepository.save(destination);
 

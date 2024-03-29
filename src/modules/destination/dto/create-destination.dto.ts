@@ -9,6 +9,7 @@ class CreateDestinationDto {
         langCode: '',
         title: '',
         shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [
@@ -22,6 +23,7 @@ class CreateDestinationDto {
         langCode: '',
         title: '',
         shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [

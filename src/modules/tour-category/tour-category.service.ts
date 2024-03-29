@@ -375,21 +375,21 @@ export class TourCategoryService {
   }
 
   async create(value: CreateTourCategoryDto) {
-    const title = value.contents.find((c) => c.langCode == 'en')?.title;
-    if (!title) {
-      throw new HttpException('title in english should be exist', 400);
+    const shortTitle = value.contents.find((c) => c.langCode == 'en')?.shortTitle;
+    if (!shortTitle) {
+      throw new HttpException('short title in english should be exist', 400);
     }
 
     const tourCategory = new TourCategory();
     tourCategory.photo = value.photo;
-    tourCategory.slug = await this.makeSlug(title)
-    tourCategory.url = await this.makeUrl('tour-category/', title);
+    tourCategory.slug = await this.makeSlug(shortTitle)
+    tourCategory.url = await this.makeUrl('tour-category/', shortTitle);
     await this.tourCategoryRepository.save(tourCategory);
 
     await this.pageService.create(
       value,
       { tourCategory, isTopic: false },
-      { path: `tour-category/${title}`, short: false },
+      { path: `tour-category/${shortTitle}`, short: false },
     );
     return tourCategory;
   }

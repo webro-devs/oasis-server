@@ -22,6 +22,9 @@ export class PageContent {
   shortTitle: string;
 
   @Column({ type: 'text', nullable: true })
+  shortDescription: string;
+
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column({ type: 'text', nullable: true })

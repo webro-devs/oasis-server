@@ -24,6 +24,7 @@ import { LanguageModule } from './modules/language/language.module';
 import { StaticModule } from './modules/static/static.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { TourRouteModule } from './modules/tour-route/tour-route.module';
+import { BookTourModule } from './modules/book-tour/book-tour.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { TourRouteModule } from './modules/tour-route/tour-route.module';
     AttractionModule,
     AttractionContentModule,
     AuthModule,
+    BookTourModule,
     ContactModule,
     DestinationModule,
     EventContentModule,

@@ -21,6 +21,7 @@ class CreateTransportDto {
         langCode: '',
         title: '',
         shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [
@@ -34,6 +35,7 @@ class CreateTransportDto {
         langCode: '',
         title: '',
         shortTitle: '',
+        shortDescription: '',
         description: '',
         descriptionPage: '',
         tags: [
