@@ -463,6 +463,11 @@ export class DestinationService {
       },
     });
 
+    if(value.photo){
+      destination.photo = value.photo
+      await this.destinationRepository.save(destination)
+    }
+
     await this.pageService.change(value, destination.page.id);
   }
 
