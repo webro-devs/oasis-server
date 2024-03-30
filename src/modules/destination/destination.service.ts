@@ -479,7 +479,7 @@ export class DestinationService {
 
     const destination = new Destination();
     destination.slug = await this.makeSlug(shortTitle);
-    destination.photo = value.photo
+    destination.photo = value?.photo
     await this.destinationRepository.save(destination);
 
     await this.pageService.create(
