@@ -17,6 +17,8 @@ export class MYTGateway implements OnGatewayInit {
   }
 
   async handleConnection(@ConnectedSocket() client: Socket) {    
+    console.log(client.id);
+    
     this.server.to(client.id).emit('message', 'you connected successfully');
   }
 
