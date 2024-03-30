@@ -135,7 +135,7 @@ export class EventService {
       }
     })
 
-    return data.contents[0]
+    return {...data.contents[0], photo: data.photo}
   }
 
   async deleteOne(id: string) {
@@ -149,6 +149,11 @@ export class EventService {
     const event = await this.eventRepository.findOne({
       where: { id },
     });
+
+    if(value.photo){
+      event.photo = value.photo
+      this.eventRepository.save(event)
+    }
 
     if (value.contents.length) {
       await this.eventContService.change(value.contents, event);

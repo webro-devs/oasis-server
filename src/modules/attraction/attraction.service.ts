@@ -146,7 +146,7 @@ export class AttractionService {
       }
     })
 
-    return data.contents[0]
+    return {...data.contents[0],photo: data.photo}
   }
 
   async deleteOne(id: string) {

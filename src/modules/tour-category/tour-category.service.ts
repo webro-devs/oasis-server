@@ -351,7 +351,7 @@ export class TourCategoryService {
       },
     });
 
-    return data.page.contents[0];
+    return {...data.page.contents[0],photo: data.photo}
   }
 
   async deleteOne(id: string) {
@@ -368,6 +368,11 @@ export class TourCategoryService {
         page: true,
       },
     });
+
+    if(value.photo){
+      tourCategory.photo = value.photo
+      this.tourCategoryRepository.save(tourCategory)
+    }
 
     if (value?.contents?.length) {
       await this.pageService.change(value, tourCategory.page.id);
