@@ -25,7 +25,6 @@ import { StaticModule } from './modules/static/static.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { TourRouteModule } from './modules/tour-route/tour-route.module';
 import { BookTourModule } from './modules/book-tour/book-tour.module';
-import { MYTSocketModule } from './modules/web-socket/web-socket.module';
 
 @Module({
   imports: [
@@ -62,7 +61,6 @@ import { MYTSocketModule } from './modules/web-socket/web-socket.module';
     TourRouteModule,
     TransportModule,
     UserModule,
-    MYTSocketModule
   ]
 })
 export class AppModule {}
