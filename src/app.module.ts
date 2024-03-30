@@ -25,6 +25,8 @@ import { StaticModule } from './modules/static/static.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { TourRouteModule } from './modules/tour-route/tour-route.module';
 import { BookTourModule } from './modules/book-tour/book-tour.module';
+import { GalleryModule } from './modules/gallery/gallery.module';
+import { PartnerModule } from './modules/partner/partner.module';
 
 @Module({
   imports: [
@@ -48,9 +50,11 @@ import { BookTourModule } from './modules/book-tour/book-tour.module';
     EventContentModule,
     EventModule,
     FeedbackModule,
+    GalleryModule,
     LanguageModule,
     PageModule,
     PageContentModule,
+    PartnerModule,
     RoadTransport,
     StaticModule,
     TagModule,

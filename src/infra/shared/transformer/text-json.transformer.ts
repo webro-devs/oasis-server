@@ -7,7 +7,7 @@ class JsonColumn implements ValueTransformer {
 
   from(value: any): any {
     try {
-      return JSON.parse(value || '{}');
+      return JSON.parse(value || '[]');
     } catch (error) {
       console.error(`Error parsing JSON column: ${error.message}`);
       return {};
