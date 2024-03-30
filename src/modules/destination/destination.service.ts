@@ -264,7 +264,7 @@ export class DestinationService {
       },
     });
 
-    return data.page.contents[0];
+    return {...data.page.contents[0],photo: data.photo};
   }
 
   async getRightSide(slug: string, langCode: string) {
