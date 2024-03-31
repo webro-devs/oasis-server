@@ -21,6 +21,9 @@ export class GalleryService {
       contents:{
         langCode
       }
+     },
+     relations:{
+      contents:true
      }
     })
 

@@ -13,12 +13,6 @@ export class Gallery extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type: 'text', nullable:true})
-  title: string;
-
-  @Column({type: 'varchar',nullable:true})
-  shortTitle: string;
-
   @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
   images: string[]
 
