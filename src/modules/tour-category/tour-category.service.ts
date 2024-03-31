@@ -369,7 +369,7 @@ export class TourCategoryService {
       },
     });
 
-    if(value.photo){
+    if(value?.photo){
       tourCategory.photo = value.photo
       this.tourCategoryRepository.save(tourCategory)
     }

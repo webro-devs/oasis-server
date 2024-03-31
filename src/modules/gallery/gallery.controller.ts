@@ -8,17 +8,16 @@ import {
   Param,
   Get,
   Put,
+  Query,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
-import {
-  ApiTags,
-  ApiOperation,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 import { CreateGalleryDto, UpdateGalleryDto } from './dto';
 import { Gallery } from './gallery.entity';
 import { GalleryService } from './gallery.service';
 import { Public } from '../auth/decorators/public.decorator';
+import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Gallery')
 @Controller('gallery')
@@ -28,8 +27,11 @@ export class GalleryController {
   @Public()
   @Get('/')
   @HttpCode(HttpStatus.OK)
-  async getData() {
-    return await this.galleryService.getAll();
+  async getData(@Query() query: PaginationDto) {
+    return await this.galleryService.getAll(query.langCode, {
+      limit: query.limit,
+      page: query.page,
+    });
   }
 
   @Public()
@@ -37,6 +39,16 @@ export class GalleryController {
   @HttpCode(HttpStatus.OK)
   async getMe(@Param('id') id: string): Promise<Gallery> {
     return this.galleryService.getOne(id);
+  }
+
+  @Get('/single-for-update/:id')
+  @ApiOperation({ summary: 'Admin ------------------' })
+  @HttpCode(HttpStatus.OK)
+  async getOneForUpdate(
+    @Param('id') id: string,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.galleryService.getOneForUpdate(id, langCode);
   }
 
   @Post('/')
@@ -52,7 +64,7 @@ export class GalleryController {
   async changeData(
     @Body() data: UpdateGalleryDto,
     @Param('id') id: string,
-  ): Promise<UpdateResult> {
+  ) {
     return await this.galleryService.change(data, id);
   }
 

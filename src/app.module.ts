@@ -27,6 +27,7 @@ import { TourRouteModule } from './modules/tour-route/tour-route.module';
 import { BookTourModule } from './modules/book-tour/book-tour.module';
 import { GalleryModule } from './modules/gallery/gallery.module';
 import { PartnerModule } from './modules/partner/partner.module';
+import { GalleryContentModule } from './modules/gallery-content/gallery-content.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { PartnerModule } from './modules/partner/partner.module';
     EventContentModule,
     EventModule,
     FeedbackModule,
+    GalleryContentModule,
     GalleryModule,
     LanguageModule,
     PageModule,

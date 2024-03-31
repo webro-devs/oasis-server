@@ -463,7 +463,7 @@ export class DestinationService {
       },
     });
 
-    if(value.photo){
+    if(value?.photo){
       destination.photo = value.photo
       await this.destinationRepository.save(destination)
     }

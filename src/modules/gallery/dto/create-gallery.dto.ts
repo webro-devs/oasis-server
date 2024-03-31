@@ -1,29 +1,33 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateGalleryContentDto } from 'src/modules/gallery-content/dto';
 class CreateGalleryDto {
-  @ApiProperty({
-    description: `title`,
-    example: '#ru',
-  })
-  @IsNotEmpty()
-  @IsString()
-  readonly title: string;
-
-  @ApiProperty({
-    description: `shortTitle`,
-    example: '',
-  })
-  @IsNotEmpty()
-  @IsString()
-  readonly shortTitle: string;
-
   @ApiProperty({
     description: `images`,
     example: ['',''],
   })
   @IsNotEmpty()
-  @IsString()
-  readonly images: string[]
+  @IsArray()
+  readonly images: string[];
+
+  @ApiProperty({
+    description: `contents`,
+    example: [
+      {
+        langCode: '',
+        title: '',
+        shortTitle: '',
+      },
+      {
+        langCode: '',
+        title: '',
+        shortTitle: '',
+      },
+    ],
+  })
+  @IsNotEmpty()
+  @IsArray()
+  readonly contents: CreateGalleryContentDto[];
 }
 
 export default CreateGalleryDto;

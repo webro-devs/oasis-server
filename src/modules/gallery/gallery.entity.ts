@@ -4,7 +4,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   BaseEntity,
+  OneToMany,
 } from 'typeorm';
+import { GalleryContent } from '../gallery-content/gallery-content.entity';
 
 @Entity({ name: 'gallery' })
 export class Gallery extends BaseEntity {
@@ -19,4 +21,7 @@ export class Gallery extends BaseEntity {
 
   @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
   images: string[]
+
+  @OneToMany(()=>GalleryContent, galleryCon=>galleryCon.gallery)
+  contents: GalleryContent[]
 }

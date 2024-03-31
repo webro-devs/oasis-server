@@ -161,7 +161,7 @@ export class AttractionService {
       where: { id },
     });
 
-    if(value.photo){
+    if(value?.photo){
       attraction.photo = value.photo
       await this.attractionRepository.save(attraction)
     }

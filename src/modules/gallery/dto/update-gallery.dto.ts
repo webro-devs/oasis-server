@@ -1,28 +1,32 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsOptional, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { UpdateGalleryContentDto } from 'src/modules/gallery-content/dto';
 class UpdateGalleryDto {
-  @ApiProperty({
-    description: `title`,
-    example: '#ru',
-  })
-  @IsOptional()
-  @IsString()
-  readonly title: string;
-
-  @ApiProperty({
-    description: `shortTitle`,
-    example: '',
-  })
-  @IsOptional()
-  @IsString()
-  readonly shortTitle: string;
-
   @ApiProperty({
     description: `images`,
     example: ['',''],
   })
   @IsOptional()
-  @IsString()
-  readonly images: string[]
+  @IsArray()
+  readonly images: string[];
+
+  @ApiProperty({
+    description: `contents`,
+    example: [
+      {
+        langCode: '',
+        title: '',
+        shortTitle: '',
+      },
+      {
+        langCode: '',
+        title: '',
+        shortTitle: '',
+      },
+    ],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly contents: UpdateGalleryContentDto[];
 }
 export default UpdateGalleryDto;

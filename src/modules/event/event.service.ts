@@ -150,7 +150,7 @@ export class EventService {
       where: { id },
     });
 
-    if(value.photo){
+    if(value?.photo){
       event.photo = value.photo
       this.eventRepository.save(event)
     }
