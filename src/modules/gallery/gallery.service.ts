@@ -28,7 +28,7 @@ export class GalleryService {
     })
 
     const res = data.items.map(d=>{
-      return {images:d.images, ...d.contents[0]}
+      return {...d, contents:d.contents[0]}
     })
 
     return {...data,items:res}
@@ -47,7 +47,7 @@ export class GalleryService {
       }
     })
 
-    return {...data.contents[0],images: data.images}
+    return {...data,contents: data.contents[0]}
   }
 
   async deleteOne(id: string) {
