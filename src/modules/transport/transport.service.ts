@@ -371,4 +371,8 @@ export class TransportService {
     );
     return transport;
   }
+
+  async deleteRoadTransport(id:string){
+    this.roadTransService.deleteOne(id)
+  }
 }

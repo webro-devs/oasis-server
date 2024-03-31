@@ -131,4 +131,14 @@ export class TransportController {
   async deleteData(@Param('id') id: string) {
     return await this.transportService.deleteOne(id);
   }
+
+  @Delete('/road-transport/:id')
+  @ApiOperation({ summary: 'Admin -------------------------' })
+  @ApiOkResponse({
+    description: 'Transport was deleted',
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteRoadTransport(@Param('id') id: string) {
+    return await this.transportService.deleteRoadTransport(id);
+  }
 }
