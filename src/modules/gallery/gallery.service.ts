@@ -34,21 +34,6 @@ export class GalleryService {
     return {...data,items:res}
   }
 
-  async getOne(id: string) {
-    const data = await this.galleryRepository.findOne({
-      where: { id },
-      relations:{
-        contents:true
-      }
-    });
-
-    if (!data) {
-      throw new HttpException('data not found', HttpStatus.NOT_FOUND);
-    }
-
-    return data;
-  }
-
   async getOneForUpdate(id:string,langCode:string){
     const data = await this.galleryRepository.findOne({
       where:{

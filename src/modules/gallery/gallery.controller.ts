@@ -34,13 +34,6 @@ export class GalleryController {
     });
   }
 
-  @Public()
-  @Get('/:id')
-  @HttpCode(HttpStatus.OK)
-  async getMe(@Param('id') id: string): Promise<Gallery> {
-    return this.galleryService.getOne(id);
-  }
-
   @Get('/single-for-update/:id')
   @ApiOperation({ summary: 'Admin ------------------' })
   @HttpCode(HttpStatus.OK)
