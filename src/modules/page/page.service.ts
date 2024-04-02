@@ -414,6 +414,11 @@ export class PageService {
       where: { id },
     });
 
+    if(value?.descImages){
+      page.descImages = value?.descImages ? value.descImages : page.descImages
+      this.pageRepository.save(page)
+    }
+
     if (value.contents.length) {
       await this.pageContService.change(value.contents, page);
     }
@@ -432,12 +437,13 @@ export class PageService {
     }
     const url = await this.makeUrl(path.path, shortTitle);
     const slug = await this.makeSlug(shortTitle);
+    const descImages = value?.descImages || []
 
     const page = await this.pageRepository
       .createQueryBuilder()
       .insert()
       .into(Page)
-      .values({ ...data, url, slug } as unknown as Page)
+      .values({ ...data, url, slug,descImages } as unknown as Page)
       .returning('id')
       .execute();
 

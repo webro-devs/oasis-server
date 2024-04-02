@@ -46,6 +46,14 @@ class CreateDestinationDto {
   @IsOptional()
   @IsString()
   readonly photo: string;
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
 }
 
 export default CreateDestinationDto;

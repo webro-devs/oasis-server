@@ -52,6 +52,14 @@ class CreateAttractionDto {
   @IsNotEmpty()
   @IsArray()
   readonly contents: CreateAttractionContentDto[];
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
 }
 
 export default CreateAttractionDto;

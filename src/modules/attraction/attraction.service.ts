@@ -161,8 +161,9 @@ export class AttractionService {
       where: { id },
     });
 
-    if(value?.photo){
-      attraction.photo = value.photo
+    if(value?.photo || value?.descImages){
+      attraction.photo = value?.photo ? value.photo : attraction.photo
+      attraction.descImages = value?.descImages ? value.descImages : attraction.descImages
       await this.attractionRepository.save(attraction)
     }
 
@@ -182,6 +183,7 @@ export class AttractionService {
 
     attraction.type = value.type
     attraction.photo = value?.photo || null
+    attraction.descImages = value?.descImages || []
     attraction.url = await this.makeUrl(value.type + '/', title)
     attraction.slug = await this.makeSlug(title)
     await this.attractionRepository.save(attraction);

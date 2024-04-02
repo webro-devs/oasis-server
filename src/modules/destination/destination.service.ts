@@ -463,8 +463,9 @@ export class DestinationService {
       },
     });
 
-    if(value?.photo){
-      destination.photo = value.photo
+    if(value?.photo || value?.descImages){
+      destination.photo = value?.photo ? value.photo : destination.photo
+      destination.descImages = value?.descImages ? value.descImages : destination.descImages
       await this.destinationRepository.save(destination)
     }
 
@@ -480,6 +481,7 @@ export class DestinationService {
     const destination = new Destination();
     destination.slug = await this.makeSlug(shortTitle);
     destination.photo = value?.photo
+    destination.descImages = value?.descImages || []
     await this.destinationRepository.save(destination);
 
     await this.pageService.create(

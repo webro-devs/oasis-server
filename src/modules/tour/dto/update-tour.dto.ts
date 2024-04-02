@@ -18,12 +18,13 @@ class UpdateTourDto {
     example: {
       photo:'url',
       photoGallery: ['url','url'],
-      routes: ['title','title']
+      routes: ['title','title'],
+      descImages: ['','']
     }
   })
   @IsOptional()
   @IsObject()
-  tour: {routes:string[], photoGallery:string[], photo:string}
+  tour: {routes:string[], photoGallery:string[], photo:string, descImages:string[]}
 
   @ApiProperty({
     description: `price`,
@@ -166,6 +167,14 @@ class UpdateTourDto {
   @IsOptional()
   @IsArray()
   readonly name: UpdateTourContentDto[];
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
 }
 
 export default UpdateTourDto;

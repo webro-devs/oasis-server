@@ -5,6 +5,7 @@ import { Destination } from '../destination/destination.entity';
 import { TourPrice } from '../tour-price/tour-price.entity';
 import { TourItinerary } from '../tour-itinerary/tour-itinerary.entity';
 import { TourRoute } from '../tour-route/tour-route.entity';
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 
 @Entity('tour')
 @Index(["slug"], { unique: true })
@@ -36,6 +37,9 @@ export class Tour {
 
   @Column({type:'int', default:0})
   views: number;
+
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
+  descImages: string[]
 
   @OneToMany(()=>TourContent, tourCon=>tourCon.tourAbout)
   about: TourContent[]

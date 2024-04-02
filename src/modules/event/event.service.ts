@@ -150,8 +150,9 @@ export class EventService {
       where: { id },
     });
 
-    if(value?.photo){
-      event.photo = value.photo
+    if(value?.photo || value?.descImages){
+      event.photo = value?.photo ? value.photo : event.photo
+      event.descImages = value?.descImages ? value.descImages : event.descImages
       this.eventRepository.save(event)
     }
 
@@ -171,6 +172,7 @@ export class EventService {
     const event = new Event();
     event.url = url;
     event.photo = value.photo
+    event.descImages = value.descImages || []
     event.slug = await this.makeSlug(title)
     await this.eventRepository.save(event);
 

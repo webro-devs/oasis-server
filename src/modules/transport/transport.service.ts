@@ -339,6 +339,11 @@ export class TransportService {
       },
     });
 
+    if(value?.descImages){
+      transport.descImages = value?.descImages ? value.descImages : transport.descImages
+      this.transportRepository.save(transport)
+    }
+
     if (value?.contents?.length) {
       await this.pageService.change(value, transport.page.id);
     }
@@ -357,6 +362,7 @@ export class TransportService {
 
     const transport = new Transport();
     transport.type = value.type;
+    transport.descImages = value.descImages;
     await this.transportRepository.save(transport);
 
     if (value?.roadTransports?.length) {

@@ -40,6 +40,14 @@ class CreateEventDto {
   @IsOptional()
   @IsString()
   readonly photo: string;
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
 }
 
 export default CreateEventDto;

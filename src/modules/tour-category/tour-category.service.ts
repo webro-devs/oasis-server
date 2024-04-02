@@ -370,7 +370,8 @@ export class TourCategoryService {
     });
 
     if(value?.photo){
-      tourCategory.photo = value.photo
+      tourCategory.photo = value?.photo ? value.photo : tourCategory.photo
+      tourCategory.descImages = value?.descImages ? value.descImages : tourCategory.descImages
       this.tourCategoryRepository.save(tourCategory)
     }
 
@@ -387,6 +388,7 @@ export class TourCategoryService {
 
     const tourCategory = new TourCategory();
     tourCategory.photo = value.photo;
+    tourCategory.descImages = value.descImages || []
     tourCategory.slug = await this.makeSlug(shortTitle)
     tourCategory.url = await this.makeUrl('tour-category/', shortTitle);
     await this.tourCategoryRepository.save(tourCategory);

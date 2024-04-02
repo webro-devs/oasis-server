@@ -305,6 +305,7 @@ export class TourService {
     if (value?.tour) {
       tour.photoGallery = value?.tour?.photoGallery ? value?.tour?.photoGallery : tour.photoGallery
       tour.photo = value?.tour?.photo ? value?.tour?.photo : tour.photo
+      tour.descImages = value?.tour?.descImages ? value?.tour?.descImages : tour.descImages
       if(value.tour?.routes){
         tour.routes = await this.tourRouteService.getMoreByTitels(value.tour.routes)
       }
@@ -346,7 +347,8 @@ export class TourService {
       destination: value?.destination,
       photo: value?.photo || null,
       tourPrice: value.price[0].econome,
-      slug
+      slug,
+      descImages: value?.descImages || []
     });
 
     if (value?.about?.length) {

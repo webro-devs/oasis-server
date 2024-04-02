@@ -3,6 +3,7 @@ import { Destination } from '../destination/destination.entity';
 import { PageContent } from '../page-content/page-content.entity';
 import { Transport } from '../transport/transport.entity';
 import { TourCategory } from '../tour-category/tour-category.entity';
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 
 @Entity('page')
 @Index(["slug"], { unique: true })
@@ -25,6 +26,9 @@ export class Page {
   @Generated('increment')
   @Column({type:"int",nullable:true })
   index:number
+
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
+  descImages: string[]
 
   @ManyToMany(() => Page, (page) => page.pagesOnLeft,{
     onDelete:"CASCADE",

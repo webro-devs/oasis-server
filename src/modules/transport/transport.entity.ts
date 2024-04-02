@@ -2,6 +2,7 @@ import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } fr
 import { Page } from '../page/page.entity';
 import { RoadTransport } from '../road-transport/road-transport.entity';
 import { TransportType } from 'src/infra/shared/type';
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 
 @Entity('transport')
 @Index(["type"], { unique: true })
@@ -14,6 +15,9 @@ export class Transport {
 
   @Column({type:'int', default:0})
   views: number;
+
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
+  descImages: string[]
 
   @OneToOne(()=> Page, page=> page.transport)
   page: Page

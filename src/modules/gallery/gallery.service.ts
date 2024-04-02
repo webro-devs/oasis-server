@@ -28,10 +28,41 @@ export class GalleryService {
     })
 
     const res = data.items.map(d=>{
-      return {...d, contents:d.contents[0]}
+      return {id: d.id, contents:d.contents[0]}
     })
 
     return {...data,items:res}
+  }
+
+  async getForHomeSite(){
+    const data = await this.galleryRepository.find({
+      order:{
+        createdAt:"DESC"
+      },
+      take:12
+    })
+
+
+  }
+
+  async getForSite(langCode:string,options: IPaginationOptions){
+    const data = await paginate<Gallery>(this.galleryRepository, options, {
+      where:{
+       contents:{
+         langCode
+       }
+      },
+      relations:{
+       contents:true
+      }
+     })
+ 
+     const res = data.items.map(d=>{
+      const images = d.images.slice(0,4)
+       return {id:d.id, contents:d.contents[0], images, imageCount: d.images.length}
+     })
+ 
+     return {...data,items:res}
   }
 
   async getOneForUpdate(id:string,langCode:string){

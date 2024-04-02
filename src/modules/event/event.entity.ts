@@ -1,5 +1,6 @@
 import { Column, Entity, Generated, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { EventContent } from '../event-content/event-content.entity';
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 
 @Entity('event')
 @Index(["slug"], { unique: true })
@@ -25,6 +26,9 @@ export class Event {
 
   @Column({type:'varchar', nullable:true})
   url:string
+
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
+  descImages: string[]
 
   @OneToMany(()=>EventContent, eventContent=>eventContent.event)
   contents: EventContent[]

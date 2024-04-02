@@ -34,6 +34,16 @@ export class GalleryController {
     });
   }
 
+  @Public()
+  @Get('/for-site')
+  @HttpCode(HttpStatus.OK)
+  async getForSite(@Query() query: PaginationDto) {
+    return await this.galleryService.getForSite(query.langCode, {
+      limit: query.limit,
+      page: query.page,
+    });
+  }
+
   @Get('/single-for-update/:id')
   @ApiOperation({ summary: 'Admin ------------------' })
   @HttpCode(HttpStatus.OK)

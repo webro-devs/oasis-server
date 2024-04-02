@@ -39,5 +39,13 @@ class UpdatePageDto {
     @IsOptional()
     @IsArray()
     readonly contents: UpdatePageContentDto[];
+
+    @ApiProperty({
+      description: `descImages`,
+      example: ['',''],
+    })
+    @IsOptional()
+    @IsArray()
+    readonly descImages: string[]
 }
 export default UpdatePageDto;

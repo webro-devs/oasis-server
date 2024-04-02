@@ -16,6 +16,9 @@ export class Gallery extends BaseEntity {
   @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
   images: string[]
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: string;
+
   @OneToMany(()=>GalleryContent, galleryCon=>galleryCon.gallery)
   contents: GalleryContent[]
 }

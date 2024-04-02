@@ -38,6 +38,14 @@ class CreatePageDto {
   @IsNotEmpty()
   @IsArray()
   readonly contents: CreatePageContentDto[];
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
 }
 
 export default CreatePageDto;

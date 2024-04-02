@@ -79,5 +79,13 @@ class UpdateTransportDto {
   @IsOptional()
   @IsArray()
   readonly roadTransports: UpdateRoadTransportDto[];
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
 }
 export default UpdateTransportDto;

@@ -1,6 +1,7 @@
 import { AttractionType } from 'src/infra/shared/type';
 import { Column, Entity, Generated, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AttractionContent } from '../attraction-content/attraction-content.entity';
+import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 
 @Entity('attraction')
 @Index(["slug"], { unique: true })
@@ -29,6 +30,9 @@ export class Attraction {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: string;
+
+  @Column({ type: 'text', transformer: new JsonColumn(), nullable: true })
+  descImages: string[]
 
   @OneToMany(()=>AttractionContent, attr=>attr.attraction)
   contents: AttractionContent[]
