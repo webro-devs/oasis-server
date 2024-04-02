@@ -59,7 +59,7 @@ export class GalleryService {
  
      const res = data.items.map(d=>{
       const images = d.images.slice(0,4)
-       return {id:d.id, contents:d.contents[0], images, imageCount: d.images.length}
+       return {id:d.id, title:d.contents[0]?.title, shortTitle:d.contents[0]?.shortTitle, images, imageCount: d?.images?.length}
      })
  
      return {...data,items:res}
