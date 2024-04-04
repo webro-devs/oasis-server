@@ -88,7 +88,9 @@ export class TourService {
     const data = await paginate<Tour>(this.tourRepository, options, {
       where,
       relations:{
-        name:true
+        name:true,
+        destination:true,
+        tourCategory:true
       },
       select:{
         id:true,
@@ -99,6 +101,14 @@ export class TourService {
           id:true,
           title:true,
           langCode:true
+        },
+        destination:{
+          id:true,
+          slug:true
+        },
+        tourCategory:{
+          id:true,
+          slug:true
         }
       }
     })    
@@ -110,7 +120,9 @@ export class TourService {
         slug: d.slug,
         photo: d.photo,
         title,
-        price: d.tourPrice
+        price: d.tourPrice,
+        destinationSlug: d?.destination?.slug,
+        tourCategorySlug: d?.tourCategory?.slug
       })
     })
     
