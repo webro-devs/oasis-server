@@ -378,6 +378,18 @@ export class TransportService {
     return transport;
   }
 
+  async createTransport(value) {
+    const data = await this.transportRepository
+      .createQueryBuilder()
+      .insert()
+      .into(Transport)
+      .values( value as unknown as Transport)
+      .returning('id')
+      .execute();
+
+    return await this.transportRepository.findOne({ where: { id: data.raw[0].id } });
+  }
+
   async deleteRoadTransport(id:string){
     this.roadTransService.deleteOne(id)
   }

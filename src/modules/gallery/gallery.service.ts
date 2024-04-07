@@ -48,6 +48,7 @@ export class GalleryService {
 
       for (let j = 0; j < 12; j++) {
         if (data[j]?.images[i]) {
+          res.push(data[j]?.images[i])
         }
       }
     }
