@@ -1,8 +1,9 @@
-import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Page } from '../page/page.entity';
 import { RoadTransport } from '../road-transport/road-transport.entity';
 import { TransportType } from 'src/infra/shared/type';
 import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
+import { Destination } from '../destination/destination.entity';
 
 @Entity('transport')
 @Index(["type"], { unique: true })
@@ -24,4 +25,11 @@ export class Transport {
 
   @OneToMany(()=>RoadTransport, roadTrans=>roadTrans.transport)
   roadTransports: RoadTransport[]
+
+  @ManyToOne(()=>Destination, dest=>dest.transports,{
+    onDelete:"CASCADE",
+    cascade:true
+  })
+  @JoinColumn()
+  destination: Destination
 }

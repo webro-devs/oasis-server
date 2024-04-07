@@ -12,80 +12,88 @@ export class GalleryService {
   constructor(
     @InjectRepository(Gallery)
     private readonly galleryRepository: Repository<Gallery>,
-    private readonly galleryConSer: GalleryContentService
+    private readonly galleryConSer: GalleryContentService,
   ) {}
 
-  async getAll(langCode:string,options: IPaginationOptions) {
+  async getAll(langCode: string, options: IPaginationOptions) {
     const data = await paginate<Gallery>(this.galleryRepository, options, {
-     where:{
-      contents:{
-        langCode
-      }
-     },
-     relations:{
-      contents:true
-     }
-    })
+      where: {
+        contents: {
+          langCode,
+        },
+      },
+      relations: {
+        contents: true,
+      },
+    });
 
-    const res = data.items.map(d=>{
-      return {id: d.id, contents:d.contents[0]}
-    })
+    const res = data.items.map((d) => {
+      return { id: d.id, contents: d.contents[0] };
+    });
 
-    return {...data,items:res}
+    return { ...data, items: res };
   }
 
-  async getForHomeSite(){
+  async getForHomeSite() {
     const data = await this.galleryRepository.find({
-      order:{
-        createdAt:"DESC"
+      order: {
+        createdAt: 'DESC',
       },
-      take:12
-    })
-    const res = []
+      take: 12,
+    });
+    const res = [];
 
-    for(let i = 0; i < 12; i++){
-      if(res.length == 12) break
-      if(data[i]?.images[i]){
-        res.push(data[i]?.images[i])
+    for (let i = 0; i < 12; i++) {
+      if (res.length == 12) break;
+
+      for (let j = 0; j < 12; j++) {
+        if (data[j]?.images[i]) {
+        }
       }
     }
 
-    return res
+    return res;
   }
 
-  async getForSite(langCode:string,options: IPaginationOptions){
+  async getForSite(langCode: string, options: IPaginationOptions) {
     const data = await paginate<Gallery>(this.galleryRepository, options, {
-      where:{
-       contents:{
-         langCode
-       }
+      where: {
+        contents: {
+          langCode,
+        },
       },
-      relations:{
-       contents:true
-      }
-     })
- 
-     const res = data.items.map(d=>{
-       return {id:d.id, title:d.contents[0]?.title, shortTitle:d.contents[0]?.shortTitle, images:d.images, imageCount: d?.images?.length}
-     })
- 
-     return {...data,items:res}
+      relations: {
+        contents: true,
+      },
+    });
+
+    const res = data.items.map((d) => {
+      return {
+        id: d.id,
+        title: d.contents[0]?.title,
+        shortTitle: d.contents[0]?.shortTitle,
+        images: d.images,
+        imageCount: d?.images?.length,
+      };
+    });
+
+    return { ...data, items: res };
   }
 
-  async getOneForUpdate(id:string,langCode:string){
+  async getOneForUpdate(id: string, langCode: string) {
     const data = await this.galleryRepository.findOne({
-      where:{
+      where: {
         id,
-        contents:{
-          langCode
-        }
+        contents: {
+          langCode,
+        },
       },
-      relations:{
-        contents:true
-      }
-    })
+      relations: {
+        contents: true,
+      },
+    });
 
-    return {...data,contents: data.contents[0]}
+    return { ...data, contents: data.contents[0] };
   }
 
   async deleteOne(id: string) {
@@ -98,12 +106,12 @@ export class GalleryService {
       where: { id },
     });
 
-    if(value?.images){
-      gallery.images = value.images
-      await this.galleryRepository.save(gallery)
+    if (value?.images) {
+      gallery.images = value.images;
+      await this.galleryRepository.save(gallery);
     }
 
-    if(value.contents.length){
+    if (value.contents.length) {
       await this.galleryConSer.change(value.contents, gallery);
     }
   }
@@ -111,7 +119,7 @@ export class GalleryService {
   async create(value: CreateGalleryDto) {
     const gallery = new Gallery();
 
-    gallery.images = value?.images || []
+    gallery.images = value?.images || [];
     await this.galleryRepository.save(gallery);
 
     await this.galleryConSer.create(value.contents, gallery);
