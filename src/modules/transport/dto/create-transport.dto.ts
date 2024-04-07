@@ -86,6 +86,14 @@ class CreateTransportDto {
   @IsOptional()
   @IsArray()
   readonly descImages: string[]
+
+  @ApiProperty({
+    description: `destination`,
+    example: 'uuid',
+  })
+  @IsOptional()
+  @IsString()
+  readonly destination: string
 }
 
 export default CreateTransportDto;

@@ -386,12 +386,12 @@ export class TourCategoryService {
       throw new HttpException('short title in english should be exist', 400);
     }
 
-    const tourCategory = new TourCategory();
-    tourCategory.photo = value.photo;
-    tourCategory.descImages = value.descImages || []
-    tourCategory.slug = await this.makeSlug(shortTitle)
-    tourCategory.url = await this.makeUrl('tour-category/', shortTitle);
-    await this.tourCategoryRepository.save(tourCategory);
+    const tourCategory = await this.createTourCategory({
+      photo:value.photo,
+      descImages: value.descImages || [],
+      slug: await this.makeSlug(shortTitle),
+      url:  await this.makeUrl('tour-category/', shortTitle)
+    })
 
     await this.pageService.create(
       value,
@@ -399,6 +399,18 @@ export class TourCategoryService {
       { path: `tour-category/${shortTitle}`, short: false },
     );
     return tourCategory;
+  }
+
+  async createTourCategory(value) {
+    const data = await this.tourCategoryRepository
+      .createQueryBuilder()
+      .insert()
+      .into(TourCategory)
+      .values( value as unknown as TourCategory)
+      .returning('id')
+      .execute();
+
+    return await this.tourCategoryRepository.findOne({ where: { id: data.raw[0].id } });
   }
 
   async makeUrl(path: string, title: string) {

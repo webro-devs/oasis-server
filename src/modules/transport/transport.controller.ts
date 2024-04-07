@@ -31,55 +31,56 @@ export class TransportController {
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
-    type: PageResponseTypeDto.PageContentResponseType
+    type: PageResponseTypeDto.PageContentResponseType,
   })
   @HttpCode(HttpStatus.OK)
   async getContent(
     @Param('slug') type: TransportType,
     @Query('langCode') langCode: string,
+    @Query('destination') destination: string,
   ) {
-    return this.transportService.getContent(type, langCode);
+    return this.transportService.getContent(destination, type, langCode);
   }
 
   @Get('/for-admin/:type')
   @ApiOperation({ summary: 'Admin -----------------' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
-    type: PageResponseTypeDto.PageContentResponseType
+    type: PageResponseTypeDto.PageContentResponseType,
   })
   @HttpCode(HttpStatus.OK)
-  async getForAdmin(
-    @Param('type') type: TransportType
-  ) {
-    return this.transportService.getForAdmin(type);
+  async getForAdmin(@Param('type') type: TransportType,@Query('langCode') langCode:string) {
+    return this.transportService.getForAdmin(langCode,type);
   }
 
   @Get('/right/:slug')
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
-    type: PageResponseTypeDto.PageSideResponseType
+    type: PageResponseTypeDto.PageSideResponseType,
   })
   @HttpCode(HttpStatus.OK)
   async getRightSide(
     @Param('slug') type: TransportType,
     @Query('langCode') langCode: string,
+    @Query('destination') destination: string,
   ) {
-    return this.transportService.getRightSide(type, langCode);
+    return this.transportService.getRightSide(destination, type, langCode);
   }
 
   @Get('/left/:slug')
   @ApiOperation({ summary: 'Website ++++++++++++++++++++++' })
   @ApiOkResponse({
     description: 'The transport was returned successfully',
-    type: PageResponseTypeDto.PageSideResponseType
+    type: PageResponseTypeDto.PageSideResponseType,
   })
   @HttpCode(HttpStatus.OK)
   async getLeftSide(
     @Param('slug') type: TransportType,
     @Query('langCode') langCode: string,
+    @Query('destination') destination: string,
   ) {
-    return this.transportService.getLeftSide(type, langCode);
+    return this.transportService.getLeftSide(destination, type, langCode);
   }
 
   @Get('/single-for-update/:type')
@@ -88,8 +89,12 @@ export class TransportController {
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getByIdForUpdate(@Param('type') type:TransportType, @Query('langCode') langCode:string){
-    return this.transportService.getOneForUpdate(type, langCode);
+  async getByIdForUpdate(
+    @Param('type') type: TransportType,
+    @Query('langCode') langCode: string,
+    @Query('destination') destination: string,
+  ) {
+    return this.transportService.getOneForUpdate(destination, type, langCode);
   }
 
   @Get('/:type/:menu')
@@ -98,8 +103,13 @@ export class TransportController {
     description: 'The destination was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getMenu(@Query('langCode') langCode:string,@Param('menu') menu:string,@Param('type') type:TransportType){
-    return this.transportService.getMenu(type,langCode,menu);
+  async getMenu(
+    @Param('menu') menu: string,
+    @Param('type') type: TransportType,
+    @Query('langCode') langCode: string,
+    @Query('destination') destination: string,
+  ) {
+    return this.transportService.getMenu(destination, type, langCode, menu);
   }
 
   @Post('/')

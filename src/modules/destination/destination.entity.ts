@@ -3,6 +3,7 @@ import { Page } from '../page/page.entity';
 import { Tour } from '../tour/tour.entity';
 import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 import { Transport } from '../transport/transport.entity';
+import { TourCategory } from '../tour-category/tour-category.entity';
 
 @Entity('destination')
 @Index(["slug"], { unique: true })
@@ -34,4 +35,7 @@ export class Destination {
 
   @OneToMany(()=>Transport, transport=>transport.destination)
   transports: Transport[]
+
+  @OneToMany(()=>TourCategory, tourCat=>tourCat.destination)
+  tourCategories: Transport[]
 }

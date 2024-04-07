@@ -17,7 +17,7 @@ export class TransportService {
     private readonly roadTransService: RoadTransportService,
   ) {}
 
-  async getRightSide(type: TransportType, langCode: string){
+  async getRightSide(destination:string,type: TransportType, langCode: string){
     const data = await this.transportRepository
     .findOne({
       relations: {
@@ -34,6 +34,9 @@ export class TransportService {
             langCode,
           },
         },
+        destination:{
+          slug: destination
+        }
       },
       select: {
         id: true,
@@ -72,7 +75,7 @@ export class TransportService {
     return pagesOnRight
   }
 
-  async getLeftSide(type: TransportType, langCode: string){
+  async getLeftSide(destination:string,type: TransportType, langCode: string){
     const data = await this.transportRepository
     .findOne({
       relations: {
@@ -89,6 +92,9 @@ export class TransportService {
             langCode,
           },
         },
+        destination:{
+          slug: destination
+        }
       },
       select: {
         id: true,
@@ -127,7 +133,7 @@ export class TransportService {
     return pagesOnLeft
   }
 
-  async getContent(type: TransportType, langCode: string){    
+  async getContent(destination:string,type: TransportType, langCode: string){    
     const data = await this.transportRepository
     .findOne({
       relations: {
@@ -148,6 +154,9 @@ export class TransportService {
             langCode,
           },
         },
+        destination:{
+          slug: destination
+        }
       },
       select: {
         id: true,
@@ -210,40 +219,120 @@ export class TransportService {
     return {...page,content};
   }
 
-  async getOneByType(type: TransportType) {
+  async getOneByType(destination:string,type: TransportType) {
     const data = await this.transportRepository.findOne({
       where: {
         type,
+        destination:{
+          id:destination
+        }
       },
     }) 
     
     return data;
   }
 
-  async getForAdmin(type: TransportType) {
-    const data = await this.transportRepository.findOne({
+  async getForAdmin(langCode:string,type: TransportType) {
+    const data = await this.transportRepository.find({
       where: {
-        type,
+        page: {
+          contents: {
+            langCode,
+          },
+        },
       },
-      relations:{
-        page:true
-      }
-    }) 
-    
-    return data ? {id:data.id, pageId:data.page.id} : false;
+      relations: {
+        page: {
+          pagesOnLeft: {
+            contents: true,
+          },
+          pagesOnRight: {
+            contents: true,
+          },
+          contents: true,
+        },
+        destination:true
+      },
+      select: {
+        id: true,
+        type: true,
+        page: {
+          id: true,
+          contents: {
+            title: true,
+          },
+          pagesOnLeft: {
+            slug: true,
+            contents: {
+              langCode: true,
+              shortTitle: true,
+            },
+          },
+          pagesOnRight: {
+            slug: true,
+            contents: {
+              langCode: true,
+              shortTitle: true,
+            },
+          },
+        },
+        destination: {
+          id:true,
+          slug:true
+        }
+      },
+    });
+
+    const res = []
+
+    data.forEach((d) => {
+      const pagesOnLeft = [], pagesOnRight = []
+      d.page.pagesOnLeft.forEach((pl) => {
+        const data = pl.contents.find((c) => c.langCode == langCode);
+        pagesOnLeft.push({
+          title: data?.shortTitle,
+          slug: pl?.slug
+        })
+      });
+      d.page.pagesOnRight.forEach((pl) => {
+        const data = pl.contents.find((c) => c.langCode == langCode);
+        pagesOnRight.push({
+          title: data?.shortTitle,
+          slug: pl?.slug
+        })
+      });
+      res.push({
+        id:d.id,
+        slug: d?.destination?.slug,
+        type: d.type,
+        pageId: d.page.id,
+        title: d.page.contents[0].title,
+        url: d.page.url,
+        pagesOnLeft,
+        pagesOnRight,
+      })
+    });
+
+
+    return res;
   }
 
-  async getMenu(type:TransportType,langCode:string, menu:string){
+  async getMenu(destination:string,type:TransportType,langCode:string, menu:string){
     if(menu == 'left'){
-      return await this.getLeftMenu(type, langCode)
+      return await this.getLeftMenu(destination,type, langCode)
     }else if(menu == 'right'){
-      return await this.getRightMenu(type, langCode)
+      return await this.getRightMenu(destination,type, langCode)
     }
   }
 
-  async getLeftMenu(type:TransportType, langCode:string){
+  async getLeftMenu(destination:string,type:TransportType, langCode:string){
     const data = await this.transportRepository.findOne({
-      where:{type},
+      where:{
+        type,
+        destination:{
+          slug: destination
+        }
+      },
       relations:{
         page:{
           pagesOnLeft:true
@@ -269,9 +358,14 @@ export class TransportService {
     return await this.pageService.getMoreByIds(ids,langCode)
   }
 
-  async getRightMenu(type:TransportType, langCode:string){
+  async getRightMenu(destination:string,type:TransportType, langCode:string){
     const data = await this.transportRepository.findOne({
-      where:{type},
+      where:{
+        type,
+        destination:{
+          slug: destination
+        }
+      },
       relations:{
         page:{
           pagesOnRight:true
@@ -297,7 +391,7 @@ export class TransportService {
     return await this.pageService.getMoreByIds(ids,langCode)
   }
 
-  async getOneForUpdate(type:TransportType, langCode:string){
+  async getOneForUpdate(destination:string,type:TransportType, langCode:string){
     const data = await this.transportRepository.findOne({
       where:{
         type,
@@ -305,6 +399,9 @@ export class TransportService {
           contents:{
             langCode
           }
+        },
+        destination:{
+          slug: destination
         }
       },
       relations:{
@@ -354,16 +451,17 @@ export class TransportService {
   }
 
   async create(value: CreateTransportDto) {
-    const isExist = await this.getOneByType(value.type);
+    const isExist = await this.getOneByType(value.destination,value.type);
 
     if (isExist) {
-      return new HttpException(`${value.type} already exist`, 400);
+      return new HttpException(`${value.type} already exist in this destination`, 400);
     }
 
-    const transport = new Transport();
-    transport.type = value.type;
-    transport.descImages = value.descImages;
-    await this.transportRepository.save(transport);
+    const transport = await this.createTransport({
+      type: value.type,
+      descImages: value.descImages,
+      destination: value.destination
+    })
 
     if (value?.roadTransports?.length) {
       await this.roadTransService.create(value.roadTransports, transport.id);

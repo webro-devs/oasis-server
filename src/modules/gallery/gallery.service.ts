@@ -6,6 +6,8 @@ import { Gallery } from './gallery.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GalleryContentService } from '../gallery-content/gallery-content.service';
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
+import slugify from 'slugify';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class GalleryService {
@@ -13,6 +15,7 @@ export class GalleryService {
     @InjectRepository(Gallery)
     private readonly galleryRepository: Repository<Gallery>,
     private readonly galleryConSer: GalleryContentService,
+    private readonly configService: ConfigService
   ) {}
 
   async getAll(langCode: string, options: IPaginationOptions) {
@@ -69,11 +72,12 @@ export class GalleryService {
     });
 
     const res = data.items.map((d) => {
+      const images = d.images.slice(0,4)
       return {
         id: d.id,
         title: d.contents[0]?.title,
         shortTitle: d.contents[0]?.shortTitle,
-        images: d.images,
+        images,
         imageCount: d?.images?.length,
       };
     });
@@ -85,6 +89,22 @@ export class GalleryService {
     const data = await this.galleryRepository.findOne({
       where: {
         id,
+        contents: {
+          langCode,
+        },
+      },
+      relations: {
+        contents: true,
+      },
+    });
+
+    return { ...data, contents: data.contents[0] };
+  }
+
+  async getOne(slug:string, langCode: string){
+    const data = await this.galleryRepository.findOne({
+      where: {
+        slug,
         contents: {
           langCode,
         },
@@ -118,12 +138,50 @@ export class GalleryService {
   }
 
   async create(value: CreateGalleryDto) {
+    const shortTitle = value.contents.find((c) => c.langCode == 'en')?.shortTitle;
+    if (!shortTitle) {
+      throw new HttpException('short title in english should be exist', 400);
+    }
+
     const gallery = new Gallery();
 
     gallery.images = value?.images || [];
+    gallery.slug = await this.makeSlug(shortTitle)
+    gallery.url = await this.makeUrl('gallery/', shortTitle)
     await this.galleryRepository.save(gallery);
 
     await this.galleryConSer.create(value.contents, gallery);
     return gallery;
+  }
+
+  async makeUrl(path: string, title: string) {
+    const url =
+      this.configService.get('clientUrl') +
+      path +
+      slugify(title, { lower: true });
+
+    const isExist = await this.galleryRepository.findOne({
+      where: { url },
+    });
+
+    if (isExist) {
+      return url + '_';
+    }
+
+    return url;
+  }
+
+  async makeSlug(title: string) {
+    const slug = slugify(title, { lower: true });
+
+    const isExist = await this.galleryRepository.findOne({
+      where: { slug },
+    });
+
+    if (isExist) {
+      return await this.makeSlug(slug + '_');
+    }
+
+    return slug;
   }
 }

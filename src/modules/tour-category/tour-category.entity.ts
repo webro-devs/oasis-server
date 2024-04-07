@@ -1,7 +1,8 @@
-import { Column, Entity, Generated, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Generated, Index, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Page } from '../page/page.entity';
 import { Tour } from '../tour/tour.entity';
 import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
+import { Destination } from '../destination/destination.entity';
 
 @Entity('tour_category')
 @Index(["slug"], { unique: true })
@@ -33,4 +34,11 @@ export class TourCategory {
 
   @OneToMany(()=>Tour, tour=>tour.tourCategory)
   tours: Tour[]
+
+  @ManyToOne(()=>Destination, dest=>dest.tourCategories,{
+    onDelete:"CASCADE",
+    cascade:true
+  })
+  @JoinColumn()
+  destination: Destination
 }

@@ -19,6 +19,12 @@ export class Gallery extends BaseEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: string;
 
+  @Column({type:'varchar', nullable:true})
+  slug: string;
+
+  @Column({type:'varchar',nullable:true})
+  url:string
+
   @OneToMany(()=>GalleryContent, galleryCon=>galleryCon.gallery)
   contents: GalleryContent[]
 }

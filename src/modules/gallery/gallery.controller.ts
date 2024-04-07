@@ -14,7 +14,6 @@ import { UpdateResult } from 'typeorm';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 import { CreateGalleryDto, UpdateGalleryDto } from './dto';
-import { Gallery } from './gallery.entity';
 import { GalleryService } from './gallery.service';
 import { Public } from '../auth/decorators/public.decorator';
 import { PaginationDto } from 'src/infra/shared/dto';
@@ -52,13 +51,23 @@ export class GalleryController {
   }
 
   @Get('/single-for-update/:id')
-  @ApiOperation({ summary: 'Admin ------------------' })
+  @ApiOperation({ summary: 'Website ++++++++++++++' })
   @HttpCode(HttpStatus.OK)
   async getOneForUpdate(
     @Param('id') id: string,
     @Query('langCode') langCode: string,
   ) {
     return this.galleryService.getOneForUpdate(id, langCode);
+  }
+
+  @Get('/single-for-site/:slug')
+  @ApiOperation({ summary: 'Website ++++++++++++++' })
+  @HttpCode(HttpStatus.OK)
+  async getOne(
+    @Param('slug') slug: string,
+    @Query('langCode') langCode: string,
+  ) {
+    return this.galleryService.getOne(slug, langCode);
   }
 
   @Post('/')
