@@ -41,8 +41,16 @@ export class GalleryService {
       },
       take:12
     })
+    const res = []
 
+    for(let i = 0; i < 12; i++){
+      if(res.length == 12) break
+      if(data[i]?.images[i]){
+        res.push(data[i]?.images[i])
+      }
+    }
 
+    return res
   }
 
   async getForSite(langCode:string,options: IPaginationOptions){
@@ -58,8 +66,7 @@ export class GalleryService {
      })
  
      const res = data.items.map(d=>{
-      const images = d.images.slice(0,4)
-       return {id:d.id, title:d.contents[0]?.title, shortTitle:d.contents[0]?.shortTitle, images, imageCount: d?.images?.length}
+       return {id:d.id, title:d.contents[0]?.title, shortTitle:d.contents[0]?.shortTitle, images:d.images, imageCount: d?.images?.length}
      })
  
      return {...data,items:res}

@@ -44,6 +44,13 @@ export class GalleryController {
     });
   }
 
+  @Public()
+  @Get('/for-home-site')
+  @HttpCode(HttpStatus.OK)
+  async getForHomeSite() {
+    return await this.galleryService.getForHomeSite()
+  }
+
   @Get('/single-for-update/:id')
   @ApiOperation({ summary: 'Admin ------------------' })
   @HttpCode(HttpStatus.OK)
