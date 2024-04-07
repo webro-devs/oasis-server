@@ -412,7 +412,8 @@ export class TransportService {
             tags:true
           }
         },
-        roadTransports:true
+        roadTransports:true,
+        destination:true
       }
     })
 
@@ -420,7 +421,7 @@ export class TransportService {
       return {...data?.page?.contents[0],roadTransports: data?.roadTransports}
     }
 
-    return data?.page?.contents[0]
+    return {...data?.page?.contents[0], destinationId: data?.destination?.id}
   }
 
   async deleteOne(id: string) {
