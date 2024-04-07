@@ -311,6 +311,7 @@ export class TransportService {
         url: d.page.url,
         pagesOnLeft,
         pagesOnRight,
+        views: d.views
       })
     });
 
