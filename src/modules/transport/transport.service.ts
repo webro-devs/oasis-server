@@ -240,6 +240,7 @@ export class TransportService {
             langCode,
           },
         },
+        type
       },
       relations: {
         page: {
