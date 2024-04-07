@@ -6,7 +6,7 @@ import JsonColumn from 'src/infra/shared/transformer/text-json.transformer';
 import { Destination } from '../destination/destination.entity';
 
 @Entity('transport')
-@Index(["type"], { unique: true })
+@Index(["type"])
 export class Transport {
   @PrimaryGeneratedColumn('uuid')
   id: string;
