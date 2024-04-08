@@ -18,7 +18,7 @@ export class TourCategoryService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getAll(langCode: string) {
+  async getAll(destination:string,langCode: string) {
     const data = await this.tourCategoryRepository.find({
       where: {
         page: {
@@ -26,6 +26,9 @@ export class TourCategoryService {
             langCode,
           },
         },
+        destination:{
+          slug: destination
+        }
       },
       order: {
         order: 'ASC',
@@ -34,6 +37,7 @@ export class TourCategoryService {
         page: {
           contents: true,
         },
+        destination:true
       },
       select: {
         id: true,
@@ -48,6 +52,10 @@ export class TourCategoryService {
             title: true,
           },
         },
+        destination:{
+          id:true,
+          slug:true
+        }
       },
     });
     const res = [];
@@ -58,13 +66,14 @@ export class TourCategoryService {
         photo: d.photo,
         title: d.page.contents[0].title,
         shortTitle: d.page.contents[0].shortTitle,
+        destinationSlug: d?.destination?.slug
       });
     });
 
     return res;
   }
 
-  async getAllForAdmin(langCode: string,options: IPaginationOptions) {
+  async getAllForAdmin(destination:string,langCode: string,options: IPaginationOptions) {
     const data = await paginate<TourCategory>(this.tourCategoryRepository,options,{
       where: {
         page: {
@@ -72,12 +81,16 @@ export class TourCategoryService {
             langCode,
           },
         },
+        destination:{
+          slug: destination
+        }
       },
       relations: {
         page: {
           contents: true,
         },
         tours: true,
+        destination:true
       },
       select: {
         id: true,
@@ -95,6 +108,10 @@ export class TourCategoryService {
         },
         tours:{
           id:true
+        },
+        destination:{
+          id:true,
+          slug:true
         }
       },
     });
@@ -110,14 +127,15 @@ export class TourCategoryService {
         title: d.page.contents[0].title,
         views: d.views,
         url: d.url,
-        tours: d.tours
+        tours: d.tours,
+        destinationSlug: d?.destination?.slug
       })
     })
 
     return {...data,items:res};
   }
 
-  async getOne(slug: string, langCode: string) {
+  async getOne(destination:string,slug: string, langCode: string) {
     const data = await this.tourCategoryRepository
       .findOne({
         where: {
@@ -127,6 +145,9 @@ export class TourCategoryService {
               langCode,
             },
           },
+          destination:{
+            slug:destination
+          }
         },
         relations: {
           page: {
@@ -134,6 +155,7 @@ export class TourCategoryService {
               tags: true,
             },
           },
+          destination:true,
           tours: {
             about: true,
             itinerary: true,
@@ -198,13 +220,14 @@ export class TourCategoryService {
       slug: data.slug,
       title: data.page.contents[0]?.title,
       descriptionPage: data.page.contents[0]?.descriptionPage,
-      tours
+      tours,
+      destinationSlug: data?.destination?.slug
      };
 
     return res;
   }
 
-  async getLeftSide(langCode: string) {
+  async getLeftSide(destination:string,langCode: string) {
     const data = await this.tourCategoryRepository.find({
       where: {
         page: {
@@ -212,12 +235,16 @@ export class TourCategoryService {
             langCode,
           },
         },
+        destination:{
+          slug: destination
+        }
       },
       relations: {
         tours: true,
         page: {
           contents: true,
         },
+        destination:true
       },
       select: {
         id: true,
@@ -243,17 +270,28 @@ export class TourCategoryService {
         slug: d.slug,
         title: d.page.contents[0].shortTitle,
         tourCount: d.tours.length,
+        destinationSlug: d?.destination?.slug
       });
     });
 
     return res;
   }
 
-  async getContent(langCode: string, options: IPaginationOptions) {
+  async getContent(destination:string,langCode: string, options: IPaginationOptions) {
     const data = await paginate<TourCategory>(
       this.tourCategoryRepository,
       options,
       {
+        where:{
+          destination:{
+            slug:destination
+          },
+          page:{
+            contents:{
+              langCode
+            }
+          }
+        },
         relations: {
           tours: {
             about: true,
@@ -262,7 +300,8 @@ export class TourCategoryService {
           },
           page:{
             contents:true
-          }
+          },
+          destination:true
         },
         select: {
           id: true,
@@ -294,6 +333,10 @@ export class TourCategoryService {
               title:true,
               langCode:true
             }
+          },
+          destination:{
+            id:true,
+            slug:true
           }
         },
       },
@@ -320,19 +363,20 @@ export class TourCategoryService {
         });
       });
       
-      const title = d?.page?.contents?.find(c=>c.langCode == langCode)?.title
+      const title = d?.page?.contents[0]?.title
       
       res.push({
         slug: d?.slug,
         title,
-        tours
+        tours,
+        destinationSlug: d?.destination?.slug
       })
     });
 
     return {...data,items:res}
   }
 
-  async getOneForUpdate(id: string, langCode: string) {
+  async getOneForUpdate(destination:string,id: string, langCode: string) {
     const data = await this.tourCategoryRepository.findOne({
       where: {
         id,
@@ -341,6 +385,9 @@ export class TourCategoryService {
             langCode,
           },
         },
+        destination:{
+          slug:destination
+        }
       },
       relations: {
         page: {
@@ -348,10 +395,11 @@ export class TourCategoryService {
             tags: true,
           },
         },
+        destination:true
       },
     });
 
-    return {...data.page.contents[0],photo: data.photo}
+    return {...data.page.contents[0],photo: data.photo, destinationSlug: data?.destination?.slug}
   }
 
   async deleteOne(id: string) {

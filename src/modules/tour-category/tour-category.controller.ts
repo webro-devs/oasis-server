@@ -17,9 +17,8 @@ import {
   ApiOperation,
 } from '@nestjs/swagger';
 
-import { CreateTourCategoryDto, UpdateTourCategoryDto } from './dto';
+import { CreateTourCategoryDto, TourCategoryPaginationDto, UpdateTourCategoryDto } from './dto';
 import { TourCategoryService } from './tour-category.service';
-import { PaginationDto } from 'src/infra/shared/dto';
 
 @ApiTags('Tour-Category')
 @Controller('tour-category')
@@ -32,8 +31,8 @@ export class TourCategoryController {
     description: 'The tour category was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAll(@Query('langCode') langCode: string) {
-    return this.tourCategoryService.getAll(langCode);
+  async getAll(@Query('langCode') langCode: string, @Query('destination') destination:string) {
+    return this.tourCategoryService.getAll(destination,langCode);
   }
 
   @Get('/for-admin-page')
@@ -42,8 +41,8 @@ export class TourCategoryController {
     description: 'The tour category was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getAllForAdminPage(@Query() query: PaginationDto) {
-    return this.tourCategoryService.getAllForAdmin(query.langCode, {
+  async getAllForAdminPage(@Query() query: TourCategoryPaginationDto) {
+    return this.tourCategoryService.getAllForAdmin(query.destination,query.langCode, {
       limit: query.limit,
       page: query.page,
     });
@@ -55,8 +54,8 @@ export class TourCategoryController {
     description: 'The tour category left side was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getLeftSide(@Query('langCode') langCode: string) {
-    return this.tourCategoryService.getLeftSide(langCode);
+  async getLeftSide(@Query('langCode') langCode: string,@Query('destination') destination:string) {
+    return this.tourCategoryService.getLeftSide(destination,langCode);
   }
 
   @Get('/content')
@@ -65,8 +64,8 @@ export class TourCategoryController {
     description: 'The tour category content was returned successfully',
   })
   @HttpCode(HttpStatus.OK)
-  async getContent(@Query() query: PaginationDto) {
-    return this.tourCategoryService.getContent(query.langCode, {
+  async getContent(@Query() query: TourCategoryPaginationDto) {
+    return this.tourCategoryService.getContent(query.destination,query.langCode, {
       limit: query.limit,
       page: query.page,
     });
@@ -81,8 +80,9 @@ export class TourCategoryController {
   async getMe(
     @Param('slug') type: string,
     @Query('langCode') langCode: string,
+    @Query('destination') destination:string
   ) {
-    return this.tourCategoryService.getOne(type, langCode);
+    return this.tourCategoryService.getOne(destination,type, langCode);
   }
 
   @Get('/single-for-update/:id')
@@ -94,8 +94,9 @@ export class TourCategoryController {
   async getByIdForUpdate(
     @Param('id') id: string,
     @Query('langCode') langCode: string,
+    @Query('destination') destination:string
   ) {
-    return this.tourCategoryService.getOneForUpdate(id, langCode);
+    return this.tourCategoryService.getOneForUpdate(destination,id, langCode);
   }
 
   @Post('/')
