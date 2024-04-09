@@ -73,7 +73,8 @@ export class TourCategoryService {
     return res;
   }
 
-  async getAllForAdmin(destination:string,langCode: string,options: IPaginationOptions) {
+  async getAllForAdmin(dest:string,langCode: string,options: IPaginationOptions) {
+    const destination = dest ? {destination:{slug: dest }} : {}
     const data = await paginate<TourCategory>(this.tourCategoryRepository,options,{
       where: {
         page: {
@@ -81,9 +82,7 @@ export class TourCategoryService {
             langCode,
           },
         },
-        destination:{
-          slug: destination
-        }
+        ...destination
       },
       relations: {
         page: {
