@@ -43,8 +43,9 @@ class TourCategoryPaginationDto {
   @ApiProperty({
     description: `destination`,
     example: 'slug',
+    required:false
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   readonly destination: string
 
