@@ -438,7 +438,8 @@ export class TourCategoryService {
       photo:value.photo,
       descImages: value.descImages || [],
       slug: await this.makeSlug(shortTitle),
-      url:  await this.makeUrl('tour-category/', shortTitle)
+      url:  await this.makeUrl('tour-category/', shortTitle),
+      destination: value.destination
     })
 
     await this.pageService.create(
