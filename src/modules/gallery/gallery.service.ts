@@ -31,7 +31,7 @@ export class GalleryService {
     });
 
     const res = data.items.map((d) => {
-      return { id: d.id, contents: d.contents[0] };
+      return { id: d.id,slug:d.slug, contents: d.contents[0] };
     });
 
     return { ...data, items: res };
@@ -79,6 +79,7 @@ export class GalleryService {
         shortTitle: d.contents[0]?.shortTitle,
         images,
         imageCount: d?.images?.length,
+        slug: d.slug
       };
     });
 
