@@ -413,11 +413,6 @@ export class TourCategoryService {
           contents:{
             langCode
           }
-        },
-        tours:{
-          name:{
-            langCode
-          }
         }
       },
       relations:{
