@@ -330,7 +330,8 @@ export class TourCategoryService {
             contents:{
               id:true,
               title:true,
-              langCode:true
+              langCode:true,
+              shortDescription:true
             }
           },
           destination:{
@@ -362,13 +363,14 @@ export class TourCategoryService {
         });
       });
       
-      const title = d?.page?.contents[0]?.title
+      const {title,shortDescription} = d?.page?.contents[0]
       
       res.push({
         slug: d?.slug,
         title,
         tours,
-        destinationSlug: d?.destination?.slug
+        destinationSlug: d?.destination?.slug,
+        shortDescription
       })
     });
 
@@ -399,6 +401,75 @@ export class TourCategoryService {
     });
 
     return {...data.page.contents[0],photo: data.photo, destinationSlug: data?.destination?.slug}
+  }
+
+  async getByDestinationForLink(slug:string,langCode:string){
+    const data = await this.tourCategoryRepository.find({
+      where:{
+        destination:{
+          slug
+        },
+        page:{
+          contents:{
+            langCode
+          }
+        },
+        tours:{
+          name:{
+            langCode
+          }
+        }
+      },
+      relations:{
+        tours:{
+          name:true
+        },
+        page:{
+          contents:true
+        }
+      },
+      select:{
+        id:true,
+        slug:true,
+        page:{
+          id:true,
+          contents:{
+            langCode:true,
+            title:true
+          }
+        },
+        tours:{
+          id:true,
+          slug:true,
+          name:{
+            title:true,
+            langCode:true
+          }
+        }
+      }
+    })
+
+    const res = []
+
+    data.forEach(d=>{
+      const tours = [];
+      d.tours.forEach((t) => {
+        const title = t.name.find((n) => n.langCode == langCode)?.title;
+        tours.push({
+          title,
+          slug: t?.slug,
+        });
+      });
+      
+      const {title} = d?.page?.contents[0]
+      res.push({
+        slug: d.slug,
+        title,
+        tours
+      })   
+    })
+
+    return res
   }
 
   async deleteOne(id: string) {

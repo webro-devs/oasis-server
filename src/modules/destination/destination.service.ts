@@ -417,6 +417,7 @@ export class DestinationService {
                 title: true,
                 description: true,
                 langCode: true,
+                shortDescription:true
               },
             },
           },
@@ -433,11 +434,12 @@ export class DestinationService {
     data.page?.pagesOnLeft?.forEach((pr) => {
       const data = pr.contents.find((c) => c.langCode == langCode);
       if (!data) return;
-      const { title, description } = data;
+      const { title, description,shortDescription } = data;
       content.push({
         slug: pr.slug,
         title,
         description,
+        shortDescription
       });
     });
 

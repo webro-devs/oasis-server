@@ -35,6 +35,17 @@ export class TourCategoryController {
     return this.tourCategoryService.getAll(destination,langCode);
   }
 
+
+  @Get('/destination/:slug')
+  @ApiOperation({ summary: 'Website +++++++++++++++++++' })
+  @ApiOkResponse({
+    description: 'The tour category was returned successfully',
+  })
+  @HttpCode(HttpStatus.OK)
+  async getByDestination(@Query('langCode') langCode: string, @Param('slug') slug:string) {
+    return this.tourCategoryService.getByDestinationForLink(slug,langCode);
+  }
+
   @Get('/for-admin-page')
   @ApiOperation({ summary: 'Admin -------------------------' })
   @ApiOkResponse({
