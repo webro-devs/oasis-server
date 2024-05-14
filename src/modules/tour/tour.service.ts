@@ -262,7 +262,9 @@ export class TourService {
       },
       relations:{
         name:true,
-        itinerary:true,
+        itinerary:{
+          contents:true
+        },
         about:true,
         book:true,
         destination:true,
