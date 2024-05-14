@@ -294,6 +294,8 @@ export class TourService {
       })
     }
     if(data.itinerary.length){
+      console.log(data.itinerary);
+      
       res.itinerary = data.itinerary.map(i=>{
         return i.contents?.find(c => c?.langCode == langCode)
       })
