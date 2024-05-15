@@ -265,12 +265,18 @@ export class TourService {
         itinerary:{
           contents:true
         },
-        about:true,
-        book:true,
+        about:{
+          tags:true
+        },
+        book:{
+          tags:true
+        },
         destination:true,
         price:true,
         routes:true,
-        specification:true,
+        specification:{
+          tags:true
+        },
         tourCategory:true,
       },
     })
