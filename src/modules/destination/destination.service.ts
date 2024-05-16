@@ -127,6 +127,7 @@ export class DestinationService {
           id: true,
           contents: {
             shortTitle: true,
+            shortDescription:true
           },
         },
       },
@@ -137,6 +138,7 @@ export class DestinationService {
       res.push({
         slug: d.slug,
         shortTitle: d.page.contents[0].shortTitle,
+        shortDescription: d.page.contents[0].shortDescription,
         title: d.slug,
       });
     });

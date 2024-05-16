@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UpdateTourContentDto } from 'src/modules/tour-content/dto';
 import { UpdateTourPriceDto } from 'src/modules/tour-price/dto';
 import { TourRoute } from 'src/modules/tour-route/tour-route.entity';
+import { UpdateTourItineraryDto } from 'src/modules/tour-itinerary/dto';
 
 class UpdateTourDto {
   @ApiProperty({
@@ -175,6 +176,73 @@ class UpdateTourDto {
   @IsOptional()
   @IsArray()
   readonly descImages: string[]
+
+  @ApiProperty({
+    description: `itinerary`,
+    example: [
+      {
+        id:'uuid',
+        days:[
+          {
+            id:'',
+            langCode: 'uz',
+            day:'1-kun',
+            title: '',
+            description: '',
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
+          },
+          {
+            langCode: 'ru',
+            day:'1-день',
+            title: '',
+            description: '',
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
+          }
+        ]
+      },
+      {
+        days:[
+          {
+            langCode: 'uz',
+            day:'2-kun',
+            title: '',
+            description: '',
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
+          },
+          {
+            langCode: 'ru',
+            day:'2-день',
+            title: '',
+            description: '',
+            tags: [
+              {
+                id:'',
+                title:''
+              }
+            ],
+          }
+        ]
+      }
+    ],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly itinerary: UpdateTourItineraryDto[];
 }
 
 export default UpdateTourDto;

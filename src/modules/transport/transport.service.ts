@@ -175,6 +175,7 @@ export class TransportService {
               id: true,
               title: true,
               description: true,
+              shortDescription:true,
               langCode: true,
             },
           },
@@ -192,11 +193,12 @@ export class TransportService {
   data.page?.pagesOnLeft?.forEach((pr) => {
     const data = pr.contents.find((c) => c.langCode == langCode);
     if (!data) return;
-    const { title, description } = data;
+    const { title, description,shortDescription } = data;
     content.push({
       slug: pr.slug,
       title,
       description,
+      shortDescription
     });
   });
 

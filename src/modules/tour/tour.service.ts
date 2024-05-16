@@ -1,9 +1,6 @@
 import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import {
-  IPaginationOptions,
-  paginate,
-} from 'nestjs-typeorm-paginate';
+import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 
 import { UpdateTourDto, CreateTourDto } from './dto';
 import { Tour } from './tour.entity';
@@ -24,47 +21,47 @@ export class TourService {
     private readonly configService: ConfigService,
     private readonly tourPriceService: TourPriceService,
     private readonly tourItineraryService: TourItineraryService,
-    private readonly tourRouteService: TourRouteService
+    private readonly tourRouteService: TourRouteService,
   ) {}
 
-  async getOne(slug: string, langCode:string) {
+  async getOne(slug: string, langCode: string) {
     const data = await this.tourRepository
       .findOne({
         where: {
-           slug,
-           name:{
-            langCode
-           }
-        },
-        relations:{
-          name:true,
-          routes:true,
-          price:true,
-          itinerary:true
-        },
-        select:{
-          id:true,
-          slug:true,
-          photo:true,
-          photoGallery:true,
-          tourPrice:true,
-          name:{
-            title:true,
-            langCode:true
+          slug,
+          name: {
+            langCode,
           },
-          routes:{
-            title:true
+        },
+        relations: {
+          name: true,
+          routes: true,
+          price: true,
+          itinerary: true,
+        },
+        select: {
+          id: true,
+          slug: true,
+          photo: true,
+          photoGallery: true,
+          tourPrice: true,
+          name: {
+            title: true,
+            langCode: true,
           },
-          itinerary:{
-            id:true
-          }
-        }
+          routes: {
+            title: true,
+          },
+          itinerary: {
+            id: true,
+          },
+        },
       })
       .catch(() => {
         throw new NotFoundException('data not found');
-    });
+      });
 
-    if(!data) return {}
+    if (!data) return {};
 
     const res = {
       price: data?.tourPrice,
@@ -74,242 +71,250 @@ export class TourService {
       slug: data?.slug,
       paxPrice: data?.price,
       routes: data?.routes,
-      day: data.itinerary.length
-    }
+      day: data.itinerary.length,
+    };
 
     return res;
   }
 
-  async getAllForSite(options: IPaginationOptions ,langCode:string, where:any = {}){
+  async getAllForSite(
+    options: IPaginationOptions,
+    langCode: string,
+    where: any = {},
+  ) {
     where.name = {
-      langCode
-    }
-    
+      langCode,
+    };
+
     const data = await paginate<Tour>(this.tourRepository, options, {
       where,
-      relations:{
-        name:true,
-        destination:true,
-        tourCategory:true
+      relations: {
+        name: true,
+        destination: true,
+        tourCategory: true,
       },
-      select:{
-        id:true,
-        photo:true,
-        tourPrice:true,
-        slug:true,
-        name:{
-          id:true,
-          title:true,
-          langCode:true
+      select: {
+        id: true,
+        photo: true,
+        tourPrice: true,
+        slug: true,
+        name: {
+          id: true,
+          title: true,
+          langCode: true,
         },
-        destination:{
-          id:true,
-          slug:true
+        destination: {
+          id: true,
+          slug: true,
         },
-        tourCategory:{
-          id:true,
-          slug:true
-        }
-      }
-    })    
- 
-    const res = []
-    data?.items?.forEach(d=>{
-      const title = d?.name?.find(n=> n.langCode == langCode)?.title
+        tourCategory: {
+          id: true,
+          slug: true,
+        },
+      },
+    });
+
+    const res = [];
+    data?.items?.forEach((d) => {
+      const title = d?.name?.find((n) => n.langCode == langCode)?.title;
       res.push({
         slug: d.slug,
         photo: d.photo,
         title,
         price: d.tourPrice,
         destinationSlug: d?.destination?.slug,
-        tourCategorySlug: d?.tourCategory?.slug
-      })
-    })
-    
-    return res
+        tourCategorySlug: d?.tourCategory?.slug,
+      });
+    });
+
+    return res;
   }
 
-  async getOneFields(slug:string,langCode:string,type:string){
-    const relations = {}
-    relations[type] = true
+  async getOneFields(slug: string, langCode: string, type: string) {
+    const relations = {};
+    relations[type] = true;
 
-    if(type == 'price') return await this.getPriceField(slug,langCode,relations)
+    if (type == 'price')
+      return await this.getPriceField(slug, langCode, relations);
 
-    if(type == 'itinerary') return await this.getItineraryField(slug,langCode,{})
+    if (type == 'itinerary')
+      return await this.getItineraryField(slug, langCode, {});
 
     const data = await this.tourRepository.findOne({
-      where:{
-        slug
+      where: {
+        slug,
       },
-      relations
-    })
+      relations,
+    });
 
-    if(!data) return {}
+    if (!data) return {};
 
-    const res = data?.[type]?.find(d=> d.langCode == langCode) || {}
+    const res = data?.[type]?.find((d) => d.langCode == langCode) || {};
 
-    return res
+    return res;
   }
 
-  async getPriceField(slug:string,langCode:string,relations){
+  async getPriceField(slug: string, langCode: string, relations) {
     const data = await this.tourRepository.findOne({
-      where:{
-        slug
+      where: {
+        slug,
       },
-      relations
-    })
+      relations,
+    });
 
+    if (!data) return {};
 
-    if(!data) return {}
+    const res = [];
 
-    const res = []
-
-    data?.price?.forEach(p=>{
-      const person = p?.person?.find(p=>p.langCode == langCode)?.person
+    data?.price?.forEach((p) => {
+      const person = p?.person?.find((p) => p.langCode == langCode)?.person;
       res.push({
         person,
         comfort: p.comfort,
         deluxe: p.deluxe,
-        econome: p.econome
-      })
-    })
+        econome: p.econome,
+      });
+    });
 
-    return res
+    return res;
   }
 
-  async getItineraryField(slug:string,langCode:string,relations){
+  async getItineraryField(slug: string, langCode: string, relations) {
     relations = {
-      itinerary : {
-         contents: true
-      }
-    }
-    const data = await this.tourRepository.findOne({
-      where:{
-        slug
+      itinerary: {
+        contents: true,
       },
-      relations
-    })
+    };
+    const data = await this.tourRepository.findOne({
+      where: {
+        slug,
+      },
+      relations,
+    });
 
+    if (!data) return {};
 
-    if(!data) return {}
+    const res = [];
 
-    const res = []
+    data?.itinerary?.forEach((it) => {
+      const day = it?.contents?.find((c) => c.langCode == langCode);
+      res.push(day);
+    });
 
-    data?.itinerary?.forEach(it=>{
-       const day = it?.contents?.find(c=> c.langCode == langCode)
-       res.push(day)
-    })
-
-    return res
+    return res;
   }
 
-  async getAllForAdmin(options: IPaginationOptions , langCode:string,id:string){
+  async getAllForAdmin(
+    options: IPaginationOptions,
+    langCode: string,
+    id: string,
+  ) {
     const data = await paginate<Tour>(this.tourRepository, options, {
-      where:{
-        tourCategory:{
-          id
+      where: {
+        tourCategory: {
+          id,
         },
-        name:{
-          langCode
-        }
-      },
-      relations:{
-        name:true,
-        itinerary:true
-      },
-      select:{
-        id:true,
-        slug:true,
-        date:true,
-        index:true,
-        url:true,
-        views:true,
-        tourPrice:true,
-        name:{
-          id:true,
-          title:true,
-          langCode:true
+        name: {
+          langCode,
         },
-        itinerary:{
-          id:true
-        }
       },
-      order:{
-        date:"DESC"
-      }
-    })
+      relations: {
+        name: true,
+        itinerary: true,
+      },
+      select: {
+        id: true,
+        slug: true,
+        date: true,
+        index: true,
+        url: true,
+        views: true,
+        tourPrice: true,
+        name: {
+          id: true,
+          title: true,
+          langCode: true,
+        },
+        itinerary: {
+          id: true,
+        },
+      },
+      order: {
+        date: 'DESC',
+      },
+    });
 
-    const res = []
-    data.items.forEach(d=>{
+    const res = [];
+    data.items.forEach((d) => {
       res.push({
-        id:d.id,
+        id: d.id,
         slug: d.slug,
         url: d.url,
         views: d.views,
         title: d.name[0]?.title,
         days: d.itinerary.length,
-        price: d.tourPrice
-      })
-    })
+        price: d.tourPrice,
+      });
+    });
 
-    return res
+    return res;
   }
 
-  async getAllForUpdate(id:string, langCode:string){
+  async getAllForUpdate(id: string, langCode: string) {
     const data = await this.tourRepository.findOne({
-      where:{
-        id
+      where: {
+        id,
       },
-      relations:{
-        name:true,
-        itinerary:{
-          contents:true
+      relations: {
+        name: true,
+        itinerary: {
+          contents: true,
         },
-        about:{
-          tags:true
+        about: {
+          tags: true,
         },
-        book:{
-          tags:true
+        book: {
+          tags: true,
         },
-        destination:true,
-        price:true,
-        routes:true,
-        specification:{
-          tags:true
+        destination: true,
+        price: true,
+        routes: true,
+        specification: {
+          tags: true,
         },
-        tourCategory:true,
+        tourCategory: true,
       },
-    })
-    const res:any = {}
-    for( let i = 0; i < data.name.length; i++){
-      if(data.name[i]?.langCode == langCode){
-        res.name = data.name[i]
+    });
+    const res: any = {};
+    for (let i = 0; i < data.name.length; i++) {
+      if (data.name[i]?.langCode == langCode) {
+        res.name = data.name[i];
       }
-      if(data.about[i]?.langCode == langCode){
-        res.about = data.about[i]
+      if (data.about[i]?.langCode == langCode) {
+        res.about = data.about[i];
       }
-      if(data.book[i].langCode == langCode){
-        res.book = data.book[i]
+      if (data.book[i].langCode == langCode) {
+        res.book = data.book[i];
       }
-      if(data.specification[i].langCode == langCode){
-        res.specification = data.specification[i]
+      if (data.specification[i].langCode == langCode) {
+        res.specification = data.specification[i];
       }
     }
-    if(data.price.length){
-      res.price = data.price.map(p=>{
-        const person = p?.person?.find(p=> p.langCode == langCode)
-        return {...p,person}
-      })
+    if (data.price.length) {
+      res.price = data.price.map((p) => {
+        const person = p?.person?.find((p) => p.langCode == langCode);
+        return { ...p, person };
+      });
     }
-    if(data.itinerary.length){
+    if (data.itinerary.length) {
       console.log(data.itinerary);
-      
-      res.itinerary = data.itinerary.map(i=>{
-        return i.contents?.find(c => c?.langCode == langCode)
-      })
+
+      res.itinerary = data.itinerary.map((i) => {
+        return i.contents?.find((c) => c?.langCode == langCode);
+      });
     }
 
-    return res
+    return { ...data, ...res };
   }
 
   async deleteOne(id: string) {
@@ -325,31 +330,45 @@ export class TourService {
     });
 
     if (value?.tour) {
-      tour.photoGallery = value?.tour?.photoGallery ? value?.tour?.photoGallery : tour.photoGallery
-      tour.photo = value?.tour?.photo ? value?.tour?.photo : tour.photo
-      tour.descImages = value?.tour?.descImages ? value?.tour?.descImages : tour.descImages
-      if(value.tour?.routes){
-        tour.routes = await this.tourRouteService.getMoreByTitels(value.tour.routes)
+      tour.photoGallery = value?.tour?.photoGallery
+        ? value?.tour?.photoGallery
+        : tour.photoGallery;
+      tour.photo = value?.tour?.photo ? value?.tour?.photo : tour.photo;
+      tour.descImages = value?.tour?.descImages
+        ? value?.tour?.descImages
+        : tour.descImages;
+      if (value.tour?.routes) {
+        tour.routes = await this.tourRouteService.getMoreByTitels(
+          value.tour.routes,
+        );
       }
     }
 
     if (value?.about?.length) {
-      await this.tourContService.change(value.about, tour,'tourAbout');
+      await this.tourContService.change(value.about, tour, 'tourAbout');
     }
 
     if (value?.book?.length) {
-      await this.tourContService.change(value.book, tour,'tourBook');
+      await this.tourContService.change(value.book, tour, 'tourBook');
     }
 
     if (value?.specification?.length) {
-      await this.tourContService.change(value.specification, tour,'tourSpecification');
+      await this.tourContService.change(
+        value.specification,
+        tour,
+        'tourSpecification',
+      );
     }
 
     if (value?.price?.length) {
       await this.tourPriceService.change(value.price, tour.id);
     }
 
-    await this.tourRepository.save(tour)
+    if(value?.itinerary?.length){
+      await this.tourItineraryService.update(value.itinerary,tour)
+    }
+
+    await this.tourRepository.save(tour);
   }
 
   async create(value: CreateTourDto) {
@@ -370,34 +389,38 @@ export class TourService {
       photo: value?.photo || null,
       tourPrice: value.price[0].econome,
       slug,
-      descImages: value?.descImages || []
+      descImages: value?.descImages || [],
     });
 
     if (value?.about?.length) {
-      await this.tourContService.create(value.about, tour,'tourAbout');
+      await this.tourContService.create(value.about, tour, 'tourAbout');
     }
 
     if (value?.name?.length) {
-      await this.tourContService.create(value.name, tour,'tourName');
+      await this.tourContService.create(value.name, tour, 'tourName');
     }
 
     if (value?.book?.length) {
-      await this.tourContService.create(value.book, tour,'tourBook');
+      await this.tourContService.create(value.book, tour, 'tourBook');
     }
 
     if (value?.itinerary?.length) {
-      await this.tourItineraryService.create(value.itinerary, tour)
+      await this.tourItineraryService.create(value.itinerary, tour);
     }
 
     if (value?.specification?.length) {
-      await this.tourContService.create(value.specification, tour,'tourSpecification');
+      await this.tourContService.create(
+        value.specification,
+        tour,
+        'tourSpecification',
+      );
     }
 
     if (value?.price?.length) {
       await this.tourPriceService.create(value.price, tour.id);
     }
 
-    tour.routes = await this.tourRouteService.getMoreByTitels(value.routes)
+    tour.routes = await this.tourRouteService.getMoreByTitels(value.routes);
 
     return await this.tourRepository.save(tour);
   }
@@ -407,7 +430,7 @@ export class TourService {
       .createQueryBuilder()
       .insert()
       .into(Tour)
-      .values( value as unknown as Tour)
+      .values(value as unknown as Tour)
       .returning('id')
       .execute();
 
