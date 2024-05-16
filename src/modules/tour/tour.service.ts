@@ -329,18 +329,14 @@ export class TourService {
       where: { id },
     });
 
-    if (value?.tour) {
-      tour.photoGallery = value?.tour?.photoGallery
-        ? value?.tour?.photoGallery
+    if (value?.photo || value?.photo || value?.photo || value?.routes) {
+      tour.photoGallery = value?.photoGallery
+        ? value?.photoGallery
         : tour.photoGallery;
-      tour.photo = value?.tour?.photo ? value?.tour?.photo : tour.photo;
-      tour.descImages = value?.tour?.descImages
-        ? value?.tour?.descImages
-        : tour.descImages;
-      if (value.tour?.routes) {
-        tour.routes = await this.tourRouteService.getMoreByTitels(
-          value.tour.routes,
-        );
+      tour.photo = value?.photo ? value?.photo : tour.photo;
+      tour.descImages = value?.descImages ? value?.descImages : tour.descImages;
+      if (value?.routes) {
+        tour.routes = await this.tourRouteService.getMoreByTitels(value.routes);
       }
     }
 
@@ -364,8 +360,8 @@ export class TourService {
       await this.tourPriceService.change(value.price, tour.id);
     }
 
-    if(value?.itinerary?.length){
-      await this.tourItineraryService.update(value.itinerary,tour)
+    if (value?.itinerary?.length) {
+      await this.tourItineraryService.update(value.itinerary, tour);
     }
 
     await this.tourRepository.save(tour);

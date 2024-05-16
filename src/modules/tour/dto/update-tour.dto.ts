@@ -15,17 +15,36 @@ class UpdateTourDto {
   tourCategory: string;
 
   @ApiProperty({
-    description: `routes`,
-    example: {
-      photo:'url',
-      photoGallery: ['url','url'],
-      routes: ['title','title'],
-      descImages: ['','']
-    }
+    description: `photo`,
+    example: 'url',
   })
   @IsOptional()
-  @IsObject()
-  tour: {routes:string[], photoGallery:string[], photo:string, descImages:string[]}
+  @IsString()
+  photo: string;
+
+  @ApiProperty({
+    description: `photoGallery`,
+    example: ['url','url'],
+  })
+  @IsOptional()
+  @IsArray()
+  photoGallery: string[];
+
+  @ApiProperty({
+    description: `descImages`,
+    example: ['',''],
+  })
+  @IsOptional()
+  @IsArray()
+  readonly descImages: string[]
+
+  @ApiProperty({
+    description: `routes`,
+    example: ['title','title'],
+  })
+  @IsOptional()
+  @IsArray()
+  routes: string[];
 
   @ApiProperty({
     description: `price`,
@@ -168,14 +187,6 @@ class UpdateTourDto {
   @IsOptional()
   @IsArray()
   readonly name: UpdateTourContentDto[];
-
-  @ApiProperty({
-    description: `descImages`,
-    example: ['',''],
-  })
-  @IsOptional()
-  @IsArray()
-  readonly descImages: string[]
 
   @ApiProperty({
     description: `itinerary`,
