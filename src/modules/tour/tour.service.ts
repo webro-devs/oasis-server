@@ -344,6 +344,10 @@ export class TourService {
       await this.tourContService.change(value.about, tour, 'tourAbout');
     }
 
+    if (value?.name?.length) {
+      await this.tourContService.change(value.name, tour, 'tourName');
+    }
+
     if (value?.book?.length) {
       await this.tourContService.change(value.book, tour, 'tourBook');
     }
