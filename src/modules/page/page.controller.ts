@@ -112,6 +112,26 @@ export class PageController {
     return await this.pageService.addPageToLeftSide(data);
   }
 
+  @Post('/remove-page-to-right')
+  @ApiOperation({ summary: 'Admin --------------------' })
+  @ApiCreatedResponse({
+    description: 'The page was removed successfully',
+  })
+  @HttpCode(HttpStatus.CREATED)
+  async removePageToRightSide(@Body() data: PageDto): Promise<Page> {
+    return await this.pageService.removePageToRightSide(data);
+  }
+
+  @Post('/remove-page-to-left')
+  @ApiOperation({ summary: 'Admin --------------------' })
+  @ApiCreatedResponse({
+    description: 'The page was removed successfully',
+  })
+  @HttpCode(HttpStatus.CREATED)
+  async removePageToLeftSide(@Body() data: PageDto): Promise<Page> {
+    return await this.pageService.removePageToLeftSide(data);
+  }
+
   @Post('/add-page-to-right')
   @ApiOperation({ summary: 'Admin --------------------' })
   @ApiCreatedResponse({

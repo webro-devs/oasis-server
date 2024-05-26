@@ -409,6 +409,32 @@ export class PageService {
     return curPage;
   }
 
+  async removePageToLeftSide(data: PageDto) {
+    const curPage = await this.pageRepository.findOne({
+      where: { id: data.currentPage },
+      relations: { pagesOnLeft: true },
+    });
+
+
+
+    curPage.pagesOnLeft = curPage.pagesOnLeft.filter(p=> p.slug != data.addedPage)
+    await this.pageRepository.save(curPage);
+
+    return curPage;
+  }
+
+  async removePageToRightSide(data: PageDto) {
+    const curPage = await this.pageRepository.findOne({
+      where: { id: data.currentPage },
+      relations: { pagesOnRight: true },
+    });
+
+    curPage.pagesOnRight = curPage.pagesOnRight.filter(p=> p.slug != data.addedPage)
+    await this.pageRepository.save(curPage);
+
+    return curPage;
+  }
+
   async change(value: UpdatePageDto, id: string) {
     const page = await this.pageRepository.findOne({
       where: { id },
