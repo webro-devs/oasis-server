@@ -187,6 +187,7 @@ export class PageService {
         const data = p.contents.find(c=>c.langCode == langCode)
         pagesOnLeft.push({
           title: data.shortTitle,
+          slug: p.slug
         })
       })
 
@@ -194,6 +195,7 @@ export class PageService {
         const data = p.contents.find(c=>c.langCode == langCode)
         pagesOnRight.push({
           title: data.shortTitle,
+          slug: p.slug
         })
       })
 
@@ -414,8 +416,6 @@ export class PageService {
       where: { id: data.currentPage },
       relations: { pagesOnLeft: true },
     });
-
-
 
     curPage.pagesOnLeft = curPage.pagesOnLeft.filter(p=> p.slug != data.addedPage)
     await this.pageRepository.save(curPage);
